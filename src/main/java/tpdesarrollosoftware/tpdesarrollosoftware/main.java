@@ -11,10 +11,10 @@ package tpdesarrollosoftware.tpdesarrollosoftware;
 public class main {
     public static void main(String[] args) {
         // Crear vendedores
-        Vendedor v1 = new Vendedor("Restaurante A", 1, new Coordenada(-34.6037, -58.3816));
+        Vendedor v4 = new Vendedor("Restaurante A", 1, new Coordenada(-34.6037, -58.3816));
         Vendedor v2 = new Vendedor("Restaurante B", 2, new Coordenada(-34.6158, -58.4333));
         Vendedor v3 = new Vendedor("Restaurante C", 3, new Coordenada(-34.6179, -58.3686));
-        Vendedor[] vendedores = {v1, v2, v3};
+        Vendedor[] vendedores = {v4, v2, v3};
 
         // Buscar y eliminar un vendedor
         for (Vendedor v : vendedores) {
@@ -39,7 +39,7 @@ public class main {
         }
 
         // Calcular la distancia entre un vendedor y un cliente
-        double distancia = v1.distancia(c1);
-        System.out.println("Distancia entre " + v1.getNombre() + " y " + c1.getNombre() + ": " + distancia + " km");
+        double distancia = v4.distancia(c1);
+        System.out.println("Distancia entre " + v4.getNombre() + " y " + c1.getNombre() + ": " + distancia + " km");
     }
 }
