@@ -1,4 +1,4 @@
-tpdesarrollosoftware\tpdesarrollosoftware\main.class
-tpdesarrollosoftware\tpdesarrollosoftware\Vendedor.class
-tpdesarrollosoftware\tpdesarrollosoftware\Coordenada.class
-tpdesarrollosoftware\tpdesarrollosoftware\Cliente.class
+Tp\DS\Vendedor.class
+Tp\DS\Coordenada.class
+Tp\DS\TpDS.class
+Tp\DS\Cliente.class
