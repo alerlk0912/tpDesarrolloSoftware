@@ -1,23 +1,31 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package tpdesarrollosoftware.tpdesarrollosoftware;
+package isi.deso.tpds;
 
-public class Coordenada {
-    private double latitud;
-    private double longitud;
+class Coordenada {
+    private double lat;
+    private double lng;
 
-    public Coordenada(double latitud, double longitud) {
-        this.latitud = latitud;
-        this.longitud = longitud;
+    public Coordenada(double lat, double lng) {
+        this.lat = lat;
+        this.lng = lng;
     }
 
-    public double getLatitud() {
-        return latitud;
+    public double getLat() {
+        return lat;
     }
 
-    public double getLongitud() {
-        return longitud;
+    public double getLng() {
+        return lng;
+    }
+
+    // Método para calcular la distancia usando la fórmula de Haversine
+    public double calcularDistancia(Coordenada otraCoordenada) {
+        final int RADIO_TIERRA = 6371; // Radio de la tierra en kilómetros
+        double latDistancia = Math.toRadians(otraCoordenada.getLat() - this.lat);
+        double lngDistancia = Math.toRadians(otraCoordenada.getLng() - this.lng);
+        double a = Math.sin(latDistancia / 2) * Math.sin(latDistancia / 2)
+                + Math.cos(Math.toRadians(this.lat)) * Math.cos(Math.toRadians(otraCoordenada.getLat()))
+                * Math.sin(lngDistancia / 2) * Math.sin(lngDistancia / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return RADIO_TIERRA * c;
     }
 }

@@ -1,29 +1,73 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package tpdesarrollosoftware.tpdesarrollosoftware;
+package isi.deso.tpds;
 
-public class Cliente {
-    private String nombre;
+class Cliente {
     private int id;
-    private Coordenada ubicacion;
+    private String cuit;
+    private String email;
+    private String direccion;
+    private Coordenada coordenadas;
 
-    public Cliente(String nombre, int id, Coordenada ubicacion) {
-        this.nombre = nombre;
+    public Cliente(int id, String cuit, String email, String direccion, Coordenada coordenadas) {
         this.id = id;
-        this.ubicacion = ubicacion;
-    }
-
-    public String getNombre() {
-        return nombre;
+        this.cuit = cuit;
+        this.email = email;
+        this.direccion = direccion;
+        this.coordenadas = coordenadas;
     }
 
     public int getId() {
         return id;
     }
 
-    public Coordenada getUbicacion() {
-        return ubicacion;
+    public String getCuit() {
+        return cuit;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public Coordenada getCoordenadas() {
+        return coordenadas;
+    }
+    
+    // Método para buscar un cliente por ID
+    public static Cliente buscarClientePorId(Cliente[] clientes, int id) {
+        for (Cliente cliente : clientes) {
+            if (cliente.getId() == id) {
+                return cliente;
+            }
+        }
+        return null; // Si no se encuentra el cliente, se devuelve null
+    }
+
+    
+    // Método para eliminar un cliente del arreglo
+    public static Cliente[] eliminarCliente(Cliente[] clientes, String cuit) {
+        int index = -1;
+        for (int i = 0; i < clientes.length; i++) {
+            if (clientes[i].getCuit().equals(cuit)) {
+                index = i;
+                System.out.println("Cliente encontrado: " + clientes[i].getCuit() + ". Eliminando...");
+                break;
+            }
+        }
+        if (index != -1) {
+            Cliente[] nuevoArray = new Cliente[clientes.length - 1];
+            for (int i = 0, k = 0; i < clientes.length; i++) {
+                if (i == index) {
+                    continue;
+                }
+                nuevoArray[k++] = clientes[i];
+            }
+            return nuevoArray;
+        } else {
+            System.out.println("Cliente no encontrado.");
+            return clientes;
+        }
     }
 }

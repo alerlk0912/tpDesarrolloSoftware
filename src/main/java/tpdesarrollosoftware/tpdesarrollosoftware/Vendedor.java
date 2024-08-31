@@ -1,42 +1,80 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package tpdesarrollosoftware.tpdesarrollosoftware;
+package isi.deso.tpds;
 
-public class Vendedor {
-    private String nombre;
+class Vendedor {
     private int id;
-    private Coordenada ubicacion;
+    private String nombre;
+    private String direccion;
+    private Coordenada coordenadas;
 
-    public Vendedor(String nombre, int id, Coordenada ubicacion) {
-        this.nombre = nombre;
+    public Vendedor(int id, String nombre, String direccion, Coordenada coordenadas) {
         this.id = id;
-        this.ubicacion = ubicacion;
-    }
-
-    public String getNombre() {
-        return nombre;
+        this.nombre = nombre;
+        this.direccion = direccion;
+        this.coordenadas = coordenadas;
     }
 
     public int getId() {
         return id;
     }
 
-    public Coordenada getUbicacion() {
-        return ubicacion;
+    public String getNombre() {
+        return nombre;
     }
 
-    public double distancia(Cliente cliente) {
-        Coordenada ubicacionCliente = cliente.getUbicacion();
-        // Fórmula de Haversine
-        double R = 6371; // Radio de la Tierra en kilómetros
-        double dLat = Math.toRadians(ubicacionCliente.getLatitud() - this.ubicacion.getLatitud());
-        double dLon = Math.toRadians(ubicacionCliente.getLongitud() - this.ubicacion.getLongitud());
-        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                   Math.cos(Math.toRadians(this.ubicacion.getLatitud())) * Math.cos(Math.toRadians(ubicacionCliente.getLatitud())) *
-                   Math.sin(dLon / 2) * Math.sin(dLon / 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-        return R * c;
+    public String getDireccion() {
+        return direccion;
     }
+
+    public Coordenada getCoordenadas() {
+        return coordenadas;
+    }
+
+    // Método para calcular la distancia entre el vendedor y un cliente
+    public double distancia(Cliente cliente) {
+        return this.coordenadas.calcularDistancia(cliente.getCoordenadas());
+    }
+    // Método para buscar un vendedor por nombre
+    public static Vendedor buscarVendedorPorNombre(Vendedor[] vendedores, String nombre) {
+        for (Vendedor vendedor : vendedores) {
+            if (vendedor.getNombre().equals(nombre)) {
+                return vendedor;
+            }
+        }
+        return null; // Si no se encuentra el vendedor, se devuelve null
+    }
+
+    // Método para buscar un vendedor por ID
+    public static Vendedor buscarVendedorPorId(Vendedor[] vendedores, int id) {
+        for (Vendedor vendedor : vendedores) {
+            if (vendedor.getId() == id) {
+                return vendedor;
+            }
+        }
+        return null; // Si no se encuentra el vendedor, se devuelve null
+    }
+    // Método para eliminar un vendedor del arreglo
+    public static Vendedor[] eliminarVendedor(Vendedor[] vendedores, String nombre) {
+        int index = -1;
+        for (int i = 0; i < vendedores.length; i++) {
+            if (vendedores[i].getNombre().equals(nombre)) {
+                index = i;
+                System.out.println("Vendedor encontrado: " + vendedores[i].getNombre() + ". Eliminando...");
+                break;
+            }
+        }
+        if (index != -1) {
+            Vendedor[] nuevoArray = new Vendedor[vendedores.length - 1];
+            for (int i = 0, k = 0; i < vendedores.length; i++) {
+                if (i == index) {
+                    continue;
+                }
+                nuevoArray[k++] = vendedores[i];
+            }
+            return nuevoArray;
+        } else {
+            System.out.println("Vendedor no encontrado.");
+            return vendedores;
+        }
+    }
+
 }
