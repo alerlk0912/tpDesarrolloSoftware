@@ -4,10 +4,6 @@
  */
 package tpdesarrollosoftware.tpdesarrollosoftware;
 
-/**
- *
- * @author Ale
- */
 public class Vendedor {
     private String nombre;
     private int id;

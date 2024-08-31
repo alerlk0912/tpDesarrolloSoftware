@@ -4,10 +4,6 @@
  */
 package tpdesarrollosoftware.tpdesarrollosoftware;
 
-/**
- *
- * @author Ale
- */
 public class Coordenada {
     private double latitud;
     private double longitud;
