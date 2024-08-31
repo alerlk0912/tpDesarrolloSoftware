@@ -11,7 +11,7 @@ public class main {
         Vendedor v2 = new Vendedor("Restaurante B", 2, new Coordenada(-34.6158, -58.4333));
         Vendedor v3 = new Vendedor("Restaurante C", 3, new Coordenada(-34.6179, -58.3686));
         Vendedor[] vendedores = {v1, v2, v3};
-        //puto putop puto
+        //puto puto puto
         // Buscar y eliminar un vendedor
         for (Vendedor v : vendedores) {
             if (v.getNombre().equals("Restaurante B")) {
