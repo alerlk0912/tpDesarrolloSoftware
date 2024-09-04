@@ -1,16 +1,21 @@
 package Tp.DS;
 
+import java.util.ArrayList;
+import java.util.List;
+
 class Vendedor {
     private int id;
     private String nombre;
     private String direccion;
     private Coordenada coordenadas;
+    private List<ItemMenu> menu; // lista de elementos del menu
 
     public Vendedor(int id, String nombre, String direccion, Coordenada coordenadas) {
         this.id = id;
         this.nombre = nombre;
         this.direccion = direccion;
         this.coordenadas = coordenadas;
+        this.menu = new ArrayList<>();
     }
 
     public int getId() {
@@ -75,6 +80,55 @@ class Vendedor {
             System.out.println("Vendedor no encontrado.");
             return vendedores;
         }
+    }
+    
+    // metodos para manejar el menu de platos
+    public void agregarItemMenu(ItemMenu item) {
+        menu.add(item);
+    }
+    
+    public List<ItemMenu> getMenu() {
+        return menu;
+    }
+
+    public List<Bebida> getItemBebidas() {
+        List<Bebida> bebidas = new ArrayList<>();
+        for (ItemMenu item : menu) {
+            if (item.esBebida()) {
+                bebidas.add((Bebida) item);
+            }
+        }
+        return bebidas;
+    }
+
+    public List<Plato> getItemComidas() {
+        List<Plato> comidas = new ArrayList<>();
+        for (ItemMenu item : menu) {
+            if (item.esComida()) {
+                comidas.add((Plato) item);
+            }
+        }
+        return comidas;
+    }
+
+    public List<Plato> getItemComidasVeganas() {
+        List<Plato> comidasVeganas = new ArrayList<>();
+        for (ItemMenu item : menu) {
+            if (item.esComida() && item.isAptoVegano()) {
+                comidasVeganas.add((Plato) item);
+            }
+        }
+        return comidasVeganas;
+    }
+
+    public List<Bebida> getItemBebidasSinAlcohol() {
+        List<Bebida> bebidasSinAlcohol = new ArrayList<>();
+        for (ItemMenu item : menu) {
+            if (item.esBebida() && !((Bebida) item).isBebidaAlcoholica()) {
+                bebidasSinAlcohol.add((Bebida) item);
+            }
+        }
+        return bebidasSinAlcohol;
     }
 
 }
