@@ -2,12 +2,12 @@ package Tp.DS;
 
 public class Bebida extends ItemMenu {
     private final double tamanio; // volumen en ml
-    private final boolean alcoholica;
+    private final boolean graduacionAlcoholica;
 
     public Bebida(int id, String nombre, String descripcion, double precio, Categoria categoria, double tamanio, boolean alcoholica) {
         super(id, nombre, descripcion, precio, categoria);
         this.tamanio = tamanio;
-        this.alcoholica = alcoholica;
+        this.graduacionAlcoholica = alcoholica;
     }
 
     @Override
@@ -19,7 +19,7 @@ public class Bebida extends ItemMenu {
                 ", precio=" + getPrecio() +
                 ", categoria='" + getCategoria() + '\'' +
                 ", tamanio=" + tamanio +
-                ", alcoholica=" + alcoholica +
+                ", alcoholica=" + graduacionAlcoholica +
                 '}';
     }
     
@@ -28,12 +28,12 @@ public class Bebida extends ItemMenu {
     }
 
     public boolean isBebidaAlcoholica() {
-        return alcoholica;
+        return graduacionAlcoholica;
     }
     
     @Override
     public double peso() {
-        double pesoBase = (alcoholica ? tamanio * 0.99 : tamanio * 1.04); // 0.99 para bebidas alcoholicas, 1.04 para noAlcoholicas
+        double pesoBase = (graduacionAlcoholica ? tamanio * 0.99 : tamanio * 1.04); // 0.99 para bebidas alcoholicas, 1.04 para noAlcoholicas
         return pesoBase * 1.20; // aumentar un 20% por el peso del envase
     }
 
