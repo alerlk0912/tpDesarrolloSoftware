@@ -1,18 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Tp.DS;
 
-/**
- *
- * @author franco
- */
 public class Bebida extends ItemMenu {
     private final double tamanio; // volumen en ml
     private final boolean alcoholica;
 
-    public Bebida(int id, String nombre, String descripcion, double precio, String categoria, double tamanio, boolean alcoholica) {
+    public Bebida(int id, String nombre, String descripcion, double precio, Categoria categoria, double tamanio, boolean alcoholica) {
         super(id, nombre, descripcion, precio, categoria);
         this.tamanio = tamanio;
         this.alcoholica = alcoholica;
@@ -57,7 +49,7 @@ public class Bebida extends ItemMenu {
 
     @Override
     public boolean isAptoVegano() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("No aplica a bebida."); 
     }
     
 }

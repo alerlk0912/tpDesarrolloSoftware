@@ -1,20 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Tp.DS;
 
-
-/**
- *
- * @author franco
- */
-public class Plato extends ItemMenu {
+class Plato extends ItemMenu {
     private final double peso; // peso en gramos
     private final double calorias; // calorias en kcal
     private final boolean aptoVegano;
 
-    public Plato(int id, String nombre, String descripcion, double precio, String categoria, double peso, double calorias, boolean aptoVegano) {
+    public Plato(int id, String nombre, String descripcion, double precio, Categoria categoria, double peso, double calorias, boolean aptoVegano) {
         super(id, nombre, descripcion, precio, categoria);
         this.peso = peso;
         this.calorias = calorias;

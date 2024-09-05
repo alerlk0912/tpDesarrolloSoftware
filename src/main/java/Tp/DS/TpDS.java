@@ -39,20 +39,46 @@ public class TpDS {
             System.out.println("Cliente no encontrado.");
         }
 
-        // Calcular la distancia entre un vendedor y un cliente
+        // calcular la distancia entre un vendedor y un cliente
         double distancia = v1.distancia(c1);
         System.out.println("Distancia entre " + v1.getNombre() + " y " + c1.getDireccion() + ": " + distancia + " km");
     
-    
+        // crear instancias de Categoria
+        Categoria categoriaEnsaladas = new Categoria();
+        categoriaEnsaladas.setId(1);
+        categoriaEnsaladas.setDescripcion("Ensaladas frescas y saludables");
+        categoriaEnsaladas.setTipo_item("plato");
+
+        Categoria categoriaPrincipales = new Categoria();
+        categoriaPrincipales.setId(2);
+        categoriaPrincipales.setDescripcion("Platos principales");
+        categoriaPrincipales.setTipo_item("plato");
+
+        Categoria categoriaBebidasAlcoolicas = new Categoria();
+        categoriaBebidasAlcoolicas.setId(3);
+        categoriaBebidasAlcoolicas.setDescripcion("Bebidas alcohólicas");
+        categoriaBebidasAlcoolicas.setTipo_item("bebida");
+
+        Categoria categoriaBebidasSinAlcohol = new Categoria();
+        categoriaBebidasSinAlcohol.setId(4);
+        categoriaBebidasSinAlcohol.setDescripcion("Bebidas sin alcohol");
+        categoriaBebidasSinAlcohol.setTipo_item("bebida");
+
+        Categoria categoriaBebidasGaseosas = new Categoria();
+        categoriaBebidasGaseosas.setId(5);
+        categoriaBebidasGaseosas.setDescripcion("Bebidas gaseosas");
+        categoriaBebidasGaseosas.setTipo_item("bebida");
+
         // crear instancias de Platos
-        Plato plato1 = new Plato(1, "Ensalada Vegana", "Ensalada fresca de vegetales", 200.0, "Ensaladas", 250.0, 150.0, true);
-        Plato plato2 = new Plato(2, "Milanesa con Papas", "Milanesa de ternera con papas fritas", 300.0, "Platos Principales", 350.0, 850.0, false);
-        Plato plato3 = new Plato(3, "Risotto de Setas", "Risotto cremoso con setas", 250.0, "Platos Principales", 300.0, 600.0, true);
+        Plato plato1 = new Plato(1, "Ensalada Vegana", "Ensalada fresca de vegetales", 200.0, categoriaEnsaladas, 250.0, 150.0, true);
+        Plato plato2 = new Plato(2, "Milanesa con Papas", "Milanesa de ternera con papas fritas", 300.0, categoriaPrincipales, 350.0, 850.0, false);
+        Plato plato3 = new Plato(3, "Risotto de Setas", "Risotto cremoso con setas", 250.0, categoriaPrincipales, 300.0, 600.0, true);
 
         // crear instancias de Bebidas
-        Bebida bebida1 = new Bebida(1, "Cerveza", "Cerveza rubia artesanal", 150.0, "Bebidas Alcoholicas", 500.0, true);
-        Bebida bebida2 = new Bebida(2, "Agua Mineral", "Agua mineral sin gas", 50.0, "Bebidas sin Alcohol", 500.0, false);
-        Bebida bebida3 = new Bebida(3, "Refresco", "Refresco de cola", 70.0, "Bebidas Gaseosas", 330.0, false);
+        Bebida bebida1 = new Bebida(1, "Cerveza", "Cerveza rubia artesanal", 150.0, categoriaBebidasAlcoolicas, 500.0, true);
+        Bebida bebida2 = new Bebida(2, "Agua Mineral", "Agua mineral sin gas", 50.0, categoriaBebidasSinAlcohol, 500.0, false);
+        Bebida bebida3 = new Bebida(3, "Refresco", "Refresco de cola", 70.0, categoriaBebidasGaseosas, 330.0, false);
+
 
         // agregar platos y bebidas al menú del vendedor
         v1.agregarItemMenu(plato1);

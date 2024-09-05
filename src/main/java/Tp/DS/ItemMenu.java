@@ -1,21 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Tp.DS;
 
-/**
- *
- * @author franco
- */
 public abstract class ItemMenu {
     private int id;
     private String nombre;
     private String descripcion;
     private double precio;
-    private String categoria;
+    private Categoria categoria;
     
-    public ItemMenu(int id, String nombre, String descripcion,double precio, String categoria) {
+    public ItemMenu(int id, String nombre, String descripcion,double precio, Categoria categoria) {
         this.id = id; 
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -39,7 +31,7 @@ public abstract class ItemMenu {
         return precio;
     }
 
-    public String getCategoria() {
+    public Categoria getCategoria() {
         return categoria;
     }
     // metodos abstractos para las subclases Comida y Bebida
