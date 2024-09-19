@@ -1,11 +1,11 @@
 package Tp.DS;
 
 public class Bebida extends ItemMenu {
-    private final double tamanio; // volumen en ml
+    private final double tamanio; // Volumen en ml
     private final boolean graduacionAlcoholica;
 
-    public Bebida(int id, String nombre, String descripcion, double precio, Categoria categoria, double tamanio, boolean alcoholica) {
-        super(id, nombre, descripcion, precio, categoria);
+    public Bebida(int id, String nombre, String descripcion, double precio, Categoria categoria, Vendedor vendedor, double tamanio, boolean alcoholica) {
+        super(id, nombre, descripcion, precio, categoria, vendedor);
         this.tamanio = tamanio;
         this.graduacionAlcoholica = alcoholica;
     }
@@ -30,11 +30,11 @@ public class Bebida extends ItemMenu {
     public boolean isBebidaAlcoholica() {
         return graduacionAlcoholica;
     }
-    
+
     @Override
     public double peso() {
-        double pesoBase = (graduacionAlcoholica ? tamanio * 0.99 : tamanio * 1.04); // 0.99 para bebidas alcoholicas, 1.04 para noAlcoholicas
-        return pesoBase * 1.20; // aumentar un 20% por el peso del envase
+        double pesoBase = (graduacionAlcoholica ? tamanio * 0.99 : tamanio * 1.04); // 0.99 para alcohol, 1.04 para no alcohol
+        return pesoBase * 1.20; // Aumentar 20% por el envase
     }
 
     @Override
@@ -45,11 +45,10 @@ public class Bebida extends ItemMenu {
     @Override
     public boolean esBebida() {
         return true;
-    } 
+    }
 
     @Override
     public boolean isAptoVegano() {
-        throw new UnsupportedOperationException("No aplica a bebida."); 
+        throw new UnsupportedOperationException("No aplica a bebida.");
     }
-    
 }

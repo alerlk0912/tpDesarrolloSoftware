@@ -4,7 +4,7 @@ class Categoria {
     private int id;
     private String descripcion;
     private String tipo_item;
-    
+
     public int getId() {
         return id;
     }
@@ -32,7 +32,9 @@ class Categoria {
             throw new IllegalArgumentException("tipo_item debe ser 'plato' o 'bebida'");
         }
     }
+
+    @Override
     public String toString() {
-        return descripcion; // Devuelve la descripción de la categoría
+        return descripcion;
     }
 }

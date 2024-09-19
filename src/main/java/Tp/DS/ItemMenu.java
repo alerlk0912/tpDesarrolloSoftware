@@ -6,13 +6,15 @@ public abstract class ItemMenu {
     private String descripcion;
     private double precio;
     private Categoria categoria;
-    
-    public ItemMenu(int id, String nombre, String descripcion,double precio, Categoria categoria) {
-        this.id = id; 
+    private Vendedor vendedor; // Asegúrate de tener esta declaración.
+
+    public ItemMenu(int id, String nombre, String descripcion, double precio, Categoria categoria, Vendedor vendedor) {
+        this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
         this.categoria = categoria;
+        this.vendedor = vendedor; // Asegúrate de asignar vendedor en el constructor.
     }
 
     public int getId() {
@@ -34,7 +36,11 @@ public abstract class ItemMenu {
     public Categoria getCategoria() {
         return categoria;
     }
-    // metodos abstractos para las subclases Comida y Bebida
+    
+    public Vendedor getVendedor() {
+        return vendedor;
+    }
+    
     public abstract double peso();
     public abstract boolean esComida();
     public abstract boolean esBebida();

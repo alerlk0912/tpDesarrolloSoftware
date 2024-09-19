@@ -1,12 +1,12 @@
 package Tp.DS;
 
 class Plato extends ItemMenu {
-    private final double peso; // peso en gramos
-    private final double calorias; // calorias en kcal
+    private final double peso; 
+    private final double calorias;
     private final boolean aptoVegano;
 
-    public Plato(int id, String nombre, String descripcion, double precio, Categoria categoria, double peso, double calorias, boolean aptoVegano) {
-        super(id, nombre, descripcion, precio, categoria);
+    public Plato(int id, String nombre, String descripcion, double precio, Categoria categoria, Vendedor vendedor, double peso, double calorias, boolean aptoVegano) {
+        super(id, nombre, descripcion, precio, categoria, vendedor);
         this.peso = peso;
         this.calorias = calorias;
         this.aptoVegano = aptoVegano;
@@ -24,20 +24,11 @@ class Plato extends ItemMenu {
                 ", calorias=" + calorias +
                 ", aptoVegano=" + aptoVegano +
                 '}';
-    }    
-   
-    public double getPeso() {
-        return peso;
     }
 
-    public double getCalorias() {
-        return calorias;
-    }
-
-    
     @Override
     public double peso() {
-        return peso * 1.10; // Aumentar un 10% por el peso del envase
+        return peso * 1.10; 
     }
 
     @Override
@@ -54,5 +45,4 @@ class Plato extends ItemMenu {
     public boolean isAptoVegano() {
         return aptoVegano;
     }
-    
 }

@@ -3,13 +3,15 @@ package Tp.DS;
 class Cliente {
     private int id;
     private String cuit;
+    private String nombre; // Asegúrate de que exista este atributo
     private String email;
     private String direccion;
     private Coordenada coordenadas;
 
-    public Cliente(int id, String cuit, String email, String direccion, Coordenada coordenadas) {
+    public Cliente(int id, String cuit, String nombre, String email, String direccion, Coordenada coordenadas) {
         this.id = id;
         this.cuit = cuit;
+        this.nombre = nombre;
         this.email = email;
         this.direccion = direccion;
         this.coordenadas = coordenadas;
@@ -35,24 +37,23 @@ class Cliente {
         return coordenadas;
     }
     
-    // Método para buscar un cliente por ID
+    public String getNombre() {
+        return nombre;
+    }
     public static Cliente buscarClientePorId(Cliente[] clientes, int id) {
         for (Cliente cliente : clientes) {
             if (cliente.getId() == id) {
                 return cliente;
             }
         }
-        return null; // Si no se encuentra el cliente, se devuelve null
+        return null;
     }
 
-    
-    // Método para eliminar un cliente del arreglo
     public static Cliente[] eliminarCliente(Cliente[] clientes, String cuit) {
         int index = -1;
         for (int i = 0; i < clientes.length; i++) {
             if (clientes[i].getCuit().equals(cuit)) {
                 index = i;
-                System.out.println("Cliente encontrado: " + clientes[i].getCuit() + ". Eliminando...");
                 break;
             }
         }
@@ -66,8 +67,16 @@ class Cliente {
             }
             return nuevoArray;
         } else {
-            System.out.println("Cliente no encontrado.");
             return clientes;
         }
+    }
+	
+	@Override
+    public String toString() {
+        return "Cliente{" +
+               "id=" + id +
+               ", nombre='" + nombre + '\'' +
+               ", cuit='" + cuit + '\'' +
+               '}';
     }
 }
