@@ -62,20 +62,20 @@ public class TpDS {
 
 
         // Crear pedidos
-        Pedido p1 = new Pedido(1, c1);
-        Pedido p2 = new Pedido(2, c2);
-        Pedido p3 = new Pedido(3, c3);
-        Pedido p4 = new Pedido(4, c1);
-	Pedido p5 = new Pedido(5, c4);
-        Pedido p6 = new Pedido(6, c5);
-        Pedido p7 = new Pedido(7, c6);
-        Pedido p8 = new Pedido(8, c7);
-        Pedido p9 = new Pedido(9, c8);
-        Pedido p10 = new Pedido(10, c9);
-        Pedido p11 = new Pedido(11, c10);
-        Pedido p12 = new Pedido(12, c11);
-        Pedido p13 = new Pedido(13, c12);
-        Pedido p14 = new Pedido(14, c13);
+        Pedido p1 = new Pedido(1, c1, EstadoPedido.PENDIENTE);
+        Pedido p2 = new Pedido(2, c2, EstadoPedido.ENVIADO);
+        Pedido p3 = new Pedido(3, c3, EstadoPedido.PENDIENTE);
+        Pedido p4 = new Pedido(4, c1, EstadoPedido.ENVIADO);
+	Pedido p5 = new Pedido(5, c4, EstadoPedido.PENDIENTE);
+        Pedido p6 = new Pedido(6, c5, EstadoPedido.PENDIENTE);
+        Pedido p7 = new Pedido(7, c6, EstadoPedido.ENTREGADO);
+        Pedido p8 = new Pedido(8, c7, EstadoPedido.PENDIENTE);
+        Pedido p9 = new Pedido(9, c8, EstadoPedido.EN_PREPARACION);
+        Pedido p10 = new Pedido(10, c9, EstadoPedido.ENTREGADO);
+        Pedido p11 = new Pedido(11, c10, EstadoPedido.ENVIADO);
+        Pedido p12 = new Pedido(12, c11, EstadoPedido.CANCELADO);
+        Pedido p13 = new Pedido(13, c12, EstadoPedido.ENVIADO);
+        Pedido p14 = new Pedido(14, c13, EstadoPedido.PENDIENTE);
 
         // Crear ItemsPedido
         ItemPedidoMemory itemPedidoMemory = new ItemPedidoMemory();
