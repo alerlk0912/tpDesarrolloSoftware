@@ -2,8 +2,8 @@ package Tp.DS;
 
 public class ItemsPedido {
     private int id;
-    private ItemMenu itemMenu; // Relacionado con ItemMenu
-    private Pedido pedido; // Relacionado con Pedido
+    private ItemMenu itemMenu;
+    private Pedido pedido;
     private int cantidad;
 
     public ItemsPedido(int id, ItemMenu itemMenu, Pedido pedido, int cantidad) {

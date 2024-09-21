@@ -3,7 +3,7 @@ package Tp.DS;
 public class Pedido {
     private int id;
     private Cliente cliente;
-    private EstadoPedido estado; // Referencia al enum EstadoPedido
+    private EstadoPedido estado;
 
     public Pedido(int id, Cliente cliente, EstadoPedido estado) {
         this.id = id;

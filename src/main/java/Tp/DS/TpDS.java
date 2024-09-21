@@ -60,7 +60,6 @@ public class TpDS {
         Plato pasta = new Plato(11, "Pasta", "Spaghetti a la bolognesa", 5500, catComidas, v6, 400, 600, false);
         Bebida te = new Bebida(12, "Te", "Te verde", 1800, catBebidas, v7, 300, false);
 
-
         // Crear pedidos
         Pedido p1 = new Pedido(1, c1, EstadoPedido.PENDIENTE);
         Pedido p2 = new Pedido(2, c2, EstadoPedido.ENVIADO);

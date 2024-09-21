@@ -3,7 +3,7 @@ package Tp.DS;
 class Cliente {
     private int id;
     private String cuit;
-    private String nombre; // Asegúrate de que exista este atributo
+    private String nombre;
     private String email;
     private String direccion;
     private Coordenada coordenadas;
