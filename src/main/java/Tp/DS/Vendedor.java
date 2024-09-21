@@ -8,7 +8,7 @@ class Vendedor {
     private String nombre;
     private String direccion;
     private Coordenada coordenadas;
-    private List<ItemMenu> menu; // lista de elementos del menu
+    private List<ItemMenu> menu;
 
     public Vendedor(int id, String nombre, String direccion, Coordenada coordenadas) {
         this.id = id;
@@ -45,7 +45,7 @@ class Vendedor {
                 return vendedor;
             }
         }
-        return null; // Si no se encuentra el vendedor, se devuelve null
+        return null;
     }
 
     // Método para buscar un vendedor por ID
@@ -55,7 +55,7 @@ class Vendedor {
                 return vendedor;
             }
         }
-        return null; // Si no se encuentra el vendedor, se devuelve null
+        return null;
     }
     // Método para eliminar un vendedor del arreglo
     public static Vendedor[] eliminarVendedor(Vendedor[] vendedores, String nombre) {
