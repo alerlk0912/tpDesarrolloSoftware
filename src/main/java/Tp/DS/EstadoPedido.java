@@ -1,9 +1,8 @@
 package Tp.DS;
 
 public enum EstadoPedido {
-    PENDIENTE,
+    RECIBIDO,
     EN_PREPARACION,
-    ENVIADO,
-    ENTREGADO,
-    CANCELADO
+    EN_ENVIO,
+    ENTREGADO
 }
