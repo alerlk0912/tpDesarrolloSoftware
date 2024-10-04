@@ -33,9 +33,11 @@ public class ItemsPedido {
     public String toString() {
         return "ItemsPedido{" +
                 "id=" + id +
+                ", vendedor=" + itemMenu.getVendedor().getNombre() +
                 ", itemMenu=" + itemMenu +
                 ", pedido=" + pedido +
                 ", cantidad=" + cantidad +
                 '}';
     }
+
 }

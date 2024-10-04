@@ -32,7 +32,11 @@ class Categoria {
             throw new IllegalArgumentException("tipo_item debe ser 'plato' o 'bebida'");
         }
     }
-
+    Categoria(int id, String descripcion, String tipo) {
+        this.id = id;
+        this.descripcion = descripcion;
+        this.tipo_item = tipo;
+    }
     @Override
     public String toString() {
         return descripcion;

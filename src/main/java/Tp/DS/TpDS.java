@@ -1,10 +1,12 @@
 package Tp.DS;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TpDS {
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws VendedorNoCoincideException, PedidoInvalidoException, CantidadInvalidaException {
 	// Crear vendedores (restaurantes)
         Vendedor v1 = new Vendedor(1, "Restaurante A", "Calle 123", new Coordenada(-34.6037, -58.3816));
         Vendedor v2 = new Vendedor(2, "Restaurante B", "Calle 456", new Coordenada(-34.6158, -58.4333));
@@ -36,15 +38,9 @@ public class TpDS {
         Cliente c13 = new Cliente(13, "20-67676767-9", "Cliente 13", "cliente13@mail.com", "Avenida 2829", new Coordenada(-34.6279, -58.3651));
 
         // Crear categorías
-        Categoria catBebidas = new Categoria();
-        catBebidas.setId(1);
-        catBebidas.setDescripcion("Bebidas");
-        catBebidas.setTipo_item("bebida");
+        Categoria catBebidas = new Categoria(1, "Bebidas", "bebida");
+        Categoria catComidas = new Categoria(2, "Comidas", "plato");
 
-        Categoria catComidas = new Categoria();
-        catComidas.setId(2);
-        catComidas.setDescripcion("Comidas");
-        catComidas.setTipo_item("plato");
 
         // Crear ítems de menú
         Bebida gaseosa = new Bebida(1, "Gaseosa", "Refresco de cola", 2500, catBebidas, v1, 500, false);
@@ -72,30 +68,43 @@ public class TpDS {
         
         ItemPedidoMemory itemPedidoMemory = new ItemPedidoMemory();
         
-	// Pedido p1 para Cliente 1 en Restaurante A con MercadoPago
-        List<ItemMenu> itemsP1 = List.of(gaseosa, bife); // Todos los ítems pertenecen a v1
-        Pedido p1 = Pedido.crearYMostrarPedido(c1, v1, itemsP1, pago1, "p1");
+	
+        // Crear mapa para gestionar ítems y cantidades
+        Map<ItemMenu, Integer> items1 = new HashMap<>();
+
+        // Crear y asociar pedidos e ítems
+        // Pedido p1 para Cliente 1 con MercadoPago
+        items1.put(gaseosa, 2);
+        items1.put(bife, 1);
+        items1.put(pizza,1);
+        // Pedido p1 para Cliente 1 en Restaurante A con MercadoPago
+        Pedido p1 = Pedido.crearYMostrarPedido(11 ,c1, items1, pago1);
         // Asociar ítems al pedido p1
         itemPedidoMemory.agregarItemPedido(new ItemsPedido(1, gaseosa, p1, 2));
         itemPedidoMemory.agregarItemPedido(new ItemsPedido(2, bife, p1, 1));
-        itemPedidoMemory.agregarItemPedido(new ItemsPedido(3, postre, p1, 2));
         itemPedidoMemory.agregarItemPedido(new ItemsPedido(4, pizza, p1, 1));
 
         // Pedido p2 para Cliente 2 en Restaurante B con Transferencia
-        List<ItemMenu> itemsP2 = List.of(vino, postre, cerveza); // Todos los ítems pertenecen a v2
-        Pedido p2 = Pedido.crearYMostrarPedido(c2, v2, itemsP2, pago2, "p2");
+        Map<ItemMenu, Integer> items2 = new HashMap<>();
+        items2.put(vino, 1);
+        items2.put(postre, 2);
+        items2.put(cerveza,2);
+        Pedido p2 = Pedido.crearYMostrarPedido(22, c2, items2, pago2);
         // Asociar ítems al pedido p2
         itemPedidoMemory.agregarItemPedido(new ItemsPedido(5, vino, p2, 1));
         itemPedidoMemory.agregarItemPedido(new ItemsPedido(6, postre, p2, 2));
         itemPedidoMemory.agregarItemPedido(new ItemsPedido(7, cerveza, p2, 2));
 
         // Pedido p3 para Cliente 3 en Restaurante C con MercadoPago
-        List<ItemMenu> itemsP3 = List.of(ensalada, aguaMineral); // Todos los ítems pertenecen a v3
-        Pedido p3 = Pedido.crearYMostrarPedido(c3, v3, itemsP3, pago3, "p3");
+         Map<ItemMenu, Integer> items3 = new HashMap<>();
+        items3.put(ensalada, 1);
+        items3.put(aguaMineral, 2);
+        Pedido p3 = Pedido.crearYMostrarPedido(33, c3, items3, pago3);
         // Asociar ítems al pedido p3
         itemPedidoMemory.agregarItemPedido(new ItemsPedido(8, ensalada, p3, 1));
         itemPedidoMemory.agregarItemPedido(new ItemsPedido(9, aguaMineral, p3, 2));
 
+        /*
         // Pedido p4 para Cliente 1 en Restaurante A con Transferencia
         // Originalmente, p4 tenía ítems de v1 y v2, por lo que se dividió en p4a y p4b
         List<ItemMenu> itemsP4a = List.of(gaseosa, pizza); // Ítems de v1
@@ -132,15 +141,21 @@ public class TpDS {
         Pedido p6b = Pedido.crearYMostrarPedido(c5, v2, itemsP6b, pago6, "p6b");
         // Asociar ítems al pedido p6b
         itemPedidoMemory.agregarItemPedido(new ItemsPedido(16, vino, p6b, 1));
-
+*/
         // Pedido p7 para Cliente 6 en Restaurante G con MercadoPago
         // Asegurarse de que todos los ítems pertenecen a v3
-        List<ItemMenu> itemsP7 = List.of(ensalada, aguaMineral); // Ítems de v3
-        Pedido p7 = Pedido.crearYMostrarPedido(c6, v3, itemsP7, pago7, "p7");
+        
+        Map<ItemMenu, Integer> items7 = new HashMap<>();
+        items7.put(vino, 2);
+        items7.put(cerveza, 2);
+        items7.put(postre,4);
+        Pedido p7 = Pedido.crearYMostrarPedido(77,c6, items7, pago7);
         // Asociar ítems al pedido p7
+        itemPedidoMemory.agregarItemPedido(new ItemsPedido(17, vino, p7, 2));
         itemPedidoMemory.agregarItemPedido(new ItemsPedido(17, ensalada, p7, 2));
-        itemPedidoMemory.agregarItemPedido(new ItemsPedido(18, aguaMineral, p7, 2));
-
+        itemPedidoMemory.agregarItemPedido(new ItemsPedido(18, postre, p7, 4));
+        
+/*
         // Pedido p8 para Cliente 7 en Restaurante A con Transferencia
         // Originalmente, p8 tenía ítems de v1 y v2, por lo que se dividió en p8a y p8b
         List<ItemMenu> itemsP8a = List.of(pizza); // Ítems de v1
@@ -152,7 +167,7 @@ public class TpDS {
         Pedido p8b = Pedido.crearYMostrarPedido(c7, v2, itemsP8b, pago8, "p8b");
         // Asociar ítems al pedido p8b
         itemPedidoMemory.agregarItemPedido(new ItemsPedido(20, cerveza, p8b, 2));
-
+*/
         // Crear ItemsPedido
         itemPedidoMemory.agregarItemPedido(new ItemsPedido(1, gaseosa, p1, 2));
         itemPedidoMemory.agregarItemPedido(new ItemsPedido(2, bife, p1, 1));
@@ -165,6 +180,8 @@ public class TpDS {
         itemPedidoMemory.agregarItemPedido(new ItemsPedido(9, aguaMineral, p3, 2));
         itemPedidoMemory.agregarItemPedido(new ItemsPedido(10, bife, p3, 1));
         itemPedidoMemory.agregarItemPedido(new ItemsPedido(11, postre, p3, 1));
+        itemPedidoMemory.agregarItemPedido(new ItemsPedido(19, ensalada, p7, 2));
+        /*
         itemPedidoMemory.agregarItemPedido(new ItemsPedido(12, gaseosa, p4a, 1));
         itemPedidoMemory.agregarItemPedido(new ItemsPedido(13, pizza, p4a, 1));
         itemPedidoMemory.agregarItemPedido(new ItemsPedido(27, hamburguesa, p4a, 1));
@@ -182,13 +199,26 @@ public class TpDS {
         itemPedidoMemory.agregarItemPedido(new ItemsPedido(18, vino, p6a, 1));
         itemPedidoMemory.agregarItemPedido(new ItemsPedido(17, pasta, p6b, 1));
         itemPedidoMemory.agregarItemPedido(new ItemsPedido(18, vino, p6b, 1));
-        itemPedidoMemory.agregarItemPedido(new ItemsPedido(19, ensalada, p7, 2));
+        
         itemPedidoMemory.agregarItemPedido(new ItemsPedido(20, aguaMineral, p7, 2));;
         itemPedidoMemory.agregarItemPedido(new ItemsPedido(23, bife, p5b, 1));
         itemPedidoMemory.agregarItemPedido(new ItemsPedido(24, vino, p6a, 1));
         itemPedidoMemory.agregarItemPedido(new ItemsPedido(25, postre, p6b, 2));
         itemPedidoMemory.agregarItemPedido(new ItemsPedido(26, te, p6b, 2));      
+*/
+         // Crear pedidos para Cliente 1 y Restaurante A usando diferentes métodos de pago
+        Map<ItemMenu, Integer> itemsPago1 = new HashMap<>();
+        itemsPago1.put(gaseosa, 3);
+        itemsPago1.put(pizza, 1);
+        Pedido pedidoMercadoPagoA1 = Pedido.crearYMostrarPedido(1111, c1, itemsPago1, pago1);
+        // Asociar ítems al pedidoMercadoPagoA1
+        itemPedidoMemory.agregarItemPedido(new ItemsPedido(21, gaseosa, pedidoMercadoPagoA1, 3));
+        itemPedidoMemory.agregarItemPedido(new ItemsPedido(22, pizza, pedidoMercadoPagoA1, 1));
 
+        Pedido pedidoTransferenciaA1 = Pedido.crearYMostrarPedido(2222, c1, itemsPago1, pago2);
+        // Asociar ítems al pedidoTransferenciaA1
+        itemPedidoMemory.agregarItemPedido(new ItemsPedido(23, gaseosa, pedidoTransferenciaA1, 3));
+        itemPedidoMemory.agregarItemPedido(new ItemsPedido(24, pizza, pedidoTransferenciaA1, 1));
         // Casos de prueba
         try {
             // 1. Filtrar por rango de precio entre 1000 y 5000
@@ -215,23 +245,6 @@ public class TpDS {
             System.out.println("Error: " + e.getMessage());
         }
         
-         // Crear pedidos para Cliente 1 y Restaurante A usando diferentes métodos de pago
-        List<ItemMenu> itemsPedido1a = List.of(gaseosa, pizza);
-        Pedido pedidoMercadoPagoA1 = Pedido.crearYMostrarPedido(c1, v1, itemsPedido1a, pago1, "pedidoMercadoPagoA1");
-        // Asociar ítems al pedidoMercadoPagoA1
-        itemPedidoMemory.agregarItemPedido(new ItemsPedido(21, gaseosa, pedidoMercadoPagoA1, 2));
-        itemPedidoMemory.agregarItemPedido(new ItemsPedido(22, pizza, pedidoMercadoPagoA1, 1));
-
-        Pedido pedidoTransferenciaA1 = Pedido.crearYMostrarPedido(c1, v1, itemsPedido1a, pago2, "pedidoTransferenciaA1");
-        // Asociar ítems al pedidoTransferenciaA1
-        itemPedidoMemory.agregarItemPedido(new ItemsPedido(23, gaseosa, pedidoTransferenciaA1, 2));
-        itemPedidoMemory.agregarItemPedido(new ItemsPedido(24, pizza, pedidoTransferenciaA1, 1));
-
-        // Crear otro pedido para Cliente 2 y Restaurante B
-        List<ItemMenu> itemsPedido2a = List.of(cerveza);
-        Pedido pedidoCliente2 = Pedido.crearYMostrarPedido(c2, v2, itemsPedido2a, pago3, "pedidoCliente2");
-        // Asociar ítems al pedidoCliente2
-        itemPedidoMemory.agregarItemPedido(new ItemsPedido(25, cerveza, pedidoCliente2, 1));
-
+        
     }
 }
