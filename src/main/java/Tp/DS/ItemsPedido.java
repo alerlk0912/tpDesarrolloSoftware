@@ -3,13 +3,11 @@ package Tp.DS;
 public class ItemsPedido {
     private int id;
     private ItemMenu itemMenu;
-    private Pedido pedido;
     private int cantidad;
 
-    public ItemsPedido(int id, ItemMenu itemMenu, Pedido pedido, int cantidad) {
+    public ItemsPedido(int id, ItemMenu itemMenu, int cantidad) {
         this.id = id;
         this.itemMenu = itemMenu;
-        this.pedido = pedido;
         this.cantidad = cantidad;
     }
 
@@ -21,9 +19,6 @@ public class ItemsPedido {
         return itemMenu;
     }
 
-    public Pedido getPedido() {
-        return pedido;
-    }
 
     public int getCantidad() {
         return cantidad;
@@ -35,7 +30,6 @@ public class ItemsPedido {
                 "id=" + id +
                 ", vendedor=" + itemMenu.getVendedor().getNombre() +
                 ", itemMenu=" + itemMenu +
-                ", pedido=" + pedido +
                 ", cantidad=" + cantidad +
                 '}';
     }

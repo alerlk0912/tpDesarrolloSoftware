@@ -24,7 +24,7 @@ public class Pedido {
         this.estado = EstadoPedido.RECIBIDO;
     }
 
-    // Método para agregar ítems al pedido
+    // metodo para agregar ítems al pedido
     public void agregarItem(ItemsPedido item) throws VendedorNoCoincideException {
         if (itemsPedido.isEmpty()) {
             this.itemsPedido.add(item);
@@ -105,45 +105,23 @@ public class Pedido {
         return sb.toString();
     }
     
-    public static Pedido crearYMostrarPedido(int id, Cliente cliente, Map<ItemMenu, Integer> itemsYCantidades, Pago metodoPago) throws VendedorNoCoincideException, CantidadInvalidaException, PedidoInvalidoException {
+    public static Pedido crearYMostrarPedido(int id, Cliente cliente, List<ItemsPedido> items, Pago metodoPago) throws VendedorNoCoincideException, PedidoInvalidoException {
         if (cliente == null) {
             throw new PedidoInvalidoException("El cliente no puede ser nulo.");
         }
 
-        if (itemsYCantidades == null || itemsYCantidades.isEmpty()) {
+        if (items == null || items.isEmpty()) {
             throw new PedidoInvalidoException("La lista de ítems seleccionados no puede estar vacía.");
         }
 
-        Pedido pedido = new Pedido(id, cliente, metodoPago); // Crear el pedido
-
-        Vendedor vendedorPrincipal = null;
+        Pedido pedido = new Pedido(id, cliente, metodoPago); // crear el pedido
+        Vendedor vendedorPrincipal = items.get(0).getItemMenu().getVendedor();
 
         try {
-            // Iterar sobre el mapa que contiene items y cantidades
-            for (Map.Entry<ItemMenu, Integer> entry : itemsYCantidades.entrySet()) {
-                ItemMenu itemMenu = entry.getKey();   // nombre item
-                int cantidad = entry.getValue();      // cantidad
-
-                // Validar que la cantidad sea válida (mayor a 0)
-                if (cantidad <= 0) {
-                    throw new CantidadInvalidaException("La cantidad para el ítem " + itemMenu.getNombre() + " debe ser mayor a 0.");
-                }
-
-                // Si es el primer ítem, obtener el vendedor principal
-                if (vendedorPrincipal == null) {
-                    vendedorPrincipal = itemMenu.getVendedor();
-                }
-
-                // Validar que todos los ítems sean del mismo vendedor
-                if (!itemMenu.getVendedor().equals(vendedorPrincipal)) {
-                    throw new VendedorNoCoincideException("Todos los ítems deben ser del mismo vendedor.");
-                }
-
-                // Crear el objeto ItemsPedido con la cantidad proporcionada
-                ItemsPedido itemsPedido = new ItemsPedido(itemMenu.getId(), itemMenu, pedido, cantidad);
-                pedido.agregarItem(itemsPedido); // Agregar el ítem al pedido
+            for (ItemsPedido item : items) {
+                pedido.agregarItem(item);
             }
-        } catch (VendedorNoCoincideException | CantidadInvalidaException e) {
+        } catch (VendedorNoCoincideException e) {
             System.err.println("Error al agregar ítem al pedido: " + e.getMessage());
             throw e; 
         }
