@@ -2,6 +2,7 @@ Tp\DS\Coordenada.class
 Tp\DS\ItemsPedidoDao.class
 Tp\DS\Categoria.class
 Tp\DS\CantidadInvalidaException.class
+Tp\DS\PedidoObserver.class
 Tp\DS\Transferencia.class
 Tp\DS\ItemMenu.class
 Tp\DS\ItemNoEncontradoException.class
@@ -13,6 +14,7 @@ Tp\DS\Bebida.class
 Tp\DS\Efectivo.class
 Tp\DS\Pedido.class
 Tp\DS\EstadoPedido.class
+Tp\DS\PedidoObservable.class
 Tp\DS\ItemPedidoMemory.class
 Tp\DS\MercadoPago.class
 Tp\DS\ItemsPedido.class

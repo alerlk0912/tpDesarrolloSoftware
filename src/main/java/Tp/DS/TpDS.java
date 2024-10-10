@@ -77,6 +77,9 @@ public class TpDS {
         
         List<ItemsPedido> itemsP1 = List.of(itemsP1a, itemsP1b, itemsP1c); // Todos los ítems pertenecen a v1
         Pedido p1 = Pedido.crearYMostrarPedido(11, c1, itemsP1, pago1);
+        p1.agregarObservador(c1);
+        p1.cambiarEstado(EstadoPedido.EN_ENVIO);
+        /*
         // Asociar ítems al pedido p1
         for(ItemsPedido i: itemsP1){
             itemPedidoMemory.agregarItemPedido(i);
@@ -179,7 +182,7 @@ public class TpDS {
         // Asociar ítems al pedidoTransferenciaA1
         itemPedidoMemory.agregarItemPedido(new ItemsPedido(23, gaseosa, pedidoTransferenciaA1, 3));
         itemPedidoMemory.agregarItemPedido(new ItemsPedido(24, pizza, pedidoTransferenciaA1, 1));
-        */
+        
         // Casos de prueba
         try {
             // 1. Filtrar por rango de precio entre 1000 y 5000
@@ -206,6 +209,7 @@ public class TpDS {
             System.out.println("Error: " + e.getMessage());
         }
         
-        
+        */
     }
+   
 }

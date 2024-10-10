@@ -1,5 +1,6 @@
 package Tp.DS;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +13,8 @@ public class Pedido implements PedidoObservable{
     private List<ItemsPedido> itemsPedido;
     private Pago metodoPago;
     private EstadoPedido estado;
+    private double montoBase;
+    private LocalDate fechaPago;
     private double montoTotal;
 
     public Pedido(int id, Cliente cliente, Pago metodoPago) {
@@ -44,7 +47,8 @@ public class Pedido implements PedidoObservable{
         double subtotal = itemsPedido.stream()
                 .mapToDouble(item -> item.getItemMenu().getPrecio() * item.getCantidad())
                 .sum();
-        this.montoTotal = metodoPago.calcularRecargo(subtotal);
+        this.montoBase = subtotal;
+        this.montoTotal = metodoPago.calcularRecargo(montoBase);
     }
 
     public int getId() {
@@ -67,12 +71,24 @@ public class Pedido implements PedidoObservable{
         return metodoPago;
     }
     
+    public double getMontoBase() {
+        return montoBase;
+    }
+
+    public LocalDate getFechaPago() {
+        return fechaPago;
+    }
+
     public double getMontoTotal() {
         return montoTotal;
     }
     
     public void setEstado(EstadoPedido estado) {
         this.estado = estado;
+    }
+
+    public void setMetodoPago(Pago metodoPago) {
+        this.metodoPago = metodoPago;
     }
 
     
@@ -85,7 +101,7 @@ public class Pedido implements PedidoObservable{
           .append("id=").append(id)
           .append(", cliente=").append(cliente.getNombre()) // Puedes personalizar cómo mostrar al cliente
           .append(", estado=").append(estado)
-          .append(", montoTotal=").append(montoTotal)
+          .append(", montoBase=").append(montoBase)
           .append(", metodoPago=").append(metodoPago.getClass().getSimpleName())
           .append(", itemsPedido=[");
 
@@ -123,6 +139,7 @@ public class Pedido implements PedidoObservable{
                 pedido.agregarItem(item);
                 item.setPedido(pedido);
             }
+            vendedorPrincipal.actualizarEstadoPedido(pedido, EstadoPedido.EN_ENVIO);
         } catch (VendedorNoCoincideException e) {
             System.err.println("Error al agregar ítem al pedido: " + e.getMessage());
             throw e; 
@@ -137,8 +154,6 @@ public class Pedido implements PedidoObservable{
             for (ItemsPedido item : pedido.getItemsPedido()) {
                 System.out.println(item.getItemMenu().getNombre() + " - Cantidad: " + item.getCantidad());
             }
-            pedido.calcularTotalPedido();  // Asegúrate de calcular el total del pedido
-            System.out.println("Monto total: " + pedido.getMontoTotal());
         } catch (Exception e) {
             System.err.println("Error al mostrar el pedido: " + e.getMessage());
             throw new PedidoInvalidoException("Error al mostrar el pedido.");
@@ -160,7 +175,7 @@ public class Pedido implements PedidoObservable{
     @Override
     public void notificarObservadores() {
         for (PedidoObserver observer : observadores) {
-            observer.actualizarEstado(this);
+            observer.actualizarEstado(this, this.metodoPago);
         }
     }
 
