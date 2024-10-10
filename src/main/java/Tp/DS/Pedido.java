@@ -5,9 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Pedido {
+public class Pedido implements PedidoObservable{
     private int id;
     private Cliente cliente;
+    private List<PedidoObserver> observadores = new ArrayList<>();
     private List<ItemsPedido> itemsPedido;
     private Pago metodoPago;
     private EstadoPedido estado;
@@ -144,5 +145,28 @@ public class Pedido {
         }
 
         return pedido;
+    }
+
+    @Override
+    public void agregarObservador(PedidoObserver observer) {
+        observadores.add(observer);
+    }
+
+    @Override
+    public void eliminarObservador(PedidoObserver observer) {
+        observadores.remove(observer);
+    }
+
+    @Override
+    public void notificarObservadores() {
+        for (PedidoObserver observer : observadores) {
+            observer.actualizarEstado(this);
+        }
+    }
+
+    @Override
+    public void cambiarEstado(EstadoPedido nuevoEstado) {
+        this.estado = nuevoEstado;
+        notificarObservadores();
     }
 }

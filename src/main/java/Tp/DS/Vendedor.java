@@ -130,5 +130,9 @@ class Vendedor {
         }
         return bebidasSinAlcohol;
     }
-
+    
+    public void actualizarEstadoPedido(Pedido pedido, EstadoPedido nuevoEstado) {
+        System.out.println("Vendedor " + nombre + ": actualizando estado del pedido a " + nuevoEstado);
+        pedido.cambiarEstado(nuevoEstado);
+    }
 }

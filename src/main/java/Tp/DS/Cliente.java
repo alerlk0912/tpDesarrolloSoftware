@@ -1,6 +1,6 @@
 package Tp.DS;
 
-class Cliente {
+class Cliente implements PedidoObserver{
     private int id;
     private String cuit;
     private String nombre;
@@ -40,6 +40,16 @@ class Cliente {
     public String getNombre() {
         return nombre;
     }
+    
+    @Override
+    public String toString() {
+        return "Cliente{" +
+               "id=" + id +
+               ", nombre='" + nombre + '\'' +
+               ", cuit='" + cuit + '\'' +
+               '}';
+    }
+    
     public static Cliente buscarClientePorId(Cliente[] clientes, int id) {
         for (Cliente cliente : clientes) {
             if (cliente.getId() == id) {
@@ -71,12 +81,21 @@ class Cliente {
         }
     }
 	
-	@Override
-    public String toString() {
-        return "Cliente{" +
-               "id=" + id +
-               ", nombre='" + nombre + '\'' +
-               ", cuit='" + cuit + '\'' +
-               '}';
+    @Override
+    public void actualizarEstado(Pedido pedido) {
+        System.out.println("Cliente " + nombre + ": El estado del pedido ha cambiado a " + pedido.getEstado());
+
+        // si el estado es EN_ENVIO, generar el pago
+        if (pedido.getEstado() == EstadoPedido.EN_ENVIO) {
+            generarPago(pedido);
+        }
     }
+
+    // genera el pago asociado al pedido
+    public void generarPago(Pedido pedido) {
+        double montoFinal = pedido.getMetodoPago().calcularRecargo(pedido.getMontoTotal());
+        System.out.println("Pago generado para " + nombre + " - Monto: " + montoFinal);
+    }
+    
+    
 }
