@@ -69,6 +69,7 @@ public class TpDS {
         
         ItemPedidoMemory itemPedidoMemory = new ItemPedidoMemory();
         
+        System.out.println("Pedido 1:");
 	// Pedido p1 para Cliente 1 en Restaurante A con MercadoPago
         // crear ItemsPedido con los itemMenu
         ItemsPedido itemsP1a = new ItemsPedido(1, gaseosa, 2);
@@ -79,6 +80,29 @@ public class TpDS {
         Pedido p1 = Pedido.crearYMostrarPedido(11, c1, itemsP1, pago1);
         p1.agregarObservador(c1);
         p1.cambiarEstado(EstadoPedido.EN_ENVIO);
+        
+        System.out.println("Pedido 2:");
+        // Pedido p2 para Cliente 2 en Restaurante B con Transferencia
+        // crear ItemsPedido con los itemMenu
+        ItemsPedido itemsP2a = new ItemsPedido(5, vino, 1);
+        ItemsPedido itemsP2b = new ItemsPedido(6, postre, 2); 
+        ItemsPedido itemsP2c = new ItemsPedido(7, cerveza, 2);
+        
+        List<ItemsPedido> itemsP2 = List.of(itemsP2a, itemsP2b, itemsP2c); // Todos los ítems pertenecen a v2
+        Pedido p2 = Pedido.crearYMostrarPedido(22, c2, itemsP2, pago2);
+        p2.agregarObservador(c2);
+        p2.cambiarEstado(EstadoPedido.EN_ENVIO);
+        
+        System.out.println("Pedido 3:");
+        // Pedido p3 para Cliente 3 en Restaurante C con MercadoPago
+        // crear ItemsPedido con los itemMenu
+        ItemsPedido itemsP3a = new ItemsPedido(8, ensalada, 1);
+        ItemsPedido itemsP3b = new ItemsPedido(9, aguaMineral, 2);
+        List<ItemsPedido> itemsP3 = List.of(itemsP3a, itemsP3b); // Todos los ítems pertenecen a v3
+        Pedido p3 = Pedido.crearYMostrarPedido(33, c3, itemsP3, pago3);
+        p3.agregarObservador(c3);
+        p3.cambiarEstado(EstadoPedido.EN_ENVIO);
+        
         /*
         // Asociar ítems al pedido p1
         for(ItemsPedido i: itemsP1){
