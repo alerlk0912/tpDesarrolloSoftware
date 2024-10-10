@@ -120,6 +120,7 @@ public class Pedido {
         try {
             for (ItemsPedido item : items) {
                 pedido.agregarItem(item);
+                item.setPedido(pedido);
             }
         } catch (VendedorNoCoincideException e) {
             System.err.println("Error al agregar ítem al pedido: " + e.getMessage());

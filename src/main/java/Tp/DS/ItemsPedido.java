@@ -3,6 +3,7 @@ package Tp.DS;
 public class ItemsPedido {
     private int id;
     private ItemMenu itemMenu;
+    private Pedido pedido;
     private int cantidad;
 
     public ItemsPedido(int id, ItemMenu itemMenu, int cantidad) {
@@ -24,6 +25,27 @@ public class ItemsPedido {
         return cantidad;
     }
 
+    public Pedido getPedido() {
+        return pedido;
+    }
+
+    
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setItemMenu(ItemMenu itemMenu) {
+        this.itemMenu = itemMenu;
+    }
+
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
+
     @Override
     public String toString() {
         return "ItemsPedido{" +
@@ -33,5 +55,7 @@ public class ItemsPedido {
                 ", cantidad=" + cantidad +
                 '}';
     }
+
+    
 
 }

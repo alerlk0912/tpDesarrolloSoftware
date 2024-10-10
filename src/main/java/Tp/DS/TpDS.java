@@ -118,7 +118,7 @@ public class TpDS {
         Pedido p42 = Pedido.crearYMostrarPedido(422, c1, itemsP42, pago4);
         // Asociar ítems al pedido p4b
         itemPedidoMemory.agregarItemPedido(itemsP42a);
-        
+        /*
         // Pedido p5 para Cliente 4 en Restaurante D con MercadoPago
         // Originalmente, p5 tenía ítems de v4 y v5, por lo que se dividió en p5a y p5b
         List<ItemMenu> itemsP5a = List.of(hamburguesa); // Ítems de v4
@@ -152,7 +152,7 @@ public class TpDS {
         itemPedidoMemory.agregarItemPedido(new ItemsPedido(17, ensalada, p7, 2));
         itemPedidoMemory.agregarItemPedido(new ItemsPedido(18, postre, p7, 4));
         
-/*
+
         // Pedido p8 para Cliente 7 en Restaurante A con Transferencia
         // Originalmente, p8 tenía ítems de v1 y v2, por lo que se dividió en p8a y p8b
         List<ItemMenu> itemsP8a = List.of(pizza); // Ítems de v1
@@ -164,7 +164,7 @@ public class TpDS {
         Pedido p8b = Pedido.crearYMostrarPedido(c7, v2, itemsP8b, pago8, "p8b");
         // Asociar ítems al pedido p8b
         itemPedidoMemory.agregarItemPedido(new ItemsPedido(20, cerveza, p8b, 2));
-*/
+
         
          // Crear pedidos para Cliente 1 y Restaurante A usando diferentes métodos de pago
         Map<ItemMenu, Integer> itemsPago1 = new HashMap<>();
@@ -179,6 +179,7 @@ public class TpDS {
         // Asociar ítems al pedidoTransferenciaA1
         itemPedidoMemory.agregarItemPedido(new ItemsPedido(23, gaseosa, pedidoTransferenciaA1, 3));
         itemPedidoMemory.agregarItemPedido(new ItemsPedido(24, pizza, pedidoTransferenciaA1, 1));
+        */
         // Casos de prueba
         try {
             // 1. Filtrar por rango de precio entre 1000 y 5000
