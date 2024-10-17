@@ -1,13 +1,22 @@
 package Tp.DS;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import Tp.DS.Pantallas.*;
+import java.util.*;
 
 public class TpDS {
     
-    public static void main(String[] args) throws VendedorNoCoincideException, PedidoInvalidoException, CantidadInvalidaException {
-	// Crear vendedores (restaurantes)
+    public static void main(String[] args) {
+        pantallas();
+    }
+    
+    public static void pantallas() {
+        MenuPrincipal menuPrincipal = new MenuPrincipal();
+        menuPrincipal.setVisible(true);
+        menuPrincipal.setLocationRelativeTo(null);
+    }
+    
+    public static void casoPruebaParte5() throws VendedorNoCoincideException, PedidoInvalidoException {
+        // Crear vendedores (restaurantes)
         Vendedor v1 = new Vendedor(1, "Restaurante A", "Calle 123", new Coordenada(-34.6037, -58.3816));
         Vendedor v2 = new Vendedor(2, "Restaurante B", "Calle 456", new Coordenada(-34.6158, -58.4333));
         Vendedor v3 = new Vendedor(3, "Restaurante C", "Calle 789", new Coordenada(-34.6179, -58.3686));
