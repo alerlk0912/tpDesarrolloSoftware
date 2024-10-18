@@ -42,7 +42,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         botonVendedor = new javax.swing.JButton();
         botonCliente = new javax.swing.JButton();
@@ -63,15 +62,15 @@ public class MenuPrincipal extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jPanel2.setMaximumSize(new java.awt.Dimension(800, 600));
-        jPanel2.setMinimumSize(new java.awt.Dimension(800, 600));
-        jPanel2.setPreferredSize(new java.awt.Dimension(800, 600));
+        setBackground(new java.awt.Color(255, 255, 255));
+        setPreferredSize(new java.awt.Dimension(900, 600));
 
         jPanel3.setBackground(new java.awt.Color(69, 69, 69));
-        jPanel3.setMaximumSize(new java.awt.Dimension(800, 600));
-        jPanel3.setMinimumSize(new java.awt.Dimension(800, 600));
-        jPanel3.setPreferredSize(new java.awt.Dimension(800, 600));
+        jPanel3.setAlignmentX(0.0F);
+        jPanel3.setAlignmentY(0.0F);
+        jPanel3.setMaximumSize(new java.awt.Dimension(900, 600));
+        jPanel3.setMinimumSize(new java.awt.Dimension(900, 600));
+        jPanel3.setPreferredSize(new java.awt.Dimension(900, 600));
 
         botonVendedor.setBackground(new java.awt.Color(123, 36, 28));
         botonVendedor.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
@@ -143,11 +142,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
                     .addComponent(botonPedidos, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(150, 150, 150))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(80, Short.MAX_VALUE)
+                .addContainerGap(130, Short.MAX_VALUE)
                 .addComponent(jLabel2)
-                .addGap(80, 80, 80))
+                .addGap(130, 130, 130))
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addGap(75, 75, 75)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 750, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -169,22 +168,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 .addGap(77, 77, 77))
         );
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 4, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
-        getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_START);
+        getContentPane().add(jPanel3, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -254,7 +238,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     // End of variables declaration//GEN-END:variables
 }

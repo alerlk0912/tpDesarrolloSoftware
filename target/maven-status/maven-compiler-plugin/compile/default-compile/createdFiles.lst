@@ -4,6 +4,7 @@ Tp\DS\Pantallas\MenuItemsMenu$1.class
 Tp\DS\Pantallas\MenuItemsMenu$5.class
 Tp\DS\Pantallas\MenuVendedor$2.class
 Tp\DS\Pantallas\MenuPedidos$2.class
+Tp\DS\Pantallas\MenuVendedor$8.class
 Tp\DS\Pantallas\MenuPrincipal$2.class
 Tp\DS\Pantallas\MenuCliente$5.class
 Tp\DS\Pantallas\MenuPedidos$5.class
@@ -23,7 +24,9 @@ Tp\DS\Pantallas\MenuPedidos$6.class
 Tp\DS\Pantallas\MenuCliente$6.class
 Tp\DS\Pantallas\MenuVendedor$6.class
 Tp\DS\ItemsPedido.class
+Tp\DS\Pantallas\MenuVendedor$9.class
 Tp\DS\Pantallas\MenuPrincipal$1.class
+Tp\DS\Pantallas\MenuVendedor$10.class
 Tp\DS\Pantallas\MenuPedidos$4.class
 Tp\DS\Coordenada.class
 Tp\DS\CantidadInvalidaException.class
@@ -34,6 +37,7 @@ Tp\DS\Vendedor.class
 Tp\DS\Pantallas\MenuItemsMenu$6.class
 Tp\DS\Pantallas\MenuCliente$3.class
 Tp\DS\PedidoInvalidoException.class
+Tp\DS\Pantallas\MenuVendedor$7.class
 Tp\DS\Pantallas\MenuPrincipal$4.class
 Tp\DS\Pedido.class
 Tp\DS\Cliente.class
