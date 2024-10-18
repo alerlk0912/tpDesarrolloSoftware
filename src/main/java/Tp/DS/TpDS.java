@@ -1,12 +1,13 @@
 package Tp.DS;
 
-import Tp.DS.Pantallas.*;
+import TP.DS.Pantallas.MenuPrincipal;
 import java.util.*;
 
 public class TpDS {
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws VendedorNoCoincideException, PedidoInvalidoException {
         pantallas();
+        //casoPruebaParte5();
     }
     
     public static void pantallas() {
