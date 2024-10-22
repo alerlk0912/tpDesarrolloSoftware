@@ -4,7 +4,8 @@
  */
 package TP.DS.Pantallas;
 
-import javax.swing.JOptionPane;
+import Tp.DS.Pantallas.VentanaDeCreacionEdicionVendedor;
+import javax.swing.*;
 import javax.swing.table.*;
 
 public class MenuVendedor extends javax.swing.JFrame {
@@ -13,25 +14,27 @@ public class MenuVendedor extends javax.swing.JFrame {
     private MenuCliente menuCliente;
     private MenuItemsMenu menuItemsMenu;
     private MenuPedidos menuPedidos;
+    
+    //prueba tabla
     private Object[][] vendedores;
-    private DefaultTableModel model;
+    DefaultTableModel model;
     
     public void setListaTablaVendedores() {
         model = (DefaultTableModel) tablaVendedor.getModel();
         vendedores = new Object[][] {
-            {1, "Restaurante AA", "Calle 123", "-34.6037, -58.3816", "Items Menú A"},
-            {2, "Restaurante AB", "Calle 456", "-34.6158, -58.4333", "Items Menú B"},
-            {3, "Restaurante AC", "Calle 789", "-34.6179, -58.3686", "Items Menú C"},
-            {4, "Restaurante AD", "Calle 101", "-34.6059, -58.3831", "Items Menú D"},
-            {5, "Restaurante BE", "Calle 202", "-34.6180, -58.4350", "Items Menú E"},
-            {6, "Restaurante BF", "Calle 303", "-34.6201, -58.3701", "Items Menú F"},
-            {7, "Restaurante BG", "Calle 404", "-34.6081, -58.3846", "Items Menú G"},
-            {8, "Restaurante BH", "Calle 505", "-34.6202, -58.4367", "Items Menú H"},
-            {9, "Restaurante CI", "Calle 606", "-34.6223, -58.3716", "Items Menú I"},
-            {10, "Restaurante CJ", "Calle 707", "-34.6103, -58.3861", "Items Menú J"},
-            {11, "Restaurante CK", "Calle 808", "-34.6224, -58.4384", "Items Menú K"},
-            {12, "Restaurante CL", "Calle 909", "-34.6245, -58.3731", "Items Menú L"},
-            {13, "Restaurante CM", "Calle 1010", "-34.6125, -58.3876", "Items Menú M"}
+            {1, "Restaurante AA", "Calle 123", "-34.6037, -58.3816"},
+            {2, "Restaurante AB", "Calle 456", "-34.6158, -58.4333"},
+            {3, "Restaurante AC", "Calle 789", "-34.6179, -58.3686"},
+            {4, "Restaurante AD", "Calle 101", "-34.6059, -58.3831"},
+            {5, "Restaurante BE", "Calle 202", "-34.6180, -58.4350"},
+            {6, "Restaurante BF", "Calle 303", "-34.6201, -58.3701"},
+            {7, "Restaurante BG", "Calle 404", "-34.6081, -58.3846"},
+            {8, "Restaurante BH", "Calle 505", "-34.6202, -58.4367"},
+            {9, "Restaurante CI", "Calle 606", "-34.6223, -58.3716"},
+            {10, "Restaurante CJ", "Calle 707", "-34.6103, -58.3861"},
+            {11, "Restaurante CK", "Calle 808", "-34.6224, -58.4384"},
+            {12, "Restaurante CL", "Calle 909", "-34.6245, -58.3731"},
+            {13, "Restaurante CM", "Calle 1010", "-34.6125, -58.3876"}
         };
     }
     public void setMenuPrincipal(MenuPrincipal menuPrincipal) {
@@ -49,10 +52,22 @@ public class MenuVendedor extends javax.swing.JFrame {
     public void setMenuPedidos(MenuPedidos menuPedidos) {
         this.menuPedidos = menuPedidos;
     }
+    public void recibirDatosDeCreacion(String nombre, String direccion, String latitud, String longitud) {
+        String coordenada = latitud + ", " + longitud;
+        Object[] vendedor = new Object[] {model.getRowCount() + 1, nombre, direccion, coordenada};
+        model.addRow(vendedor);
+    }
+    public void recibirDatosDeEdicion(int filaSeleccionada, String nombre, String direccion, String latitud, String longitud) {
+        String coordenada = latitud + ", " + longitud;
+        model.setValueAt(nombre, filaSeleccionada, 1);
+        model.setValueAt(direccion, filaSeleccionada, 2);
+        model.setValueAt(coordenada, filaSeleccionada, 3);
+    }
     
     public MenuVendedor() {
         initComponents();
         setListaTablaVendedores();
+        
     }
     
     @SuppressWarnings("unchecked")
@@ -76,14 +91,11 @@ public class MenuVendedor extends javax.swing.JFrame {
         texto3 = new javax.swing.JLabel();
         campoCoordenadaVendedor = new javax.swing.JTextField();
         texto4 = new javax.swing.JLabel();
-        campoItemsMenuVendedor = new javax.swing.JTextField();
-        texto5 = new javax.swing.JLabel();
         scrollTablaVendedores = new javax.swing.JScrollPane();
         tablaVendedor = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(900, 600));
-        setPreferredSize(new java.awt.Dimension(900, 600));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         Panel.setBackground(new java.awt.Color(69, 69, 69));
@@ -226,29 +238,25 @@ public class MenuVendedor extends javax.swing.JFrame {
         texto4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         texto4.setInheritsPopupMenu(false);
 
-        campoItemsMenuVendedor.setBackground(new java.awt.Color(123, 36, 28));
-        campoItemsMenuVendedor.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
-        campoItemsMenuVendedor.setForeground(new java.awt.Color(255, 255, 255));
-
-        texto5.setBackground(new java.awt.Color(123, 35, 27));
-        texto5.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
-        texto5.setForeground(new java.awt.Color(255, 255, 255));
-        texto5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        texto5.setText("Items Menú");
-        texto5.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        texto5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        texto5.setInheritsPopupMenu(false);
-
         tablaVendedor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "", "Nombre", "Dirección", "Coordenada", "Items Menú"
+                "", "Nombre", "Dirección", "Coordenada"
             }
-        ));
-        tablaVendedor.setEditingColumn(1);
-        tablaVendedor.setEditingRow(1);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tablaVendedor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        tablaVendedor.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        tablaVendedor.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tablaVendedor.setShowGrid(true);
         scrollTablaVendedores.setViewportView(tablaVendedor);
         if (tablaVendedor.getColumnModel().getColumnCount() > 0) {
@@ -261,47 +269,6 @@ public class MenuVendedor extends javax.swing.JFrame {
         Panel.setLayout(PanelLayout);
         PanelLayout.setHorizontalGroup(
             PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelLayout.createSequentialGroup()
-                .addGroup(PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(PanelLayout.createSequentialGroup()
-                            .addGap(18, 18, 18)
-                            .addGroup(PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(campoNombreVendedor, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                .addComponent(texto2, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
-                            .addGap(18, 18, 18)
-                            .addGroup(PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(campoDireccionVendedor)
-                                .addComponent(texto3, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(18, 18, 18)
-                            .addGroup(PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(campoCoordenadaVendedor)
-                                .addComponent(texto4, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(18, 18, 18)
-                            .addGroup(PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(campoItemsMenuVendedor)
-                                .addComponent(texto5, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(PanelLayout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(botonVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(botonCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(4, 4, 4)
-                            .addComponent(botonItemsMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(botonPedidos, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(botonVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(PanelLayout.createSequentialGroup()
-                        .addGap(365, 365, 365)
-                        .addComponent(botonBuscarVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(PanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(scrollTablaVendedores, javax.swing.GroupLayout.PREFERRED_SIZE, 872, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(PanelLayout.createSequentialGroup()
-                        .addGap(130, 130, 130)
-                        .addComponent(texto1, javax.swing.GroupLayout.PREFERRED_SIZE, 625, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(22, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(botonEditarVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -310,6 +277,41 @@ public class MenuVendedor extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(botonEliminarVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(161, 161, 161))
+            .addGroup(PanelLayout.createSequentialGroup()
+                .addGroup(PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelLayout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addGroup(PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, PanelLayout.createSequentialGroup()
+                                .addGroup(PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(campoNombreVendedor, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
+                                    .addComponent(texto2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addGroup(PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(campoDireccionVendedor, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+                                    .addComponent(texto3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addGroup(PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(texto4, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
+                                    .addComponent(campoCoordenadaVendedor)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, PanelLayout.createSequentialGroup()
+                                .addComponent(botonVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(botonCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(4, 4, 4)
+                                .addComponent(botonItemsMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(botonPedidos, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(botonVolver, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE))
+                            .addComponent(scrollTablaVendedores, javax.swing.GroupLayout.Alignment.LEADING)))
+                    .addGroup(PanelLayout.createSequentialGroup()
+                        .addGap(130, 130, 130)
+                        .addComponent(texto1, javax.swing.GroupLayout.PREFERRED_SIZE, 625, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PanelLayout.createSequentialGroup()
+                        .addGap(367, 367, 367)
+                        .addComponent(botonBuscarVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         PanelLayout.setVerticalGroup(
             PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -323,21 +325,19 @@ public class MenuVendedor extends javax.swing.JFrame {
                     .addComponent(botonItemsMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonPedidos, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(texto2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(texto3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(texto4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(texto5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(texto4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(campoCoordenadaVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(campoDireccionVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(campoNombreVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(campoItemsMenuVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(campoNombreVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(botonBuscarVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(12, 12, 12)
                 .addComponent(scrollTablaVendedores, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -355,25 +355,51 @@ public class MenuVendedor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonCrearVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearVendedorActionPerformed
-        // TODO add your handling code here:
+        VentanaDeCreacionEdicionVendedor nuevaVentana = new VentanaDeCreacionEdicionVendedor();
+        nuevaVentana.setMenuVendedor(this);
+        nuevaVentana.setVisible(true);
+        nuevaVentana.setLocationRelativeTo(null);
     }//GEN-LAST:event_botonCrearVendedorActionPerformed
 
     private void botonEliminarVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarVendedorActionPerformed
-        // TODO add your handling code here:
+        int filaSeleccionada = tablaVendedor.getSelectedRow();
+        if (filaSeleccionada != -1) {
+            int opcion = JOptionPane.showConfirmDialog(null, "¿Estás seguro de eliminar este Vendedor?", "Confirmar", JOptionPane.YES_NO_OPTION);
+            if (opcion == JOptionPane.YES_OPTION) {
+                model.removeRow(filaSeleccionada);
+                JOptionPane.showMessageDialog(null, "Vendedor borrado con Éxito", "Información", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Por favor selecciona una fila para editar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_botonEliminarVendedorActionPerformed
 
     private void botonEditarVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarVendedorActionPerformed
-        // TODO add your handling code here:
+        int filaSeleccionada = tablaVendedor.getSelectedRow();
+        if (filaSeleccionada != -1) {
+            String nombre = (String) model.getValueAt(filaSeleccionada, 1);
+            String direccion = (String) model.getValueAt(filaSeleccionada, 2);
+            String coordenada = (String) model.getValueAt(filaSeleccionada, 3);
+            VentanaDeCreacionEdicionVendedor nuevaVentana = new VentanaDeCreacionEdicionVendedor();
+            nuevaVentana.setMenuVendedor(this);
+            nuevaVentana.setVisible(true);
+            nuevaVentana.setLocationRelativeTo(null);
+            nuevaVentana.recibirDatosEdicion(filaSeleccionada, nombre, direccion, coordenada);
+            nuevaVentana.setTitulo();
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Por favor selecciona una fila para editar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_botonEditarVendedorActionPerformed
 
     private void botonBuscarVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarVendedorActionPerformed
         String nombreBuscado = campoNombreVendedor.getText().trim();
         String direccionBuscada = campoDireccionVendedor.getText().trim();
         String coordenadaBuscada = campoCoordenadaVendedor.getText().trim();
-        String itemMenuBuscado = campoItemsMenuVendedor.getText().trim();
         model.setRowCount(0);
         boolean encontrado = false;
-        if (nombreBuscado.isEmpty() && direccionBuscada.isEmpty() && coordenadaBuscada.isEmpty() && itemMenuBuscado.isEmpty()) {
+        if (nombreBuscado.isEmpty() && direccionBuscada.isEmpty() && coordenadaBuscada.isEmpty()) {
             for (Object[] vendedor : vendedores) {
                 model.addRow(vendedor);
             }
@@ -384,8 +410,6 @@ public class MenuVendedor extends javax.swing.JFrame {
                 String nombre = ((String) vendedor[1]).toLowerCase();
                 String direccion = ((String) vendedor[2]).toLowerCase();
                 String coordenada = ((String) vendedor[3]).toLowerCase();
-                String itemMenu = ((String) vendedor[4]).toLowerCase();
-
                 
                 if (nombre.contains(nombreBuscado) /*|| direccion.contains(direccionBuscada) || 
                         coordenada.contains(coordenadaBuscada) || itemMenu.contains(itemMenuBuscado)*/) {
@@ -395,9 +419,8 @@ public class MenuVendedor extends javax.swing.JFrame {
             }
         }
         if (!encontrado) {
-        JOptionPane.showMessageDialog(null, "No se encontró ningún vendedor con esos parámetros.", "Búsqueda", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No se encontró ningún vendedor con esos parámetros.", "Búsqueda", JOptionPane.INFORMATION_MESSAGE);
         }
-        
     }//GEN-LAST:event_botonBuscarVendedorActionPerformed
 
     private void botonVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonVolverActionPerformed
@@ -432,13 +455,11 @@ public class MenuVendedor extends javax.swing.JFrame {
     }//GEN-LAST:event_botonVendedorActionPerformed
 
     public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MenuVendedor().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new MenuVendedor().setVisible(true);
         });
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Panel;
     private javax.swing.JButton botonBuscarVendedor;
@@ -452,7 +473,6 @@ public class MenuVendedor extends javax.swing.JFrame {
     private javax.swing.JButton botonVolver;
     private javax.swing.JTextField campoCoordenadaVendedor;
     private javax.swing.JTextField campoDireccionVendedor;
-    private javax.swing.JTextField campoItemsMenuVendedor;
     private javax.swing.JTextField campoNombreVendedor;
     private javax.swing.JScrollPane scrollTablaVendedores;
     private javax.swing.JTable tablaVendedor;
@@ -460,6 +480,5 @@ public class MenuVendedor extends javax.swing.JFrame {
     private javax.swing.JLabel texto2;
     private javax.swing.JLabel texto3;
     private javax.swing.JLabel texto4;
-    private javax.swing.JLabel texto5;
     // End of variables declaration//GEN-END:variables
 }
