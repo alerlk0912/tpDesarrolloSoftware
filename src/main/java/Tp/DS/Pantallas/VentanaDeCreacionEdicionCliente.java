@@ -272,8 +272,10 @@ public class VentanaDeCreacionEdicionCliente extends javax.swing.JFrame {
 
     private void botonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarActionPerformed
         String regex = "^[-+]?\\d*(\\.\\d+)?$";
-        if (campoLatitud.getText().matches(regex) && campoLongitud.getText().matches(regex)
-                && !campoCUIT.getText().isEmpty() && !campoEmail.getText().isEmpty()
+        String regex1 = "^\\d{1,11}$";
+        if (campoLatitud.getText().matches(regex) && campoLongitud.getText().matches(regex) && campoCUIT.getText().matches(regex1)
+                && !campoCUIT.getText().isEmpty() && !campoEmail.getText().isEmpty() && !campoNombre.getText().isEmpty() 
+                && !campoEmail.getText().isEmpty() && !campoDireccion.getText().isEmpty()
                 && !campoLatitud.getText().isEmpty() && !campoLongitud.getText().isEmpty()) {
             if(filaSeleccionada==100) {
                 menuCliente.recibirDatosDeCreacion(campoCUIT.getText(), campoNombre.getText(), campoEmail.getText(), campoDireccion.getText(), campoLatitud.getText(), campoLongitud.getText());
