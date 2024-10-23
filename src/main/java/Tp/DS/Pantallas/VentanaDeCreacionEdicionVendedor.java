@@ -17,7 +17,7 @@ public class VentanaDeCreacionEdicionVendedor extends javax.swing.JFrame {
     public void setTitulo() {
         tituloPrincipal.setText("Editar Vendedor");
     }
-    public void recibirDatosEdicion(int filaSeleccionada, String nombre, String direccion, String coordenada) {
+    public void recibirDatosEdicion(int filaSeleccionada, String nombre, String direccion, String coordenada, String itemsMenu) {
         this.filaSeleccionada = filaSeleccionada;
         campoNombre.setText(nombre);
         campoDireccion.setText(direccion);
@@ -26,6 +26,7 @@ public class VentanaDeCreacionEdicionVendedor extends javax.swing.JFrame {
         String longitud = partes[1];
         campoLatitud.setText(latitud.trim());
         campoLongitud.setText(longitud.trim());
+        campoItemsMenu.setText(itemsMenu.trim());
     }
     
     public VentanaDeCreacionEdicionVendedor() {
@@ -47,10 +48,12 @@ public class VentanaDeCreacionEdicionVendedor extends javax.swing.JFrame {
         titNombre = new javax.swing.JLabel();
         titLongitud = new javax.swing.JLabel();
         campoLongitud = new javax.swing.JTextField();
+        campoItemsMenu = new javax.swing.JTextField();
+        titNombre1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(500, 500));
-        setMinimumSize(new java.awt.Dimension(300, 400));
+        setMinimumSize(new java.awt.Dimension(400, 400));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -58,9 +61,9 @@ public class VentanaDeCreacionEdicionVendedor extends javax.swing.JFrame {
         panelEditable.setAlignmentX(0.0F);
         panelEditable.setAlignmentY(0.0F);
         panelEditable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        panelEditable.setMaximumSize(new java.awt.Dimension(300, 400));
-        panelEditable.setMinimumSize(new java.awt.Dimension(300, 400));
-        panelEditable.setPreferredSize(new java.awt.Dimension(300, 400));
+        panelEditable.setMaximumSize(new java.awt.Dimension(400, 400));
+        panelEditable.setMinimumSize(new java.awt.Dimension(400, 400));
+        panelEditable.setPreferredSize(new java.awt.Dimension(400, 400));
 
         botonCancelar.setBackground(new java.awt.Color(123, 36, 28));
         botonCancelar.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
@@ -149,6 +152,19 @@ public class VentanaDeCreacionEdicionVendedor extends javax.swing.JFrame {
         campoLongitud.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         campoLongitud.setForeground(new java.awt.Color(255, 255, 255));
 
+        campoItemsMenu.setBackground(new java.awt.Color(123, 36, 28));
+        campoItemsMenu.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        campoItemsMenu.setForeground(new java.awt.Color(255, 255, 255));
+
+        titNombre1.setBackground(new java.awt.Color(123, 35, 27));
+        titNombre1.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        titNombre1.setForeground(new java.awt.Color(255, 255, 255));
+        titNombre1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        titNombre1.setText("Items Menú");
+        titNombre1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        titNombre1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        titNombre1.setInheritsPopupMenu(false);
+
         javax.swing.GroupLayout panelEditableLayout = new javax.swing.GroupLayout(panelEditable);
         panelEditable.setLayout(panelEditableLayout);
         panelEditableLayout.setHorizontalGroup(
@@ -156,29 +172,41 @@ public class VentanaDeCreacionEdicionVendedor extends javax.swing.JFrame {
             .addGroup(panelEditableLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEditableLayout.createSequentialGroup()
+                        .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(botonAceptar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(botonCancelar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(75, 75, 75))
                     .addGroup(panelEditableLayout.createSequentialGroup()
                         .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(botonAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEditableLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(campoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(125, 125, 125))
-                    .addGroup(panelEditableLayout.createSequentialGroup()
-                        .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(titNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(titDireccion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(campoDireccion)
                             .addGroup(panelEditableLayout.createSequentialGroup()
-                                .addComponent(titLatitud, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10)
-                                .addComponent(titLongitud, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(titNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(campoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(titDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(campoDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(panelEditableLayout.createSequentialGroup()
-                                .addComponent(campoLatitud, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10)
-                                .addComponent(campoLongitud, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(tituloPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(titLatitud, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(campoLatitud, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(titLongitud, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(campoLongitud, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEditableLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEditableLayout.createSequentialGroup()
+                        .addComponent(tituloPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEditableLayout.createSequentialGroup()
+                        .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(titNombre1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(campoItemsMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(100, 100, 100))))
         );
         panelEditableLayout.setVerticalGroup(
             panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -186,14 +214,16 @@ public class VentanaDeCreacionEdicionVendedor extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(tituloPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(titNombre)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(campoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(panelEditableLayout.createSequentialGroup()
+                        .addComponent(titNombre)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(campoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelEditableLayout.createSequentialGroup()
+                        .addComponent(titDireccion)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(campoDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(titDireccion)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(campoDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(titLatitud)
                     .addComponent(titLongitud))
@@ -201,14 +231,18 @@ public class VentanaDeCreacionEdicionVendedor extends javax.swing.JFrame {
                 .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(campoLatitud, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(campoLongitud, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(titNombre1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(campoItemsMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addComponent(botonAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(37, 37, 37))
         );
 
-        getContentPane().add(panelEditable, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 300, 400));
+        getContentPane().add(panelEditable, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 400));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -219,10 +253,12 @@ public class VentanaDeCreacionEdicionVendedor extends javax.swing.JFrame {
                 && !campoNombre.getText().isEmpty() && !campoDireccion.getText().isEmpty()
                 && !campoLatitud.getText().isEmpty() && !campoLongitud.getText().isEmpty()) {
             if(filaSeleccionada==100) {
-                menuVendedor.recibirDatosDeCreacion(campoNombre.getText(), campoDireccion.getText(), campoLatitud.getText(), campoLongitud.getText());
+                menuVendedor.recibirDatosDeCreacion(campoNombre.getText(), campoDireccion.getText(), campoLatitud.getText(), 
+                        campoLongitud.getText(), campoItemsMenu.getText());
                 JOptionPane.showMessageDialog(null, "Creado con Éxito", null, JOptionPane.INFORMATION_MESSAGE);
             } else {
-                menuVendedor.recibirDatosDeEdicion(filaSeleccionada, campoNombre.getText(), campoDireccion.getText(), campoLatitud.getText(), campoLongitud.getText());
+                menuVendedor.recibirDatosDeEdicion(filaSeleccionada, campoNombre.getText(), campoDireccion.getText(), 
+                        campoLatitud.getText(), campoLongitud.getText(), campoItemsMenu.getText());
                 JOptionPane.showMessageDialog(null, "Editado con Éxito", null, JOptionPane.INFORMATION_MESSAGE);
             }
             dispose();
@@ -245,6 +281,7 @@ public class VentanaDeCreacionEdicionVendedor extends javax.swing.JFrame {
     private javax.swing.JButton botonAceptar;
     private javax.swing.JButton botonCancelar;
     private javax.swing.JTextField campoDireccion;
+    private javax.swing.JTextField campoItemsMenu;
     private javax.swing.JTextField campoLatitud;
     private javax.swing.JTextField campoLongitud;
     private javax.swing.JTextField campoNombre;
@@ -253,6 +290,7 @@ public class VentanaDeCreacionEdicionVendedor extends javax.swing.JFrame {
     private javax.swing.JLabel titLatitud;
     private javax.swing.JLabel titLongitud;
     private javax.swing.JLabel titNombre;
+    private javax.swing.JLabel titNombre1;
     private javax.swing.JLabel tituloPrincipal;
     // End of variables declaration//GEN-END:variables
 }
