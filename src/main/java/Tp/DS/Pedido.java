@@ -1,10 +1,8 @@
 package Tp.DS;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 public class Pedido implements PedidoObservable{
     private int id;
@@ -14,14 +12,13 @@ public class Pedido implements PedidoObservable{
     private Pago metodoPago;
     private EstadoPedido estado;
     private double montoBase;
-    private LocalDate fechaPago;
+    private Date fechaPago;
     private double montoTotal;
 
-    public Pedido(int id, Cliente cliente, Pago metodoPago) {
+    public Pedido(Cliente cliente, Pago metodoPago) {
         if (metodoPago == null) {
             throw new IllegalArgumentException("El método de pago no puede ser nulo");
         }
-        this.id = id;
         this.cliente = cliente;
         this.metodoPago = metodoPago;
         this.itemsPedido = new ArrayList<>();
@@ -75,7 +72,7 @@ public class Pedido implements PedidoObservable{
         return montoBase;
     }
 
-    public LocalDate getFechaPago() {
+    public Date getFechaPago() {
         return fechaPago;
     }
 
@@ -89,6 +86,14 @@ public class Pedido implements PedidoObservable{
 
     public void setMetodoPago(Pago metodoPago) {
         this.metodoPago = metodoPago;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public void setItemsPedido(List<ItemsPedido> itemsPedido) {
+        this.itemsPedido = itemsPedido;
     }
 
     
@@ -131,7 +136,7 @@ public class Pedido implements PedidoObservable{
             throw new PedidoInvalidoException("La lista de ítems seleccionados no puede estar vacía.");
         }
 
-        Pedido pedido = new Pedido(id, cliente, metodoPago); // crear el pedido
+        Pedido pedido = new Pedido(cliente, metodoPago); // crear el pedido
         Vendedor vendedorPrincipal = items.get(0).getItemMenu().getVendedor();
 
         try {

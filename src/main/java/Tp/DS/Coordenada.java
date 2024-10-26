@@ -1,6 +1,6 @@
 package Tp.DS;
 
-class Coordenada {
+public class Coordenada {
     private double lat;
     private double lng;
 

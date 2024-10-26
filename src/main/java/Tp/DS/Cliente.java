@@ -1,6 +1,6 @@
 package Tp.DS;
 
-class Cliente implements PedidoObserver{
+public class Cliente implements PedidoObserver{
     private int id;
     private String cuit;
     private String nombre;
@@ -8,8 +8,7 @@ class Cliente implements PedidoObserver{
     private String direccion;
     private Coordenada coordenadas;
 
-    public Cliente(int id, String cuit, String nombre, String email, String direccion, Coordenada coordenadas) {
-        this.id = id;
+    public Cliente(String cuit, String nombre, String email, String direccion, Coordenada coordenadas) {
         this.cuit = cuit;
         this.nombre = nombre;
         this.email = email;
@@ -40,6 +39,28 @@ class Cliente implements PedidoObserver{
     public String getNombre() {
         return nombre;
     }
+
+    public void setCuit(String cuit) {
+        this.cuit = cuit;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public void setCoordenadas(Coordenada coordenadas) {
+        this.coordenadas = coordenadas;
+    }
+    
+    
     
     @Override
     public String toString() {

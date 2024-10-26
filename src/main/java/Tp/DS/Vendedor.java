@@ -3,15 +3,14 @@ package Tp.DS;
 import java.util.ArrayList;
 import java.util.List;
 
-class Vendedor {
+public class Vendedor {
     private int id;
     private String nombre;
     private String direccion;
     private Coordenada coordenadas;
     private List<ItemMenu> menu;
 
-    public Vendedor(int id, String nombre, String direccion, Coordenada coordenadas) {
-        this.id = id;
+    public Vendedor(String nombre, String direccion, Coordenada coordenadas) {
         this.nombre = nombre;
         this.direccion = direccion;
         this.coordenadas = coordenadas;
@@ -33,6 +32,19 @@ class Vendedor {
     public Coordenada getCoordenadas() {
         return coordenadas;
     }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public void setCoordenadas(Coordenada coordenadas) {
+        this.coordenadas = coordenadas;
+    }
+    
 
     // Método para calcular la distancia entre el vendedor y un cliente
     public double distancia(Cliente cliente) {

@@ -1,5 +1,6 @@
-package Tp.DS;
+package Tp.DS.BD;
 
+import Tp.DS.ItemsPedido;
 import java.util.List;
 
 public interface ItemsPedidoDao {
