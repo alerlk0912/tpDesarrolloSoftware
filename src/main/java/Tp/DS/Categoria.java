@@ -1,6 +1,6 @@
 package Tp.DS;
 
-class Categoria {
+public class Categoria {
     private int id;
     private String descripcion;
     private String tipo_item;

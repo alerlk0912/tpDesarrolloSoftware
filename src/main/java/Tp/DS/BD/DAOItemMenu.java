@@ -5,6 +5,7 @@
 package Tp.DS.BD;
 
 import Tp.DS.ItemMenu;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -12,9 +13,9 @@ import java.util.List;
  * @author franco
  */
 public interface DAOItemMenu {
-    public List<ItemMenu> listarItemsMenu();
-    public void crearItemMenu(ItemMenu item);
-    public void actualizarItemMenu(ItemMenu item);
-    public void eliminarItemMenu(int id);
-    public ItemMenu buscarItemMenuPorId(int id);
+    public List<ItemMenu> listarItemsMenu() throws SQLException;
+    public void crearItemMenu(ItemMenu item) throws SQLException;
+    public void actualizarItemMenu(ItemMenu item) throws SQLException;
+    public void eliminarItemMenu(int id) throws SQLException;
+    public ItemMenu buscarItemMenuPorId(int id) throws SQLException;
 }

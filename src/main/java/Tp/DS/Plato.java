@@ -1,12 +1,12 @@
 package Tp.DS;
 
-class Plato extends ItemMenu {
+public class Plato extends ItemMenu {
     private final double peso; 
     private final double calorias;
     private final boolean aptoVegano;
 
-    public Plato(int id, String nombre, String descripcion, double precio, Categoria categoria, Vendedor vendedor, double peso, double calorias, boolean aptoVegano) {
-        super(nombre, descripcion, precio, categoria, vendedor);
+    public Plato(String nombre, String descripcion, double precio, Categoria categoria, Vendedor vendedor, double peso, double calorias, boolean aptoVegano) {
+        super("Plato", nombre, descripcion, precio, categoria, vendedor);
         this.peso = peso;
         this.calorias = calorias;
         this.aptoVegano = aptoVegano;
@@ -16,6 +16,7 @@ class Plato extends ItemMenu {
     public String toString() {
         return "Plato{" +
                 "id=" + getId() +
+                ", tipo='" + getTipo() + '\'' +
                 ", nombre='" + getNombre() + '\'' +
                 ", descripcion='" + getDescripcion() + '\'' +
                 ", precio=" + getPrecio() +
@@ -26,6 +27,15 @@ class Plato extends ItemMenu {
                 '}';
     }
 
+    public double getPeso() {
+        return peso;
+    }
+
+    public double getCalorias() {
+        return calorias;
+    }
+
+    
     @Override
     public double peso() {
         return peso * 1.10; 

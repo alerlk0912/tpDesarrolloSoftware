@@ -25,7 +25,7 @@ public class VendedorJDBC implements DAOVendedor {
     }
     
     @Override
-    public List<Vendedor> listarVendedores() {
+    public List<Vendedor> listarVendedores() throws SQLException{
         List<Vendedor> vendedores = new ArrayList<>();
         String sql = "SELECT * FROM vendedores"; 
         try (Statement stmt = connection.createStatement(); 
@@ -36,16 +36,18 @@ public class VendedorJDBC implements DAOVendedor {
                     result.getString("direccion"),
                     (Coordenada) result.getObject("coordenadas")     
                 );
+                result.close();
                 vendedores.add(vendedor);
             }
         } catch (SQLException e) {
             System.err.println("Error al listar vendedores: " + e.getMessage());
         }
+        connection.close();
         return vendedores;
     }
 
     @Override
-    public void crearVendedor(Vendedor vendedor) {
+    public void crearVendedor(Vendedor vendedor) throws SQLException{
         String sql = "INSERT INTO vendedores (nombre, direccion, coordenadas) VALUES (?, ?, ?)";
         try ( PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);){
             // Configura los parámetros del PreparedStatement
@@ -64,15 +66,17 @@ public class VendedorJDBC implements DAOVendedor {
                 } else {
                     throw new SQLException("crearVendedor falla, no obtiene ID.");
                 }
+                generatedKeys.close();
             }
         }
         catch (SQLException e) {
             System.err.println("Error al crear Vendedor: " + e.getMessage());
         }
+        connection.close();
     }
 
     @Override
-    public void actualizarVendedor(Vendedor vendedor) {
+    public void actualizarVendedor(Vendedor vendedor) throws SQLException{
         String sql = "UPDATE vendedores SET nombre = ?, direccion = ?, coordenadas = ? WHERE id = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, vendedor.getNombre());
@@ -81,23 +85,25 @@ public class VendedorJDBC implements DAOVendedor {
             pstmt.setInt(4, vendedor.getId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            e.getMessage();
+            System.err.println("Error al actualizar vendedor por ID: " + e.getMessage());
         }
+        connection.close();
     }
 
     @Override
-    public void eliminarVendedor(int id) {
+    public void eliminarVendedor(int id) throws SQLException{
         String sql = "DELETE FROM vendedores WHERE id = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            e.getMessage();
+            System.err.println("Error al eliminar vendedor por ID: " + e.getMessage());
         }
+        connection.close();
     }
 
     @Override
-    public Vendedor buscarVendedorPorId(int id) {
+    public Vendedor buscarVendedorPorId(int id) throws SQLException{
         String sql = "SELECT * FROM vendedores WHERE id = ?";
         Vendedor vendedor = null;
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
@@ -110,9 +116,11 @@ public class VendedorJDBC implements DAOVendedor {
                     (Coordenada)result.getObject("coordenadas") 
                 ); 
             }
+            result.close();
         } catch (SQLException e) {
             System.err.println("Error al buscar vendedor por ID: " + e.getMessage());
         }
+        connection.close();
         return vendedor;
     }
 }

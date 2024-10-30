@@ -23,7 +23,7 @@ public class PedidoJDBC implements DAOPedido {
     }
 
     @Override
-    public List<Pedido> listarPedidos() {
+    public List<Pedido> listarPedidos() throws SQLException{
         List<Pedido> pedidos = new ArrayList<>();
         String sql = "SELECT * FROM pedidos";
         try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery(sql)) {
@@ -32,16 +32,18 @@ public class PedidoJDBC implements DAOPedido {
                     (Cliente) result.getObject("cliente_id"),
                     (Pago) result.getObject("metodoPago")
                 );
+                result.close();
                 pedidos.add(pedido);
             }
         } catch (SQLException e) {
-            e.getMessage();
+            System.err.println("Error al obtener los pedidos: " + e.getMessage());
         }
+        connection.close();
         return pedidos;
     }
 
     @Override
-    public void crearPedido(Pedido pedido) {
+    public void crearPedido(Pedido pedido) throws SQLException{
         String sql = "INSERT INTO pedidos (cliente_id) VALUES (?, ?, ?)";
         try ( PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);){
             pstmt.setInt(1, pedido.getCliente().getId());
@@ -59,16 +61,18 @@ public class PedidoJDBC implements DAOPedido {
                 } else {
                     throw new SQLException("crearPedido falla, no obtiene ID.");
                 }
+                generatedKeys.close();
             }
         }
         catch (SQLException e) {
             System.err.println("Error al crear Pedido: " + e.getMessage());
         }
+        connection.close();
     }
     
 
     @Override
-    public void actualizarPedido(Pedido pedido) {
+    public void actualizarPedido(Pedido pedido) throws SQLException{
         String sql = "UPDATE pedidos SET cliente_id = ?, fecha = ?, total = ? WHERE id = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, pedido.getCliente().getId());
@@ -77,23 +81,25 @@ public class PedidoJDBC implements DAOPedido {
             pstmt.setInt(4, pedido.getId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            e.getMessage();
+            System.err.println("Error al actualizar Pedido: " + e.getMessage());
         }
+        connection.close();
     }
 
     @Override
-    public void eliminarPedido(int id) {
+    public void eliminarPedido(int id) throws SQLException{
         String sql = "DELETE FROM pedidos WHERE id = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            e.getMessage();
+            System.err.println("Error al eliminar Pedido: " + e.getMessage());
         }
+        connection.close();
     }
 
     @Override
-    public Pedido buscarPedidoPorId(int id) {
+    public Pedido buscarPedidoPorId(int id) throws SQLException{
         String sql = "SELECT * FROM pedidos WHERE id = ?";
         Pedido pedido = null;
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
@@ -106,8 +112,9 @@ public class PedidoJDBC implements DAOPedido {
                 );
             }
         } catch (SQLException e) {
-            e.getMessage();
+            System.err.println("Error al buscar Pedido por ID: " + e.getMessage());
         }
+        connection.close();
         return pedido;
     }
 }

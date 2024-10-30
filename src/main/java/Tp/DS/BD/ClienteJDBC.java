@@ -22,7 +22,7 @@ public class ClienteJDBC implements DAOCliente {
     }
 
     @Override
-    public void actualizarCliente(Cliente cliente) {
+    public void actualizarCliente(Cliente cliente) throws SQLException {
         String sql = "UPDATE clientes SET cuit = ?, nombre = ?, email = ?, direccion = ?, coordenadas = ? WHERE id = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, cliente.getCuit());
@@ -33,12 +33,13 @@ public class ClienteJDBC implements DAOCliente {
             pstmt.setInt(6, cliente.getId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            e.getMessage();
+            System.err.println("Error al actualizar cliente: " + e.getMessage());
         }
+        connection.close();
     }
 
     @Override
-    public Cliente buscarClientePorId(int id) {
+    public Cliente buscarClientePorId(int id) throws SQLException{
         String sql = "SELECT * FROM clientes WHERE id = ?";
         Cliente cliente = null;
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
@@ -53,14 +54,16 @@ public class ClienteJDBC implements DAOCliente {
                     (Coordenada)result.getObject("coordenadas")
                 ); 
             }
+            result.close();
         } catch (SQLException e) {
-            e.getMessage();
+            System.err.println("Error al buscar cliente por ID: " + e.getMessage());
         }
+        connection.close();
         return cliente;    
     }
 
     @Override
-    public void crearCliente(Cliente cliente) {
+    public void crearCliente(Cliente cliente) throws SQLException{
         String sql = "INSERT INTO clientes (cuit, nombre, email, direccion, coordenadas) VALUES (?, ?, ?, ?, ?)";
         try ( PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);){
             pstmt.setString(1, cliente.getCuit());
@@ -79,26 +82,29 @@ public class ClienteJDBC implements DAOCliente {
                 } else {
                     throw new SQLException("crearCliente falla, no obtiene ID.");
                 }
+                generatedKeys.close();
             }
         }
         catch (SQLException e) {
             System.err.println("Error al crear Cliente: " + e.getMessage());
-        } 
+        }
+        connection.close();
     }
     
     @Override
-    public void eliminarCliente(int id) {
+    public void eliminarCliente(int id) throws SQLException{
         String sql = "DELETE FROM clientes WHERE id = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            e.getMessage();
+            System.err.println("Error al eliminar cliente: " + e.getMessage());
         }
+        connection.close();
     }
 
     @Override
-    public List<Cliente> listarClientes() {
+    public List<Cliente> listarClientes() throws SQLException{
         List<Cliente> clientes = new ArrayList<>();
         String sql = "SELECT * FROM clientes";
         try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery(sql)) {
@@ -110,12 +116,14 @@ public class ClienteJDBC implements DAOCliente {
                     result.getString("email"),
                     result.getString("direccion"),
                     (Coordenada) result.getObject("coordenadas")
-                );  
+                );
+                result.close();
                 clientes.add(cliente);
             }
         } catch (SQLException e) {
-            e.getMessage();
+            System.err.println("Error al obtener clientes: " + e.getMessage());
         }
+        connection.close();
         return clientes;    
     }
     

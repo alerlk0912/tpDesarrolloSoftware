@@ -5,6 +5,7 @@
 package Tp.DS.BD;
 
 import Tp.DS.Pedido;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -12,9 +13,9 @@ import java.util.List;
  * @author franco
  */
 public interface DAOPedido {
-    public List<Pedido> listarPedidos();
-    public void crearPedido(Pedido pedido);
-    public void actualizarPedido(Pedido pedido);
-    public void eliminarPedido(int id);
-    public Pedido buscarPedidoPorId(int id);
+    public List<Pedido> listarPedidos() throws SQLException;
+    public void crearPedido(Pedido pedido) throws SQLException;
+    public void actualizarPedido(Pedido pedido) throws SQLException;
+    public void eliminarPedido(int id) throws SQLException;
+    public Pedido buscarPedidoPorId(int id) throws SQLException;
 }

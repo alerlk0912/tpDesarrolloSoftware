@@ -18,32 +18,32 @@ public class ItemMenuController {
         this.itemMenuDAO = itemMenuDAO;
     }
 
-    public List<ItemMenu> mostrarListaItems() {
+    public List<ItemMenu> mostrarListaItemsMenu() {
         return itemMenuDAO.listarItemsMenu();
     }
 
-    public void crearNuevoItem(String nombre, String descripcion, double precio, Categoria categoria, Vendedor vendedor) {
-        ItemMenu nuevoItem = new ItemMenu(nombre, descripcion, precio, categoria, vendedor);
-        itemMenuDAO.crearItemMenu(nuevoItem);
+    public void crearNuevoPlato(String nombre, String descripcion, double precio, Categoria categoria, Vendedor vendedor, double peso, double calorias, boolean aptoVegano) {
+        Plato nuevoPlato = new Plato(nombre, descripcion, precio, categoria, vendedor, peso, calorias, aptoVegano);
+        itemMenuDAO.crearItemMenu(nuevoPlato);
     }
 
-    public void modificarItem(int id, String nombre, String descripcion, double precio, Categoria categoria, Vendedor vendedor) {
+    public void crearNuevaBebida(String nombre, String descripcion, double precio, Categoria categoria, Vendedor vendedor, double tamanio, boolean alcoholica) {
+        Bebida nuevaBebida = new Bebida(nombre, descripcion, precio, categoria, vendedor, tamanio, alcoholica);
+        itemMenuDAO.crearItemMenu(nuevaBebida);
+    }
+
+    public void modificarItemMenu(int id, ItemMenu itemActualizado) {
         ItemMenu item = itemMenuDAO.buscarItemMenuPorId(id);
         if (item != null) {
-            item.setNombre(nombre);
-            item.setDescripcion(descripcion);
-            item.setPrecio(precio);
-            item.setCategoria(categoria);
-            item.setVendedor(vendedor);
-            itemMenuDAO.actualizarItemMenu(item);
+            itemMenuDAO.actualizarItemMenu(itemActualizado);
         }
     }
 
-    public void eliminarItem(int id) {
+    public void eliminarItemMenu(int id) {
         itemMenuDAO.eliminarItemMenu(id);
     }
 
-    public ItemMenu buscarItem(int id) {
+    public ItemMenu buscarItemMenu(int id) {
         return itemMenuDAO.buscarItemMenuPorId(id);
     }
 }

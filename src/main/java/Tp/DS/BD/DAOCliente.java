@@ -5,6 +5,7 @@
 package Tp.DS.BD;
 
 import Tp.DS.Cliente;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -13,14 +14,14 @@ import java.util.List;
  */
 public interface DAOCliente {
 
-    void actualizarCliente(Cliente cliente);
+    void actualizarCliente(Cliente cliente) throws SQLException;
 
-    Cliente buscarClientePorId(int id);
+    Cliente buscarClientePorId(int id) throws SQLException;
 
-    void crearCliente(Cliente cliente);
+    void crearCliente(Cliente cliente) throws SQLException;
 
-    void eliminarCliente(int id);
+    void eliminarCliente(int id) throws SQLException;
 
-    List<Cliente> listarClientes();
+    List<Cliente> listarClientes() throws SQLException;
     
 }
