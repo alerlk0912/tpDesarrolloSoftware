@@ -1,5 +1,6 @@
 package Tp.DS.Memory;
 
+import Tp.DS.DAO.DAOItemsPedido;
 import Tp.DS.ItemsPedido;
 import java.util.ArrayList;
 import java.util.Comparator;

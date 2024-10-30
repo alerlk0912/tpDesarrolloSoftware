@@ -1,10 +1,10 @@
 package Tp.DS.Controller;
 
-import Tp.DS.BD.DAOVendedor;
 import Tp.DS.Coordenada;
 import Tp.DS.Coordenada;
 import Tp.DS.Vendedor;
 import Tp.DS.Vendedor;
+import Tp.DS.DAO.DAOVendedor;
 import java.util.List;
 
 public class VendedorController {

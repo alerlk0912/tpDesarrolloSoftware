@@ -13,6 +13,7 @@ public class ClienteController {
     }
 
     public List<Cliente> mostrarClientes() {
+        
         return clienteDAO.listarClientes();
     }
 
