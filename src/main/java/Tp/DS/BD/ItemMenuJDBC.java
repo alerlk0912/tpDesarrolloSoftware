@@ -27,25 +27,31 @@ public class ItemMenuJDBC implements DAOItemMenu {
     @Override
     public List<ItemMenu> listarItemsMenu() throws SQLException{
         List<ItemMenu> items = new ArrayList<>();
-        String sql = "SELECT * FROM items_menu";
+        String sql = "SELECT im.*, c.tipo_item FROM items_menu im JOIN categoria c ON im.categoria = c.id";
+
         try (Statement stmt = connection.createStatement();
-             ResultSet result = stmt.executeQuery(sql)) {
-            while (result.next()) {
-                String tipo = result.getString("tipo");
-                ItemMenu item;
-                if (tipo.equals("Plato")) {
-                    item = new Plato(
+        ResultSet result = stmt.executeQuery(sql)) {
+        while (result.next()) {
+            String tipoItem = result.getString("tipo_item");  // Obtener tipo de la categoria
+            ItemMenu item;
+            int categoriaId = result.getInt("categoria");
+            int vendedorId = result.getInt("vendedor");
+            Categoria categoria = categoriaDAO.buscarCategoriaPorId(categoriaId); 
+            Vendedor vendedor = vendedorDAO.buscarVendedorPorId(vendedorId);
+
+            if (tipoItem.equals("Plato")) {
+                item = new Plato(
                         result.getString("nombre"),
                         result.getString("descripcion"),
                         result.getDouble("precio"),
-                        (Categoria) result.getObject("categoria"),
-                        (Vendedor) result.getObject("vendedor"),
+                        categoria,
+                        vendedor,
                         result.getDouble("peso"),
                         result.getDouble("calorias"),
                         result.getBoolean("apto_vegano")
-                    );
-                } else if (tipo.equals("Bebida")) {
-                    item = new Bebida(
+                );
+            } else if (tipoItem.equals("Bebida")) {
+                item = new Bebida(
                         result.getString("nombre"),
                         result.getString("descripcion"),
                         result.getDouble("precio"),
@@ -53,34 +59,35 @@ public class ItemMenuJDBC implements DAOItemMenu {
                         (Vendedor) result.getObject("vendedor"),
                         result.getDouble("tamanio"),
                         result.getBoolean("graduacion_alcoholica")
-                    );
-                } else {
-                    continue; // Ignora cualquier otro tipo inesperado
-                }
-                result.close();
-                items.add(item);
+                );
+            } else {
+                System.err.println("Tipo de item no válido: " + tipoItem);
+                continue; 
             }
-        } catch (SQLException e) {
-            System.err.println("Error al listar items menu: " + e.getMessage());
+            result.close();
+            items.add(item);
         }
-        
-        connection.close();
         return items;
+        } catch (SQLException e) {
+                System.err.println("Error al buscar items menu: " + e.getMessage());
+                throw e; 
+        } finally {
+            connection.close();
+        }
     }
 
     @Override
     public void crearItemMenu(ItemMenu item) throws SQLException{
-        String sql = "INSERT INTO items_menu (tipo, nombre, descripcion, precio, categoria, vendedor, peso, calorias, apto_vegano, tamanio, graduacion_alcoholica) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO items_menu (nombre, descripcion, precio, categoria, vendedor, peso, calorias, apto_vegano, tamanio, graduacion_alcoholica) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            pstmt.setString(2, item.getNombre());
-            pstmt.setString(3, item.getDescripcion());
-            pstmt.setDouble(4, item.getPrecio());
-            pstmt.setObject(5, item.getCategoria());
-            pstmt.setObject(6, item.getVendedor());
+            pstmt.setString(1, item.getNombre());
+            pstmt.setString(2, item.getDescripcion());
+            pstmt.setDouble(3, item.getPrecio());
+            pstmt.setObject(4, item.getCategoria());
+            pstmt.setObject(5, item.getVendedor());
 
             if (item instanceof Plato) {
                 Plato plato = (Plato) item;
-                pstmt.setString(1, "Plato");
                 pstmt.setDouble(7, plato.getPeso());
                 pstmt.setDouble(8, plato.getCalorias());
                 pstmt.setBoolean(9, plato.isAptoVegano());
@@ -88,7 +95,6 @@ public class ItemMenuJDBC implements DAOItemMenu {
                 pstmt.setNull(11, Types.BOOLEAN);
             } else if (item instanceof Bebida) {
                 Bebida bebida = (Bebida) item;
-                pstmt.setString(1, "Bebida");
                 pstmt.setNull(7, Types.DOUBLE);
                 pstmt.setNull(8, Types.DOUBLE);
                 pstmt.setNull(9, Types.BOOLEAN);
@@ -109,52 +115,54 @@ public class ItemMenuJDBC implements DAOItemMenu {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Error al crear item menu: " + e.getMessage());
+            System.err.println("Error al crear item menu por ID: " + e.getMessage());
+            throw e; 
+        } finally {
+            connection.close();
         }
-        connection.close();
     }
 
     @Override
     public void actualizarItemMenu(ItemMenu item) throws SQLException{
         String sql;
         if (item instanceof Plato) {
-            sql = "UPDATE items_menu SET tipo = ?, nombre = ?, descripcion = ?, precio = ?, categoria_id = ?, vendedor_id = ?, peso = ?, calorias = ?, apto_vegano = ? WHERE id = ?";
+            sql = "UPDATE items_menu SET nombre = ?, descripcion = ?, precio = ?, categoria_id = ?, vendedor_id = ?, peso = ?, calorias = ?, apto_vegano = ? WHERE id = ?";
         } else if (item instanceof Bebida) {
-            sql = "UPDATE items_menu SET tipo = ?, nombre = ?, descripcion = ?, precio = ?, categoria_id = ?, vendedor_id = ?, tamanio = ?, graduacion_alcoholica = ? WHERE id = ?";
+            sql = "UPDATE items_menu SET nombre = ?, descripcion = ?, precio = ?, categoria_id = ?, vendedor_id = ?, tamanio = ?, graduacion_alcoholica = ? WHERE id = ?";
         } else {
             throw new IllegalArgumentException("El tipo de item no es válido.");
         }
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setString(1, item.getTipo());
-            pstmt.setString(2, item.getNombre());
-            pstmt.setString(3, item.getDescripcion());
-            pstmt.setDouble(4, item.getPrecio());
-            pstmt.setInt(5, item.getCategoria().getId());
-            pstmt.setInt(6, item.getVendedor().getId());
+            pstmt.setString(1, item.getNombre());
+            pstmt.setString(2, item.getDescripcion());
+            pstmt.setDouble(3, item.getPrecio());
+            pstmt.setInt(4, item.getCategoria().getId());
+            pstmt.setInt(5, item.getVendedor().getId());
             
 
             if (item instanceof Plato) {
                 Plato plato = (Plato) item;
-                pstmt.setDouble(7, plato.getPeso());
-                pstmt.setDouble(8, plato.getCalorias());
-                pstmt.setBoolean(9, plato.isAptoVegano());
-                pstmt.setInt(10, item.getId());
+                pstmt.setDouble(6, plato.getPeso());
+                pstmt.setDouble(7, plato.getCalorias());
+                pstmt.setBoolean(8, plato.isAptoVegano());
+                pstmt.setInt(9, item.getId());
             } else if (item instanceof Bebida) {
                 Bebida bebida = (Bebida) item;
-                pstmt.setDouble(7, bebida.getTamanio());
-                pstmt.setBoolean(8, bebida.isBebidaAlcoholica());
-                pstmt.setInt(9, item.getId());
+                pstmt.setDouble(6, bebida.getTamanio());
+                pstmt.setBoolean(7, bebida.isBebidaAlcoholica());
+                pstmt.setInt(8, item.getId());
             }
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows == 0) {
-                throw new SQLException("crearItemMenu falla, no hay filas afectadas");
+                throw new SQLException("actualizarItemMenu falla, no hay filas afectadas");
             }
         } catch (SQLException e) {
-            System.err.println("Error al crear item menu: " + e.getMessage());
+            System.err.println("Error al actualizar item menu: " + e.getMessage());
+            throw e; 
+        } finally {
+            connection.close();
         }
-        
-        connection.close();
     }
 
     @Override
@@ -164,53 +172,60 @@ public class ItemMenuJDBC implements DAOItemMenu {
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Error al borrar item menu: " + e.getMessage());
+            System.err.println("Error al borrar item menu por ID: " + e.getMessage());
+            throw e; 
+        } finally {
+            connection.close();
         }
-        connection.close();
     }
 
     @Override
-    public ItemMenu buscarItemMenuPorId(int id) throws SQLException{
-        String sql = "SELECT * FROM items_menu WHERE id = ?";
-        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setInt(1, id);
-            ResultSet result = pstmt.executeQuery();
-            if (result.next()) {
-                String tipo = result.getString("tipo");
-                String nombre = result.getString("nombre");
-                String descripcion = result.getString("descripcion");
-                double precio = result.getDouble("precio");
-                int categoriaId = result.getInt("categoria_id");
-                int vendedorId = result.getInt("vendedor_id");
+    public ItemMenu buscarItemMenuPorId(int id) throws SQLException {
+    String sql = "SELECT im.*, c.tipo_item FROM items_menu im JOIN categoria c ON im.categoria = c.id WHERE im.id = ?";
 
-                // Obtener instancias completas de Vendedor y Categoria usando sus DAOs
-                VendedorJDBC vendedorDAO = new VendedorJDBC(connection);
-                CategoriaJDBC categoriaDAO = new CategoriaJDBC(connection);
-                Vendedor vendedor = vendedorDAO.buscarVendedorPorId(vendedorId);
-                Categoria categoria = categoriaDAO.buscarCategoriaPorId(categoriaId);
+    try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+        pstmt.setInt(1, id);
+        ResultSet result = pstmt.executeQuery();
 
-                if (vendedor == null || categoria == null) {
-                    throw new SQLException("Vendedor o Categoria no encontrados en la base de datos.");
-                }
-               
-                if ("Plato".equalsIgnoreCase(tipo)) {
+        if (result.next()) {
+            String tipoItem = result.getString("tipo_item");
+            String nombre = result.getString("nombre");
+            String descripcion = result.getString("descripcion");
+            double precio = result.getDouble("precio");
+            int categoriaId = result.getInt("categoria_id");
+            int vendedorId = result.getInt("vendedor_id");
+
+            Vendedor vendedor = vendedorDAO.buscarVendedorPorId(vendedorId);
+            Categoria categoria = categoriaDAO.buscarCategoriaPorId(categoriaId);
+
+            if (vendedor == null || categoria == null) {
+                throw new SQLException("Vendedor o Categoria no encontrados en la base de datos.");
+            }
+
+            ItemMenu item;
+            switch (tipoItem) { // se cambia luego aplicando factory
+                case "Plato":
                     double peso = result.getDouble("peso");
                     double calorias = result.getDouble("calorias");
                     boolean aptoVegano = result.getBoolean("apto_vegano");
-                    return new Plato(nombre, descripcion, precio, categoria, vendedor, peso, calorias, aptoVegano);
-                } else if ("Bebida".equalsIgnoreCase(tipo)) {
+                    item = new Plato(nombre, descripcion, precio, categoria, vendedor, peso, calorias, aptoVegano);
+                    break;
+                case "Bebida":
                     double tamanio = result.getDouble("tamanio");
                     boolean graduacionAlcoholica = result.getBoolean("graduacion_alcoholica");
-                    return new Bebida(nombre, descripcion, precio, categoria, vendedor, tamanio, graduacionAlcoholica);
-                }
+                    item = new Bebida(nombre, descripcion, precio, categoria, vendedor, tamanio, graduacionAlcoholica);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Tipo de item no válido: " + tipoItem);
             }
-            result.close();
+            return item;
+        }
+        return null;
+        } catch (SQLException e) {
+            System.err.println("Error al buscar item menu por ID: " + e.getMessage());
+            throw e; 
+        } finally {
             connection.close();
         }
-        catch (SQLException e) {
-            System.err.println("Error al buscar item menu por ID: " + e.getMessage());
-        }
-        
-        return null;
     }
 }

@@ -2,7 +2,6 @@ package Tp.DS;
 
 public abstract class ItemMenu {
     private int id;
-    protected String tipo;
     private String nombre;
     private String descripcion;
     private double precio;
@@ -10,8 +9,7 @@ public abstract class ItemMenu {
     private Vendedor vendedor;
     
 
-    public ItemMenu(String tipo, String nombre, String descripcion, double precio, Categoria categoria, Vendedor vendedor) {
-        this.tipo = tipo;
+    public ItemMenu(String nombre, String descripcion, double precio, Categoria categoria, Vendedor vendedor) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
@@ -23,9 +21,6 @@ public abstract class ItemMenu {
         return id;
     }
 
-    public String getTipo() {
-        return tipo;
-    }
     
     public String getNombre() {
         return nombre;
@@ -49,10 +44,6 @@ public abstract class ItemMenu {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
     }
 
     

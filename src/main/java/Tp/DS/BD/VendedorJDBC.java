@@ -39,18 +39,20 @@ public class VendedorJDBC implements DAOVendedor {
                 result.close();
                 vendedores.add(vendedor);
             }
+            return vendedores;
         } catch (SQLException e) {
             System.err.println("Error al listar vendedores: " + e.getMessage());
-        }
-        connection.close();
-        return vendedores;
+            throw e; 
+        } finally {
+            connection.close();
+        } 
+
     }
 
     @Override
     public void crearVendedor(Vendedor vendedor) throws SQLException{
         String sql = "INSERT INTO vendedores (nombre, direccion, coordenadas) VALUES (?, ?, ?)";
         try ( PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);){
-            // Configura los parámetros del PreparedStatement
             pstmt.setString(1, vendedor.getNombre());
             pstmt.setString(2, vendedor.getDireccion());
             pstmt.setObject(3, vendedor.getCoordenadas()); 
@@ -68,11 +70,12 @@ public class VendedorJDBC implements DAOVendedor {
                 }
                 generatedKeys.close();
             }
-        }
-        catch (SQLException e) {
-            System.err.println("Error al crear Vendedor: " + e.getMessage());
-        }
-        connection.close();
+        } catch (SQLException e) {
+            System.err.println("Error al crear vendedor: " + e.getMessage());
+            throw e; 
+        } finally {
+            connection.close();
+        } 
     }
 
     @Override
@@ -85,9 +88,11 @@ public class VendedorJDBC implements DAOVendedor {
             pstmt.setInt(4, vendedor.getId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Error al actualizar vendedor por ID: " + e.getMessage());
-        }
-        connection.close();
+            System.err.println("Error al actualizar vendedor: " + e.getMessage());
+            throw e; 
+        } finally {
+            connection.close();
+        } 
     }
 
     @Override
@@ -97,9 +102,11 @@ public class VendedorJDBC implements DAOVendedor {
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Error al eliminar vendedor por ID: " + e.getMessage());
-        }
-        connection.close();
+            System.err.println("Error al eliminar vendedor: " + e.getMessage());
+            throw e; 
+        } finally {
+            connection.close();
+        } 
     }
 
     @Override
@@ -115,12 +122,16 @@ public class VendedorJDBC implements DAOVendedor {
                     result.getString("direccion"),        
                     (Coordenada)result.getObject("coordenadas") 
                 ); 
+                return vendedor;
             }
             result.close();
+            return vendedor;
         } catch (SQLException e) {
-            System.err.println("Error al buscar vendedor por ID: " + e.getMessage());
-        }
-        connection.close();
-        return vendedor;
+            System.err.println("Error al crerar vendedor: " + e.getMessage());
+            throw e; 
+        } finally {
+            connection.close();
+        } 
+        
     }
 }

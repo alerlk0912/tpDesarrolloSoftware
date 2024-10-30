@@ -35,11 +35,13 @@ public class PedidoJDBC implements DAOPedido {
                 result.close();
                 pedidos.add(pedido);
             }
+            return pedidos;
         } catch (SQLException e) {
-            System.err.println("Error al obtener los pedidos: " + e.getMessage());
-        }
-        connection.close();
-        return pedidos;
+            System.err.println("Error al listar pedidos: " + e.getMessage());
+            throw e; 
+        } finally {
+            connection.close();
+        } 
     }
 
     @Override
@@ -65,9 +67,11 @@ public class PedidoJDBC implements DAOPedido {
             }
         }
         catch (SQLException e) {
-            System.err.println("Error al crear Pedido: " + e.getMessage());
-        }
-        connection.close();
+            System.err.println("Error al crear pedido por ID: " + e.getMessage());
+            throw e; 
+        } finally {
+            connection.close();
+        } 
     }
     
 
@@ -81,9 +85,11 @@ public class PedidoJDBC implements DAOPedido {
             pstmt.setInt(4, pedido.getId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Error al actualizar Pedido: " + e.getMessage());
-        }
-        connection.close();
+            System.err.println("Error al actualizar pedido por ID: " + e.getMessage());
+            throw e; 
+        } finally {
+            connection.close();
+        } 
     }
 
     @Override
@@ -93,9 +99,11 @@ public class PedidoJDBC implements DAOPedido {
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Error al eliminar Pedido: " + e.getMessage());
-        }
-        connection.close();
+            System.err.println("Error al eliminar pedido por ID: " + e.getMessage());
+            throw e; 
+        } finally {
+            connection.close();
+        } 
     }
 
     @Override
@@ -111,10 +119,12 @@ public class PedidoJDBC implements DAOPedido {
                     (Pago) result.getObject("pago")
                 );
             }
+            return pedido;
         } catch (SQLException e) {
-            System.err.println("Error al buscar Pedido por ID: " + e.getMessage());
-        }
-        connection.close();
-        return pedido;
+            System.err.println("Error al buscar pedido por ID: " + e.getMessage());
+            throw e; 
+        } finally {
+            connection.close();
+        }  
     }
 }

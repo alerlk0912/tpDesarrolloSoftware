@@ -5,7 +5,7 @@ public class Bebida extends ItemMenu {
     private final boolean graduacionAlcoholica;
 
     public Bebida(String nombre, String descripcion, double precio, Categoria categoria, Vendedor vendedor, double tamanio, boolean alcoholica) {
-        super("Bebida", nombre, descripcion, precio, categoria, vendedor);
+        super( nombre, descripcion, precio, categoria, vendedor);
         this.tamanio = tamanio;
         this.graduacionAlcoholica = alcoholica;
     }
@@ -14,7 +14,6 @@ public class Bebida extends ItemMenu {
     public String toString() {
         return "Bebida{" +
                 "id=" + getId() +
-                ", tipo='" + getTipo() + '\'' +
                 ", nombre='" + getNombre() + '\'' +
                 ", descripcion='" + getDescripcion() + '\'' +
                 ", precio=" + getPrecio() +

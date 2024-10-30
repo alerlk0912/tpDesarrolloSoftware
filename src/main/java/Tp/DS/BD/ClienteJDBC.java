@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  *
- * @author Ryzen
+ * @author franco
  */
 public class ClienteJDBC implements DAOCliente {
     private Connection connection;
@@ -33,9 +33,11 @@ public class ClienteJDBC implements DAOCliente {
             pstmt.setInt(6, cliente.getId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Error al actualizar cliente: " + e.getMessage());
+            System.err.println("Error al actualizar cliente por ID: " + e.getMessage());
+            throw e; 
+        } finally {
+            connection.close();
         }
-        connection.close();
     }
 
     @Override
@@ -52,14 +54,17 @@ public class ClienteJDBC implements DAOCliente {
                     result.getString("email"),
                     result.getString("direccion"),
                     (Coordenada)result.getObject("coordenadas")
-                ); 
+                );
             }
             result.close();
-        } catch (SQLException e) {
+            return cliente; 
+        } 
+        catch (SQLException e) {
             System.err.println("Error al buscar cliente por ID: " + e.getMessage());
+            throw e; 
+        } finally {
+            connection.close();
         }
-        connection.close();
-        return cliente;    
     }
 
     @Override
@@ -86,9 +91,11 @@ public class ClienteJDBC implements DAOCliente {
             }
         }
         catch (SQLException e) {
-            System.err.println("Error al crear Cliente: " + e.getMessage());
+            System.err.println("Error al crear cliente por ID: " + e.getMessage());
+            throw e; 
+        } finally {
+            connection.close();
         }
-        connection.close();
     }
     
     @Override
@@ -98,9 +105,11 @@ public class ClienteJDBC implements DAOCliente {
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Error al eliminar cliente: " + e.getMessage());
+            System.err.println("Error al eliminar cliente por ID: " + e.getMessage());
+            throw e; 
+        } finally {
+            connection.close();
         }
-        connection.close();
     }
 
     @Override
@@ -120,11 +129,13 @@ public class ClienteJDBC implements DAOCliente {
                 result.close();
                 clientes.add(cliente);
             }
+            return clientes; 
         } catch (SQLException e) {
-            System.err.println("Error al obtener clientes: " + e.getMessage());
-        }
-        connection.close();
-        return clientes;    
+            System.err.println("Error al listar clientes: " + e.getMessage());
+            throw e; 
+        } finally {
+            connection.close();
+        }  
     }
     
 }
