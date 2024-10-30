@@ -9,6 +9,8 @@ import Tp.DS.Vendedor;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author franco
@@ -37,7 +39,7 @@ public class VendedorJDBC implements DAOVendedor {
                 vendedores.add(vendedor);
             }
         } catch (SQLException e) {
-            e.getMessage();
+            System.err.println("Error al listar vendedores: " + e.getMessage());
         }
         return vendedores;
     }
@@ -45,13 +47,27 @@ public class VendedorJDBC implements DAOVendedor {
     @Override
     public void crearVendedor(Vendedor vendedor) {
         String sql = "INSERT INTO vendedores (nombre, direccion, coordenadas) VALUES (?, ?, ?)";
-        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+        try ( PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);){
+            // Configura los parámetros del PreparedStatement
             pstmt.setString(1, vendedor.getNombre());
             pstmt.setString(2, vendedor.getDireccion());
-            pstmt.setObject(3, vendedor.getCoordenadas());
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.getMessage();
+            pstmt.setObject(3, vendedor.getCoordenadas()); 
+            
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("crearVendedor falla, no hay filas afectadas");
+            }
+            // Obtiene el ID generado automáticamente
+            try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    vendedor.setId(generatedKeys.getInt(1)); 
+                } else {
+                    throw new SQLException("crearVendedor falla, no obtiene ID.");
+                }
+            }
+        }
+        catch (SQLException e) {
+            System.err.println("Error al crear Vendedor: " + e.getMessage());
         }
     }
 
@@ -92,11 +108,10 @@ public class VendedorJDBC implements DAOVendedor {
                     result.getString("nombre"),           
                     result.getString("direccion"),        
                     (Coordenada)result.getObject("coordenadas") 
-                );
-                
+                ); 
             }
         } catch (SQLException e) {
-            e.getMessage();
+            System.err.println("Error al buscar vendedor por ID: " + e.getMessage());
         }
         return vendedor;
     }

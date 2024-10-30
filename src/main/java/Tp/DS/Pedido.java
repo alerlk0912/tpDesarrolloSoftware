@@ -79,6 +79,11 @@ public class Pedido implements PedidoObservable{
     public double getMontoTotal() {
         return montoTotal;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     
     public void setEstado(EstadoPedido estado) {
         this.estado = estado;

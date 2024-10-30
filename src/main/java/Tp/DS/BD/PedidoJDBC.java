@@ -43,15 +43,29 @@ public class PedidoJDBC implements DAOPedido {
     @Override
     public void crearPedido(Pedido pedido) {
         String sql = "INSERT INTO pedidos (cliente_id) VALUES (?, ?, ?)";
-        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+        try ( PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);){
             pstmt.setInt(1, pedido.getCliente().getId());
             pstmt.setDate(2, (Date) pedido.getFechaPago());
             pstmt.setDouble(3, pedido.getMontoTotal());
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.getMessage();
+
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("crearPedido falla, no hay filas afectadas");
+            }
+            // Obtiene el ID generado automáticamente
+            try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    pedido.setId(generatedKeys.getInt(1)); 
+                } else {
+                    throw new SQLException("crearPedido falla, no obtiene ID.");
+                }
+            }
+        }
+        catch (SQLException e) {
+            System.err.println("Error al crear Pedido: " + e.getMessage());
         }
     }
+    
 
     @Override
     public void actualizarPedido(Pedido pedido) {

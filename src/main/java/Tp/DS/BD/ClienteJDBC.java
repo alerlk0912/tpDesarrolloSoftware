@@ -62,18 +62,30 @@ public class ClienteJDBC implements DAOCliente {
     @Override
     public void crearCliente(Cliente cliente) {
         String sql = "INSERT INTO clientes (cuit, nombre, email, direccion, coordenadas) VALUES (?, ?, ?, ?, ?)";
-        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+        try ( PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);){
             pstmt.setString(1, cliente.getCuit());
             pstmt.setString(2, cliente.getNombre());
             pstmt.setString(3, cliente.getEmail());
             pstmt.setString(4, cliente.getDireccion());
             pstmt.setObject(5, cliente.getCoordenadas());
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.getMessage();
-        }    
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("crearCliente falla, no hay filas afectadas");
+            }
+            // Obtiene el ID generado automáticamente
+            try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    cliente.setId(generatedKeys.getInt(1)); 
+                } else {
+                    throw new SQLException("crearCliente falla, no obtiene ID.");
+                }
+            }
+        }
+        catch (SQLException e) {
+            System.err.println("Error al crear Cliente: " + e.getMessage());
+        } 
     }
-
+    
     @Override
     public void eliminarCliente(int id) {
         String sql = "DELETE FROM clientes WHERE id = ?";
