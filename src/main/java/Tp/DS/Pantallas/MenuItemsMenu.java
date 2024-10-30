@@ -103,7 +103,6 @@ public class MenuItemsMenu extends javax.swing.JFrame {
         Panel.setPreferredSize(new java.awt.Dimension(900, 600));
 
         texto1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        texto1.setDisabledIcon(new javax.swing.ImageIcon("C:\\Users\\Ale\\Desktop\\UTN 2024\\2do Cuatri\\3ro - Desarrollo Software\\TP\\tpDesarrolloSoftware\\logo.jpg")); // NOI18N
         texto1.setEnabled(false);
         texto1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 

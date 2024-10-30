@@ -1,16 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package Tp.DS;
+package Tp.DS.Controller;
 
-import Tp.DS.BD.DAOPedido;
+import Tp.DS.DAO.DAOPedido;
+import Tp.DS.Cliente;
+import Tp.DS.ItemsPedido;
+import Tp.DS.Pago;
+import Tp.DS.Pedido;
 import java.util.List;
 
-/**
- *
- * @author franco
- */
 
 public class PedidoController {
     private DAOPedido pedidoDAO;

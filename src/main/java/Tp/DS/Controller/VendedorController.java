@@ -1,16 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package Tp.DS;
+package Tp.DS.Controller;
 
 import Tp.DS.BD.DAOVendedor;
+import Tp.DS.Coordenada;
+import Tp.DS.Coordenada;
+import Tp.DS.Vendedor;
+import Tp.DS.Vendedor;
 import java.util.List;
 
-/**
- *
- * @author franco
- */
 public class VendedorController {
     private DAOVendedor vendedorDAO;
 

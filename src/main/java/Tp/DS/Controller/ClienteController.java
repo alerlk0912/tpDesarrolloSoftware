@@ -1,16 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package Tp.DS;
+package Tp.DS.Controller;
 
-import Tp.DS.BD.DAOCliente;
+import Tp.DS.DAO.DAOCliente;
+import Tp.DS.Cliente;
+import Tp.DS.Coordenada;
 import java.util.List;
 
-/**
- *
- * @author franco
- */
 public class ClienteController {
     private DAOCliente clienteDAO;
 

@@ -1,17 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package Tp.DS.BD;
+package Tp.DS.Memory;
 
+import Tp.DS.DAO.DAOPedido;
 import Tp.DS.Pedido;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author franco
- */
 public class PedidoMemory implements DAOPedido {
     private List<Pedido> pedidos = new ArrayList<>();
     private int nextId = 1;

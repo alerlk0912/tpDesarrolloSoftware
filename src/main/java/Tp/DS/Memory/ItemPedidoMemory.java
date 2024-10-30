@@ -1,12 +1,12 @@
-package Tp.DS;
+package Tp.DS.Memory;
 
-import Tp.DS.BD.ItemsPedidoDao;
+import Tp.DS.ItemsPedido;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ItemPedidoMemory implements ItemsPedidoDao {
+public class ItemPedidoMemory implements DAOItemsPedido {
     private List<ItemsPedido> itemsPedidos;
 
     public ItemPedidoMemory() {

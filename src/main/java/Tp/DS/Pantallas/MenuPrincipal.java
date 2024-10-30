@@ -124,7 +124,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jLabel1.setOpaque(true);
 
         jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jLabel2.setDisabledIcon(new javax.swing.ImageIcon("C:\\Users\\Ale\\Desktop\\UTN 2024\\2do Cuatri\\3ro - Desarrollo Software\\TP\\tpDesarrolloSoftware\\logo.jpg")); // NOI18N
         jLabel2.setEnabled(false);
         jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
