@@ -1,12 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package TP.DS.Pantallas;
 
+import Tp.DS.Controller.ClienteController;
+import Tp.DS.Cliente;
+import Tp.DS.Coordenada;
+import Tp.DS.DAO.DAOCliente;
+import Tp.DS.Memory.ClienteMemory;
 import javax.swing.*;
 import javax.swing.table.*;
 import Tp.DS.Pantallas.VentanaDeCreacionEdicionCliente;
+import java.util.List;
 
 public class MenuCliente extends javax.swing.JFrame {
     private MenuPrincipal menuPrincipal;
@@ -14,6 +16,7 @@ public class MenuCliente extends javax.swing.JFrame {
     private MenuCliente menuCliente;
     private MenuItemsMenu menuItemsMenu;
     private MenuPedidos menuPedidos;
+    private ClienteController clienteController;
     
     //para tabla
     private Object[][] clientes;
@@ -21,21 +24,7 @@ public class MenuCliente extends javax.swing.JFrame {
     
     public void setListaTablaClientes() {
         model = (DefaultTableModel) tablaClientes.getModel();
-        clientes = new Object[][] {
-            {1, "20-12345678-9", "Cliente 1", "cliente1@mail.com", "Avenida 123", "-34.6083, -58.371"},
-            {2, "20-87654321-9", "Cliente 2", "cliente2@mail.com", "Avenida 456", "-34.6092, -58.3772"},
-            {3, "20-11112222-9", "Cliente 3", "cliente3@mail.com", "Avenida 789", "-34.6109, -58.3761"},
-            {4, "20-33334444-9", "Cliente 4", "cliente4@mail.com", "Avenida 1011", "-34.6126, -58.3750"},
-            {5, "20-55556666-9", "Cliente 5", "cliente5@mail.com", "Avenida 1213", "-34.6143, -58.3739"},
-            {6, "20-77778888-9", "Cliente 6", "cliente6@mail.com", "Avenida 1415", "-34.6160, -58.3728"},
-            {7, "20-99990000-9", "Cliente 7", "cliente7@mail.com", "Avenida 1617", "-34.6177, -58.3717"},
-            {8, "20-12121212-9", "Cliente 8", "cliente8@mail.com", "Avenida 1819", "-34.6194, -58.3706"},
-            {9, "20-23232323-9", "Cliente 9", "cliente9@mail.com", "Avenida 2021", "-34.6211, -58.3695"},
-            {10, "20-34343434-9", "Cliente 10", "cliente10@mail.com", "Avenida 2223", "-34.6228, -58.3684"},
-            {11, "20-45454545-9", "Cliente 11", "cliente11@mail.com", "Avenida 2425", "-34.6245, -58.3673"},
-            {12, "20-56565656-9", "Cliente 12", "cliente12@mail.com", "Avenida 2627", "-34.6262, -58.3662"},
-            {13, "20-67676767-9", "Cliente 13", "cliente13@mail.com", "Avenida 2829", "-34.6279, -58.3651"}
-        };
+        cargarClientes();
     }
     
     public void setMenuPrincipal(MenuPrincipal menuPrincipal) {
@@ -54,27 +43,53 @@ public class MenuCliente extends javax.swing.JFrame {
         this.menuPedidos = menuPedidos;
     }
     public void recibirDatosDeCreacion(String cuit, String nombre, String email, String direccion, String latitud, String longitud) {
-        String coordenada = latitud + ", " + longitud;
-        Object[] vendedor = new Object[] {model.getRowCount() + 1, cuit, nombre, email, direccion, coordenada};
-        model.addRow(vendedor);
+        Coordenada coordenadas = new Coordenada(Double.parseDouble(latitud), Double.parseDouble(longitud));
+
+        // Crear el cliente usando ClienteController
+        clienteController.crearNuevoCliente(cuit, nombre, email, direccion, coordenadas);
+
+        // Actualizar la tabla para reflejar el nuevo cliente
+        actualizarTablaClientes();
     }
+
     public void recibirDatosDeEdicion(int filaSeleccionada, String cuit, String nombre, String email, String direccion, String latitud, String longitud) {
-        String coordenada = latitud + ", " + longitud;
-        model.setValueAt(cuit, filaSeleccionada, 1);
-        model.setValueAt(nombre, filaSeleccionada, 2);
-        model.setValueAt(email, filaSeleccionada, 3);
-        model.setValueAt(direccion, filaSeleccionada, 4);
-        model.setValueAt(coordenada, filaSeleccionada, 5); 
+        int id = (int) model.getValueAt(filaSeleccionada, 0); // Obtener ID del cliente seleccionado
+        Coordenada coordenadas = new Coordenada(Double.parseDouble(latitud), Double.parseDouble(longitud));
+
+        // Modificar el cliente usando ClienteController
+        clienteController.modificarCliente(id, cuit, nombre, email, direccion, coordenadas);
+
+        // Actualizar la tabla para reflejar los cambios
+        actualizarTablaClientes();
     }
     
     
-    public MenuCliente() {
+    public MenuCliente(ClienteController clienteController) {
+        this.clienteController = clienteController;
         initComponents();
-        setListaTablaClientes();
+        cargarClientesEnTabla();
+    }
+    
+    private void cargarClientesEnTabla() {
+        model = (DefaultTableModel) tablaClientes.getModel();
+        model.setRowCount(0); // Limpiar la tabla antes de cargar nuevos datos
+
+        List<Cliente> listaClientes = clienteController.mostrarClientes();
+        for (Cliente cliente : listaClientes) {
+            Object[] fila = {
+                cliente.getId(),
+                cliente.getCuit(),
+                cliente.getNombre(),
+                cliente.getEmail(),
+                cliente.getDireccion(),
+                cliente.getCoordenadas() != null ? cliente.getCoordenadas().toString() : ""
+            };
+            model.addRow(fila);
+        }
     }
     
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
@@ -411,40 +426,60 @@ public class MenuCliente extends javax.swing.JFrame {
         getContentPane().add(Panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }
 
-    private void botonVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonVendedorActionPerformed
+    private void botonVendedorActionPerformed(java.awt.event.ActionEvent evt) {                                              
         menuVendedor.setMenuCliente(this);
         menuVendedor.setVisible(true);
         menuVendedor.setLocationRelativeTo(null);
         setVisible(false);
-    }//GEN-LAST:event_botonVendedorActionPerformed
+    }
 
-    private void botonClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonClienteActionPerformed
+    private void buscarClienteActionPerformed(java.awt.event.ActionEvent evt) {                                           
+        int idBuscado = Integer.parseInt(cuitCliente.getText().trim()); // Si se busca por CUIT, cambia la variable según tu necesidad.
+        model.setRowCount(0); // Limpia la tabla
+
+        Cliente clienteEncontrado = clienteController.buscarCliente(idBuscado);
+        if (clienteEncontrado != null) {
+            Object[] fila = {
+                clienteEncontrado.getId(),
+                clienteEncontrado.getCuit(),
+                clienteEncontrado.getNombre(),
+                clienteEncontrado.getEmail(),
+                clienteEncontrado.getDireccion(),
+                (clienteEncontrado.getCoordenadas().getLat()+", "+clienteEncontrado.getCoordenadas().getLng())
+            };
+            model.addRow(fila);
+        } else {
+            JOptionPane.showMessageDialog(null, "No se encontró ningún cliente con esos parámetros.", "Búsqueda", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+    
+    private void botonClienteActionPerformed(java.awt.event.ActionEvent evt) {
         //
-    }//GEN-LAST:event_botonClienteActionPerformed
-
-    private void botonPedidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonPedidosActionPerformed
+    }
+    
+    private void botonPedidosActionPerformed(java.awt.event.ActionEvent evt) {                                             
         menuPedidos.setMenuCliente(this);
         menuPedidos.setVisible(true);
         menuPedidos.setLocationRelativeTo(null);
         setVisible(false);
-    }//GEN-LAST:event_botonPedidosActionPerformed
+    }
 
-    private void botonItemsMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonItemsMenuActionPerformed
+    private void botonItemsMenuActionPerformed(java.awt.event.ActionEvent evt) {                                               
         menuItemsMenu.setMenuCliente(this);
         menuItemsMenu.setVisible(true);
         menuItemsMenu.setLocationRelativeTo(null);
         setVisible(false);
-    }//GEN-LAST:event_botonItemsMenuActionPerformed
+    }
 
-    private void botonVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonVolverActionPerformed
+    private void botonVolverActionPerformed(java.awt.event.ActionEvent evt) {                                            
         menuPrincipal.setVisible(true);
         menuPrincipal.setLocationRelativeTo(null);
         setVisible(false);
-    }//GEN-LAST:event_botonVolverActionPerformed
+    }
 
-    private void buscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarClienteActionPerformed
+    /*private void buscarClienteActionPerformed(java.awt.event.ActionEvent evt) {                                              
         String cuitBuscado = cuitCliente.getText().trim();
         String nombreBuscado = nombreCliente.getText().trim();
         String emailBuscado = emailCliente.getText().trim();
@@ -454,7 +489,7 @@ public class MenuCliente extends javax.swing.JFrame {
         boolean encontrado = false;
         if (cuitBuscado.isEmpty() && nombreBuscado.isEmpty() && emailBuscado.isEmpty() && direccionBuscado.isEmpty() && coordenadasBuscado.isEmpty()) {
             for (Object[] cliente : clientes) {
-                model.addRow(cliente);
+                
             }
             encontrado = true;
         }
@@ -475,9 +510,9 @@ public class MenuCliente extends javax.swing.JFrame {
         if (!encontrado) {
             JOptionPane.showMessageDialog(null, "No se encontró ningún cliente con esos parámetros.", "Búsqueda", JOptionPane.INFORMATION_MESSAGE);
         }
-    }//GEN-LAST:event_buscarClienteActionPerformed
+    }*/
 
-    private void botonEditarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarClienteActionPerformed
+    private void botonEditarClienteActionPerformed(java.awt.event.ActionEvent evt) {
         int filaSeleccionada = tablaClientes.getSelectedRow();
         if (filaSeleccionada != -1) {
             String cuit = (String) model.getValueAt(filaSeleccionada, 1);
@@ -485,19 +520,18 @@ public class MenuCliente extends javax.swing.JFrame {
             String email = (String) model.getValueAt(filaSeleccionada, 3);
             String direccion = (String) model.getValueAt(filaSeleccionada, 4);
             String coordenada = (String) model.getValueAt(filaSeleccionada, 5);
-            VentanaDeCreacionEdicionCliente nuevaVentana = new VentanaDeCreacionEdicionCliente();
-            nuevaVentana.setMenuCliente(this);
-            nuevaVentana.setVisible(true);
-            nuevaVentana.setLocationRelativeTo(null);
-            nuevaVentana.recibirDatosEdicion(filaSeleccionada, cuit, nombre, email, direccion, coordenada);
-            nuevaVentana.setTitulo();
-        }
-        else {
+
+            VentanaDeCreacionEdicionCliente ventanaEdicion = new VentanaDeCreacionEdicionCliente();
+            ventanaEdicion.setMenuCliente(this); // Pasa MenuCliente a la ventana de edición
+            ventanaEdicion.recibirDatosEdicion(filaSeleccionada, cuit, nombre, email, direccion, coordenada);
+            ventanaEdicion.setVisible(true);
+            ventanaEdicion.setLocationRelativeTo(null);
+        } else {
             JOptionPane.showMessageDialog(null, "Por favor selecciona una fila para editar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
-    }//GEN-LAST:event_botonEditarClienteActionPerformed
+    }
 
-    private void botonEliminarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarClienteActionPerformed
+    private void botonEliminarClienteActionPerformed(java.awt.event.ActionEvent evt) {                                                     
         int filaSeleccionada = tablaClientes.getSelectedRow();
         if (filaSeleccionada != -1) {
             int opcion = JOptionPane.showConfirmDialog(null, "¿Estás seguro de eliminar este Cliente?", "Confirmar", JOptionPane.YES_NO_OPTION);
@@ -509,22 +543,23 @@ public class MenuCliente extends javax.swing.JFrame {
         else {
             JOptionPane.showMessageDialog(null, "Por favor selecciona una fila para editar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
-    }//GEN-LAST:event_botonEliminarClienteActionPerformed
+    }
 
-    private void botonCrearClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearClienteActionPerformed
+    private void botonCrearClienteActionPerformed(java.awt.event.ActionEvent evt) {
         VentanaDeCreacionEdicionCliente nuevaVentana = new VentanaDeCreacionEdicionCliente();
-        nuevaVentana.setMenuCliente(this);
+        nuevaVentana.setMenuCliente(this); // Pasa la instancia actual de MenuCliente
         nuevaVentana.setVisible(true);
         nuevaVentana.setLocationRelativeTo(null);
-    }//GEN-LAST:event_botonCrearClienteActionPerformed
+    }
     
     public static void main(String args[]) {
+        DAOCliente clienteDAO = new ClienteMemory();
+        ClienteController clienteController = new ClienteController(clienteDAO);
         java.awt.EventQueue.invokeLater(() -> {
-            new MenuCliente().setVisible(true);
+            new MenuCliente(clienteController).setVisible(true);
         });
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Panel;
     private javax.swing.JButton botonCliente;
     private javax.swing.JButton botonCrearCliente;
@@ -549,5 +584,29 @@ public class MenuCliente extends javax.swing.JFrame {
     private javax.swing.JLabel textoDireccion;
     private javax.swing.JLabel textoEmail;
     private javax.swing.JLabel textoNombre;
-    // End of variables declaration//GEN-END:variables
+
+    
+    private void cargarClientes() {
+            model.setRowCount(0); // Limpiar la tabla
+            List<Cliente> clientes = clienteController.mostrarClientes();
+            for (Cliente cliente : clientes) {
+                model.addRow(new Object[]{cliente.getId(), cliente.getNombre(), cliente.getDireccion()});
+            }
+        }
+    
+    private void actualizarTablaClientes() {
+        model.setRowCount(0); // Limpia la tabla
+        for (Cliente cliente : clienteController.mostrarClientes()) {
+            Object[] fila = {
+                cliente.getId(),
+                cliente.getCuit(),
+                cliente.getNombre(),
+                cliente.getEmail(),
+                cliente.getDireccion(),
+                (cliente.getCoordenadas().getLat()+", "+cliente.getCoordenadas().getLng())
+            };
+            model.addRow(fila);
+        }
+    }
 }
+

@@ -6,14 +6,10 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface DAOCliente {
-    void actualizarCliente(Cliente cliente);
-
-    Cliente buscarClientePorId(int id);
-
-    void crearCliente(Cliente cliente);
-
-    void eliminarCliente(int id);
-
     List<Cliente> listarClientes();
+    Cliente buscarClientePorId(int id);
+    void agregarCliente(Cliente cliente);
+    void actualizarCliente(Cliente cliente);
+    void eliminarCliente(int id);
     
 }

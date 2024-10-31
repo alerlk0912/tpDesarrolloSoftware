@@ -13,13 +13,12 @@ public class ClienteController {
     }
 
     public List<Cliente> mostrarClientes() {
-        
         return clienteDAO.listarClientes();
     }
 
     public void crearNuevoCliente(String cuit, String nombre, String email, String direccion, Coordenada coordenadas) {
         Cliente nuevoCliente = new Cliente(cuit, nombre, email, direccion, coordenadas);
-        clienteDAO.crearCliente(nuevoCliente);
+        clienteDAO.agregarCliente(nuevoCliente);
     }
 
     public void modificarCliente(int id, String cuit, String nombre, String email, String direccion, Coordenada coordenadas) {

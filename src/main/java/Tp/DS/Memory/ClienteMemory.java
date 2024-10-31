@@ -8,13 +8,14 @@ import java.util.List;
 public class ClienteMemory implements DAOCliente{
     private List<Cliente> clientes = new ArrayList<>();
     private int nextId = 1;
-
+    
+    @Override
     public List<Cliente> listarClientes() {
         return clientes;
     }
 
     @Override
-    public void crearCliente(Cliente cliente) {
+    public void agregarCliente(Cliente cliente) {
         cliente.setId(nextId++);
         clientes.add(cliente);
     }

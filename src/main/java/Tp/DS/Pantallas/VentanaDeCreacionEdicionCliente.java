@@ -1,18 +1,42 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package Tp.DS.Pantallas;
 
 import TP.DS.Pantallas.MenuCliente;
+import Tp.DS.Coordenada;
 import javax.swing.JOptionPane;
 
 public class VentanaDeCreacionEdicionCliente extends javax.swing.JFrame {
     private MenuCliente menuCliente;
     private int filaSeleccionada=100;
-    
+    private ClienteListener clienteListener;
+
     public void setMenuCliente(MenuCliente menuCliente) {
         this.menuCliente = menuCliente;
+    }
+
+    public void setClienteListener(ClienteListener listener) {
+        this.clienteListener = listener;
+    }
+
+    // Al guardar, notifica a MenuCliente
+    private void guardarCliente() {
+        String cuit = campoCUIT.getText();
+        String nombre = campoNombre.getText();
+        String email = campoEmail.getText();
+        String direccion = campoDireccion.getText();
+        String latitud = campoLatitud.getText();
+        String longitud = campoLongitud.getText();
+
+        if (clienteListener != null) {
+            Double lat = Double.parseDouble(campoLatitud.getText());
+            Double lng = Double.parseDouble(campoLongitud.getText());
+            Coordenada coordenadas = new Coordenada(lat, lng);
+            clienteListener.onClienteSaved(cuit, nombre, email, direccion, coordenadas);
+        }
+        dispose();
+    }
+    
+    public interface ClienteListener {
+        void onClienteSaved(String cuit, String nombre, String email, String direccion, Coordenada coordenadas);
     }
     public void setTitulo() {
         tituloPrincipal.setText("Editar Cliente");

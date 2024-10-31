@@ -1,17 +1,21 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package TP.DS.Pantallas;
+
+import Tp.DS.Controller.*;
+import Tp.DS.Memory.*;
+import Tp.DS.DAO.*;
 
 public class MenuPrincipal extends javax.swing.JFrame {
     MenuVendedor menuVendedor = new MenuVendedor();
-    MenuCliente menuCliente = new MenuCliente();
     MenuItemsMenu menuItemsMenu = new MenuItemsMenu();
     MenuPedidos menuPedidos = new MenuPedidos();
     
+    DAOCliente clienteDAO = new ClienteMemory(); // Crear instancia del DAO
+    ClienteController clienteController = new ClienteController(clienteDAO);
+    MenuCliente menuCliente = new MenuCliente(clienteController); // Pasa el clienteController al constructor
+
     public MenuPrincipal() {
-        initComponents();
+        initComponents();   
+        
         menuVendedor.setMenuPrincipal(this);
         menuVendedor.setMenuVendedor(menuVendedor);
         menuVendedor.setMenuCliente(menuCliente);
