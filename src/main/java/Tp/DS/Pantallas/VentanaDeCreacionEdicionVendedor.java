@@ -5,10 +5,17 @@
 package Tp.DS.Pantallas;
 
 import TP.DS.Pantallas.MenuVendedor;
+import Tp.DS.Controller.VendedorController;
+import Tp.DS.Coordenada;
+import Tp.DS.DAO.DAOVendedor;
+import Tp.DS.Memory.VendedorMemory;
+import Tp.DS.Vendedor;
 import javax.swing.JOptionPane;
 
 public class VentanaDeCreacionEdicionVendedor extends javax.swing.JFrame {
     private MenuVendedor menuVendedor;
+    private VendedorController vendedorController;
+    private Vendedor vendedorActual;
     private int filaSeleccionada=100;
     
     public void setMenuVendedor(MenuVendedor menuVendedor) {
@@ -17,19 +24,18 @@ public class VentanaDeCreacionEdicionVendedor extends javax.swing.JFrame {
     public void setTitulo() {
         tituloPrincipal.setText("Editar Vendedor");
     }
-    public void recibirDatosEdicion(int filaSeleccionada, String nombre, String direccion, String coordenada, String itemsMenu) {
+    public void recibirDatosEdicion(int filaSeleccionada, Vendedor vendedor) {
         this.filaSeleccionada = filaSeleccionada;
-        campoNombre.setText(nombre);
-        campoDireccion.setText(direccion);
-        String[] partes = coordenada.split(",");
-        String latitud = partes[0];
-        String longitud = partes[1];
-        campoLatitud.setText(latitud.trim());
-        campoLongitud.setText(longitud.trim());
-        campoItemsMenu.setText(itemsMenu.trim());
+        this.vendedorActual = vendedor;
+        campoNombre.setText(vendedor.getNombre());
+        campoDireccion.setText(vendedor.getDireccion());
+        campoLatitud.setText(String.valueOf(vendedor.getCoordenadas().getLat()));
+        campoLongitud.setText(String.valueOf(vendedor.getCoordenadas().getLng()));
+        campoItemsMenu.setText(String.join(", ", vendedor.getNombresMenu()));
     }
     
-    public VentanaDeCreacionEdicionVendedor() {
+    public VentanaDeCreacionEdicionVendedor(VendedorController vendedorController) {
+        this.vendedorController = vendedorController;
         initComponents();
     }
     @SuppressWarnings("unchecked")
@@ -249,21 +255,30 @@ public class VentanaDeCreacionEdicionVendedor extends javax.swing.JFrame {
 
     private void botonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarActionPerformed
         String regex = "^[-+]?\\d*(\\.\\d+)?$";
-        if (campoLatitud.getText().matches(regex) && campoLongitud.getText().matches(regex)
-                && !campoNombre.getText().isEmpty() && !campoDireccion.getText().isEmpty()
-                && !campoLatitud.getText().isEmpty() && !campoLongitud.getText().isEmpty()) {
-            if(filaSeleccionada==100) {
-                menuVendedor.recibirDatosDeCreacion(campoNombre.getText(), campoDireccion.getText(), campoLatitud.getText(), 
-                        campoLongitud.getText(), campoItemsMenu.getText());
-                JOptionPane.showMessageDialog(null, "Creado con Éxito", null, JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                menuVendedor.recibirDatosDeEdicion(filaSeleccionada, campoNombre.getText(), campoDireccion.getText(), 
-                        campoLatitud.getText(), campoLongitud.getText(), campoItemsMenu.getText());
-                JOptionPane.showMessageDialog(null, "Editado con Éxito", null, JOptionPane.INFORMATION_MESSAGE);
+    if (campoLatitud.getText().matches(regex) && campoLongitud.getText().matches(regex)
+            && !campoNombre.getText().isEmpty() && !campoDireccion.getText().isEmpty()
+            && !campoLatitud.getText().isEmpty() && !campoLongitud.getText().isEmpty()) {
+        
+        try {
+            double lat = Double.parseDouble(campoLatitud.getText());
+            double lng = Double.parseDouble(campoLongitud.getText());
+            Coordenada coordenadas = new Coordenada(lat, lng);
+
+            if (vendedorActual == null) { // creacion
+                vendedorController.crearNuevoVendedor(campoNombre.getText(), campoDireccion.getText(), coordenadas);
+                JOptionPane.showMessageDialog(this, "Vendedor creado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
+            } else { // edicion
+                vendedorController.modificarVendedor(vendedorActual.getId(), campoNombre.getText(), campoDireccion.getText(), coordenadas);
+                JOptionPane.showMessageDialog(this, "Vendedor actualizado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
             }
-            dispose();
-        } else {
-            JOptionPane.showMessageDialog(null, "Formato Inválido", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            
+            dispose(); // Cerrar ventana después de la creación o edición exitosa
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Coordenadas inválidas.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
+    } else {
+        JOptionPane.showMessageDialog(this, "Formato Inválido", "Advertencia", JOptionPane.WARNING_MESSAGE);
         } 
     }//GEN-LAST:event_botonAceptarActionPerformed
 
@@ -272,8 +287,10 @@ public class VentanaDeCreacionEdicionVendedor extends javax.swing.JFrame {
     }//GEN-LAST:event_botonCancelarActionPerformed
 
     public static void main(String args[]) {
+        DAOVendedor vendedorDAO = new VendedorMemory();
+        VendedorController vendedorController = new VendedorController(vendedorDAO);
         java.awt.EventQueue.invokeLater(() -> {
-            new VentanaDeCreacionEdicionVendedor().setVisible(true);
+            new VentanaDeCreacionEdicionVendedor(vendedorController).setVisible(true);
         });
     }
 

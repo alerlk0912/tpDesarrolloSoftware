@@ -4,7 +4,12 @@
  */
 package TP.DS.Pantallas;
 
+import Tp.DS.Controller.VendedorController;
+import Tp.DS.DAO.DAOVendedor;
+import Tp.DS.Memory.VendedorMemory;
 import Tp.DS.Pantallas.VentanaDeCreacionEdicionVendedor;
+import Tp.DS.Vendedor;
+import java.util.List;
 import javax.swing.*;
 import javax.swing.table.*;
 
@@ -14,11 +19,12 @@ public class MenuVendedor extends javax.swing.JFrame {
     private MenuCliente menuCliente;
     private MenuItemsMenu menuItemsMenu;
     private MenuPedidos menuPedidos;
+    private VendedorController vendedorController;
     
     //prueba tabla
     private Object[][] vendedores;
     DefaultTableModel model;
-    
+    /*
     public void setListaTablaVendedores() {
         model = (DefaultTableModel) tablaVendedor.getModel();
         vendedores = new Object[][] {
@@ -36,7 +42,19 @@ public class MenuVendedor extends javax.swing.JFrame {
             {12, "Restaurante CL", "Calle 909", "-34.6245, -58.3731"},
             {13, "Restaurante CM", "Calle 1010", "-34.6125, -58.3876"}
         };
+    }*/
+    
+    private void cargarTablaVendedores() {
+        model = (DefaultTableModel) tablaVendedor.getModel();
+        model.setRowCount(0); // Limpiar tabla
+        List<Vendedor> listaVendedores = vendedorController.mostrarListaVendedor();
+        for (Vendedor vendedor : listaVendedores) {
+            String coordenadas = vendedor.getCoordenadas().getLat() + "," + vendedor.getCoordenadas().getLng();
+            String itemsMenu = String.join(", ", vendedor.getNombresMenu());
+            model.addRow(new Object[]{vendedor.getId(), vendedor.getNombre(), vendedor.getDireccion(), coordenadas, itemsMenu});
+        }
     }
+    
     public void setMenuPrincipal(MenuPrincipal menuPrincipal) {
         this.menuPrincipal = menuPrincipal;
     }
@@ -52,22 +70,14 @@ public class MenuVendedor extends javax.swing.JFrame {
     public void setMenuPedidos(MenuPedidos menuPedidos) {
         this.menuPedidos = menuPedidos;
     }
-    public void recibirDatosDeCreacion(String nombre, String direccion, String latitud, String longitud, String itemsMenu) {
-        String coordenada = latitud + ", " + longitud;
-        Object[] vendedor = new Object[] {model.getRowCount() + 1, nombre, direccion, coordenada, itemsMenu};
-        model.addRow(vendedor);
-    }
-    public void recibirDatosDeEdicion(int filaSeleccionada, String nombre, String direccion, String latitud, String longitud, String itemsMenu) {
-        String coordenada = latitud + ", " + longitud;
-        model.setValueAt(nombre, filaSeleccionada, 1);
-        model.setValueAt(direccion, filaSeleccionada, 2);
-        model.setValueAt(coordenada, filaSeleccionada, 3);
-        model.setValueAt(itemsMenu, filaSeleccionada, 4);
-    }
     
-    public MenuVendedor() {
+    
+    
+    public MenuVendedor(VendedorController vendedorController) {
+        this.vendedorController = vendedorController;
         initComponents();
-        setListaTablaVendedores(); 
+        // setListaTablaVendedores();
+        cargarTablaVendedores();
     }
     
     @SuppressWarnings("unchecked")
@@ -383,39 +393,57 @@ public class MenuVendedor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonCrearVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearVendedorActionPerformed
-        VentanaDeCreacionEdicionVendedor nuevaVentana = new VentanaDeCreacionEdicionVendedor();
+        VentanaDeCreacionEdicionVendedor nuevaVentana = new VentanaDeCreacionEdicionVendedor(vendedorController);
         nuevaVentana.setMenuVendedor(this);
         nuevaVentana.setVisible(true);
         nuevaVentana.setLocationRelativeTo(null);
+        nuevaVentana.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                cargarTablaVendedores(); // actualizar tabla tras creación
+            }
+        });
     }//GEN-LAST:event_botonCrearVendedorActionPerformed
 
     private void botonEliminarVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarVendedorActionPerformed
         int filaSeleccionada = tablaVendedor.getSelectedRow();
         if (filaSeleccionada != -1) {
-            int opcion = JOptionPane.showConfirmDialog(null, "¿Estás seguro de eliminar este Vendedor?", "Confirmar", JOptionPane.YES_NO_OPTION);
+            int id = (int) model.getValueAt(filaSeleccionada, 0);
+            int opcion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de eliminar este Vendedor?", "Confirmar", JOptionPane.YES_NO_OPTION);
             if (opcion == JOptionPane.YES_OPTION) {
-                model.removeRow(filaSeleccionada);
-                JOptionPane.showMessageDialog(null, "Vendedor borrado con Éxito", "Información", JOptionPane.INFORMATION_MESSAGE);
+                vendedorController.eliminarVendedor(id);
+                cargarTablaVendedores(); // actualizar tabla tras eliminación
+                JOptionPane.showMessageDialog(this, "Vendedor borrado con Éxito", "Información", JOptionPane.INFORMATION_MESSAGE);
             }
         }
         else {
-            JOptionPane.showMessageDialog(null, "Por favor selecciona una fila para editar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Por favor selecciona una fila para editar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_botonEliminarVendedorActionPerformed
 
     private void botonEditarVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarVendedorActionPerformed
         int filaSeleccionada = tablaVendedor.getSelectedRow();
         if (filaSeleccionada != -1) {
-            String nombre = (String) model.getValueAt(filaSeleccionada, 1);
-            String direccion = (String) model.getValueAt(filaSeleccionada, 2);
-            String coordenada = (String) model.getValueAt(filaSeleccionada, 3);
-            String itemsMenu = (String) model.getValueAt(filaSeleccionada, 4);
-            VentanaDeCreacionEdicionVendedor nuevaVentana = new VentanaDeCreacionEdicionVendedor();
-            nuevaVentana.setMenuVendedor(this);
-            nuevaVentana.setVisible(true);
-            nuevaVentana.setLocationRelativeTo(null);
-            nuevaVentana.recibirDatosEdicion(filaSeleccionada, nombre, direccion, coordenada, itemsMenu);
-            nuevaVentana.setTitulo();
+            int id = (int) model.getValueAt(filaSeleccionada, 0);
+            Vendedor vendedor = vendedorController.buscarVendedor(id);
+            if (vendedor != null){
+//                String nombre = (String) model.getValueAt(filaSeleccionada, 1);
+//                String direccion = (String) model.getValueAt(filaSeleccionada, 2);
+//                String coordenada = (String) model.getValueAt(filaSeleccionada, 3);
+//                String itemsMenu = (String) model.getValueAt(filaSeleccionada, 4);
+                VentanaDeCreacionEdicionVendedor nuevaVentana = new VentanaDeCreacionEdicionVendedor(vendedorController);
+                nuevaVentana.recibirDatosEdicion(filaSeleccionada, vendedor);
+                nuevaVentana.setMenuVendedor(this);
+                nuevaVentana.setVisible(true);
+                nuevaVentana.setLocationRelativeTo(null);
+                nuevaVentana.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                        cargarTablaVendedores(); // actualizar tabla tras edición
+                    }
+                });
+                nuevaVentana.setTitulo();
+            }
         }
         else {
             JOptionPane.showMessageDialog(null, "Por favor selecciona una fila para editar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
@@ -427,29 +455,42 @@ public class MenuVendedor extends javax.swing.JFrame {
         String direccionBuscada = campoDireccionVendedor.getText().trim();
         String coordenadaBuscada = campoCoordenadaVendedor.getText().trim();
         String itemsMenuBuscado = campoItemsMenu.getText().trim();
-        model.setRowCount(0);
-        boolean encontrado = false;
-        if (nombreBuscado.isEmpty() && direccionBuscada.isEmpty() && coordenadaBuscada.isEmpty() && itemsMenuBuscado.isEmpty()) {
-            for (Object[] vendedor : vendedores) {
-                model.addRow(vendedor);
+        model.setRowCount(0); //limpiar tabla
+//        boolean encontrado = false;
+//        if (nombreBuscado.isEmpty() && direccionBuscada.isEmpty() && coordenadaBuscada.isEmpty() && itemsMenuBuscado.isEmpty()) {
+//            for (Object[] vendedor : vendedores) {
+//                model.addRow(vendedor);
+//            }
+//            encontrado = true;
+//        }
+//        else {
+//            for (Object[] vendedor : vendedores) {
+//                String nombre = ((String) vendedor[1]).toLowerCase();
+//                String direccion = ((String) vendedor[2]).toLowerCase();
+//                String coordenada = ((String) vendedor[3]).toLowerCase();
+//                String itemsMenu = ((String) vendedor[4]).toLowerCase();
+//                
+//                if (nombre.contains(nombreBuscado) /*|| direccion.contains(direccionBuscada) || 
+//                        coordenada.contains(coordenadaBuscada) || itemMenu.contains(itemMenuBuscado)*/) {
+//                    model.addRow(vendedor);
+//                    encontrado = true;
+//                }
+//            }
+//        }
+        List<Vendedor> vendedores = vendedorController.mostrarListaVendedor();
+        boolean coincide = false;
+        for (Vendedor vendedor : vendedores) {
+            if ((nombreBuscado.isEmpty() || vendedor.getNombre().toLowerCase().contains(nombreBuscado))
+                    && (direccionBuscada.isEmpty() || vendedor.getDireccion().toLowerCase().contains(direccionBuscada))
+                    && (coordenadaBuscada.isEmpty() || vendedor.getCoordenadas().toString().toLowerCase().contains(coordenadaBuscada))
+                    && (itemsMenuBuscado.isEmpty() || vendedor.getNombresMenu().toString().toLowerCase().contains(itemsMenuBuscado))) {
+                coincide = true;
+                String coordenadas = vendedor.getCoordenadas().getLat() + ", " + vendedor.getCoordenadas().getLng();
+                String itemsMenu = String.join(", ", vendedor.getNombresMenu());
+                model.addRow(new Object[]{vendedor.getId(), vendedor.getNombre(), vendedor.getDireccion(), coordenadas, itemsMenu});
             }
-            encontrado = true;
         }
-        else {
-            for (Object[] vendedor : vendedores) {
-                String nombre = ((String) vendedor[1]).toLowerCase();
-                String direccion = ((String) vendedor[2]).toLowerCase();
-                String coordenada = ((String) vendedor[3]).toLowerCase();
-                String itemsMenu = ((String) vendedor[4]).toLowerCase();
-                
-                if (nombre.contains(nombreBuscado) /*|| direccion.contains(direccionBuscada) || 
-                        coordenada.contains(coordenadaBuscada) || itemMenu.contains(itemMenuBuscado)*/) {
-                    model.addRow(vendedor);
-                    encontrado = true;
-                }
-            }
-        }
-        if (!encontrado) {
+        if (!coincide) {
             JOptionPane.showMessageDialog(null, "No se encontró ningún vendedor con esos parámetros.", "Búsqueda", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_botonBuscarVendedorActionPerformed
@@ -486,8 +527,10 @@ public class MenuVendedor extends javax.swing.JFrame {
     }//GEN-LAST:event_botonVendedorActionPerformed
 
     public static void main(String args[]) {
+        DAOVendedor vendedorDAO = new VendedorMemory();
+        VendedorController vendedorController = new VendedorController(vendedorDAO);
         java.awt.EventQueue.invokeLater(() -> {
-            new MenuVendedor().setVisible(true);
+            new MenuVendedor(vendedorController).setVisible(true);
         });
     }
     
@@ -514,4 +557,5 @@ public class MenuVendedor extends javax.swing.JFrame {
     private javax.swing.JLabel texto4;
     private javax.swing.JLabel texto5;
     // End of variables declaration//GEN-END:variables
+
 }

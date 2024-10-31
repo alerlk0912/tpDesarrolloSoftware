@@ -5,7 +5,9 @@ import Tp.DS.Memory.*;
 import Tp.DS.DAO.*;
 
 public class MenuPrincipal extends javax.swing.JFrame {
-    MenuVendedor menuVendedor = new MenuVendedor();
+    DAOVendedor vendedorDAO = new VendedorMemory(); // Crear instancia del DAO
+    VendedorController vendedorController = new VendedorController(vendedorDAO);
+    MenuVendedor menuVendedor = new MenuVendedor(vendedorController);
     MenuItemsMenu menuItemsMenu = new MenuItemsMenu();
     MenuPedidos menuPedidos = new MenuPedidos();
     

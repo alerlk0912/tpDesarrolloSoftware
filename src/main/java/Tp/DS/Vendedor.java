@@ -2,6 +2,7 @@ package Tp.DS;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Vendedor {
     private int id;
@@ -150,5 +151,11 @@ public class Vendedor {
     public void actualizarEstadoPedido(Pedido pedido, EstadoPedido nuevoEstado) {
         System.out.println("Vendedor " + nombre + ": actualizando estado del pedido a " + nuevoEstado);
         pedido.cambiarEstado(nuevoEstado);
+    }
+
+    public String getNombresMenu() {
+        return menu.stream()
+                   .map(ItemMenu::getNombre) // Obtener el nombre de cada ItemMenu
+                   .collect(Collectors.joining(", ")); // Unir con comas
     }
 }
