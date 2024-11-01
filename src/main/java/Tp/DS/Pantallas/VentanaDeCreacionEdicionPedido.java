@@ -14,7 +14,12 @@ import Tp.DS.Memory.PedidoMemory;
 import Tp.DS.MercadoPago;
 import Tp.DS.Pago;
 import Tp.DS.Pedido;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class VentanaDeCreacionEdicionPedido extends javax.swing.JFrame {
@@ -22,6 +27,7 @@ public class VentanaDeCreacionEdicionPedido extends javax.swing.JFrame {
     private PedidoController pedidoController;
     private Pedido pedidoActual;
     private int filaSeleccionada=100;
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     
     public void setMenuPedido(MenuPedidos menuPedido) {
         this.menuPedido = menuPedido;
@@ -37,7 +43,7 @@ public class VentanaDeCreacionEdicionPedido extends javax.swing.JFrame {
         comboBoxMetodoDePago.setSelectedItem(pedido.getMetodoPago().getClass().getSimpleName());
         comboBoxEstadoPedido.setSelectedItem(pedido.getEstado().toString());
         campoMontoBase.setText(Double.toString(pedido.getMontoBase()));
-        campoFechaDePago.setText(pedido.getFechaPago().toString());
+        campoFechaDePago.setText(dateFormat.format(pedido.getFechaPago()));
         campoMontoTotal.setText(Double.toString(pedido.getMontoTotal()));
     }
     
@@ -309,10 +315,9 @@ public class VentanaDeCreacionEdicionPedido extends javax.swing.JFrame {
         
         if (campoMontoBase.getText().matches(regexNumero)  && !campoMontoBase.getText().isEmpty()
             && campoMontoTotal.getText().matches(regexNumero)  && !campoMontoTotal.getText().isEmpty()
-            && campoFechaDePago.getText().matches(regexFecha)  
+            && campoFechaDePago.getText().matches(regexFecha) && !campoFechaDePago.getText().isEmpty()
             && !campoCliente.getText().isEmpty()  
-            && !campoItemsPedido.getText().isEmpty()
-            && !campoFechaDePago.getText().isEmpty()) {
+            && !campoItemsPedido.getText().isEmpty()) {
             Cliente clientePedido = new Cliente(campoCliente.getText());
             Pago pagoPedido = null;
             switch (comboBoxMetodoDePago.getSelectedItem().toString()){
@@ -334,13 +339,27 @@ public class VentanaDeCreacionEdicionPedido extends javax.swing.JFrame {
                 /* hacer la logica para setear todo lo de la interfaz en el pedido
                 pedidoActual.setItemsPedido(campoItemsPedido.getText());
                 pedidoActual.setEstado(comboBoxEstadoPedido.getSelectedItem().toString());
-                pedidoActual.setFechaPago(campoFechaDePago.getText()); 
                 
 */
+                try {
+                    Date fechaPago = dateFormat.parse(campoFechaDePago.getText());
+                    pedidoActual.setFechaPago(fechaPago);
+                } catch (ParseException ex) {
+                    Logger.getLogger(VentanaDeCreacionEdicionPedido.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
                 pedidoActual.setMontoBase(Double.parseDouble(campoMontoBase.getText()));
                 pedidoActual.setMontoTotal(Double.parseDouble(campoMontoTotal.getText()));
                 JOptionPane.showMessageDialog(null, "Creado con Éxito", null, JOptionPane.INFORMATION_MESSAGE);
             } else {
+                
+                try {
+                    Date fechaPago = dateFormat.parse(campoFechaDePago.getText());
+                    pedidoActual.setFechaPago(fechaPago);
+                } catch (ParseException ex) {
+                    Logger.getLogger(VentanaDeCreacionEdicionPedido.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
                 pedidoActual.setMontoBase(Double.parseDouble(campoMontoBase.getText()));
                 pedidoActual.setMontoTotal(Double.parseDouble(campoMontoTotal.getText()));
                 pedidoController.modificarPedido(pedidoActual.getId(), clientePedido, pagoPedido);

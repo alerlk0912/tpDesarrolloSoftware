@@ -10,6 +10,7 @@ import javax.swing.*;
 import javax.swing.table.*;
 import Tp.DS.Pantallas.VentanaDeCreacionEdicionPedido;
 import Tp.DS.Pedido;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class MenuPedidos extends javax.swing.JFrame {
@@ -19,6 +20,7 @@ public class MenuPedidos extends javax.swing.JFrame {
     private MenuItemsMenu menuItemsMenu;
     private MenuPedidos menuPedidos;
     private PedidoController pedidoController;
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
     //para tabla
     private Object[][] pedidos;
@@ -45,7 +47,11 @@ public class MenuPedidos extends javax.swing.JFrame {
         List<Pedido> listaPedidos = pedidoController.mostrarListaPedidos();
         for (Pedido pedido : listaPedidos) {
             String nombresItems = pedido.obtenerNombresItems();
-            model.addRow(new Object[]{pedido.getId(), pedido.getCliente().getNombre(), nombresItems, pedido.getMetodoPago().getClass().getSimpleName(), pedido.getEstado(), pedido.getMontoBase(), pedido.getFechaPago(), pedido.getMontoTotal()});
+            String fechaPagoFormateada = pedido.getFechaPago() != null ? dateFormat.format(pedido.getFechaPago()) : "";
+            model.addRow(new Object[]{pedido.getId(), pedido.getCliente().getNombre(), nombresItems, 
+                pedido.getMetodoPago().getClass().getSimpleName(), pedido.getEstado(), 
+                pedido.getMontoBase(), fechaPagoFormateada, pedido.getMontoTotal()});
+            
         }
     }
     
@@ -524,12 +530,14 @@ public class MenuPedidos extends javax.swing.JFrame {
         for (Pedido pedido : listaPedidos) {
             
             String nombresItems = pedido.obtenerNombresItems();
+            String fechaPagoFormateada = pedido.getFechaPago() != null ? dateFormat.format(pedido.getFechaPago()) : "";
+
             if ((clienteBuscado.isEmpty() || pedido.getCliente().getNombre().contains(clienteBuscado.toLowerCase())) 
                         && (itemsPedidoBuscado.isEmpty() || nombresItems.toLowerCase().contains(itemsPedidoBuscado.toLowerCase())) 
                         && (metodoDePagoBuscado.isEmpty() || pedido.getMetodoPago().getClass().getSimpleName().equalsIgnoreCase(metodoDePagoBuscado)) 
                         && (estadoPedidoBuscado.isEmpty() || pedido.getEstado().toString().equalsIgnoreCase(estadoPedidoBuscado)) 
                         && (montoBaseBuscado.isEmpty() || Double.toString(pedido.getMontoBase()).equals(montoBaseBuscado)) 
-                        && (fechaDePagoBuscado.isEmpty() || (pedido.getFechaPago().toString().equals(fechaDePagoBuscado))) 
+                        && (fechaDePagoBuscado.isEmpty() || (fechaPagoFormateada.equals(fechaDePagoBuscado))) 
                         && (montoTotalBuscado.isEmpty() || Double.toString(pedido.getMontoTotal()).equals(montoTotalBuscado))) {
                 encontrado = true;
                 model.addRow(new Object[]{
@@ -539,7 +547,7 @@ public class MenuPedidos extends javax.swing.JFrame {
                     pedido.getMetodoPago().getClass().getSimpleName(),
                     pedido.getEstado().toString(),
                     pedido.getMontoBase(),
-                    pedido.getFechaPago() != null ? pedido.getFechaPago().toString() : "",
+                    fechaPagoFormateada,
                     pedido.getMontoTotal()});
             }
         }
