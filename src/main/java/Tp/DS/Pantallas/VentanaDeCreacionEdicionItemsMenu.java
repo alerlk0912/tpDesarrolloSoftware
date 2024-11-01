@@ -5,11 +5,16 @@
 package Tp.DS.Pantallas;
 
 import TP.DS.Pantallas.MenuItemsMenu;
+import Tp.DS.Categoria;
+import Tp.DS.Controller.ItemMenuController;
+import Tp.DS.ItemMenu;
 import javax.swing.JOptionPane;
 
 public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
     private MenuItemsMenu menuItemsMenu;
     private int filaSeleccionada=100;
+    private ItemMenuController itemMenuController;
+    private ItemMenu itemActual;
     
     public void setItemsMenu(MenuItemsMenu menuItemsMenu) {
         this.menuItemsMenu = menuItemsMenu;
@@ -17,16 +22,18 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
     public void setTitulo() {
         tituloPrincipal.setText("Editar Items Menú");
     }
-    public void recibirDatosEdicion(int filaSeleccionada, String nombre, String descripcion, String precio, String categoria, String vendedor) {
+    public void recibirDatosEdicion(int filaSeleccionada, ItemMenu item) {
         this.filaSeleccionada = filaSeleccionada;
-        campoNombre.setText(nombre);
-        campoDescripcion.setText(descripcion);
-        campoPrecio.setText(precio.trim());
-        comboBoxCategoria.setSelectedItem(categoria);     
-        campoVendedor.setText(vendedor.trim());
+        this.itemActual = item;
+        campoNombre.setText(item.getNombre());
+        campoDescripcion.setText(item.getDescripcion());
+        campoPrecio.setText(Double.toString(item.getPrecio()));
+        comboBoxCategoria.setSelectedItem(item.getCategoria().getClass().getName());     
+        campoVendedor.setText(item.getVendedor().getNombre());
     }
     
-    public VentanaDeCreacionEdicionItemsMenu() {
+    public VentanaDeCreacionEdicionItemsMenu(ItemMenuController itemMenuController) {
+        this.itemMenuController = itemMenuController;
         initComponents();
     }
     @SuppressWarnings("unchecked")
@@ -244,22 +251,72 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarActionPerformed
-        String regex = "^\\d*(\\.\\d+)?$";
-        if (campoPrecio.getText().matches(regex) && !campoNombre.getText().isEmpty() && !campoDescripcion.getText().isEmpty() 
-                && !campoPrecio.getText().isEmpty() && !campoVendedor.getText().isEmpty()) {
-            if(filaSeleccionada==100) {
-                menuItemsMenu.recibirDatosDeCreacion(campoNombre.getText(), campoDescripcion.getText(), campoPrecio.getText(),
-                        (String) comboBoxCategoria.getSelectedItem(), campoVendedor.getText());
-                JOptionPane.showMessageDialog(null, "Creado con Éxito", null, JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                menuItemsMenu.recibirDatosDeEdicion(filaSeleccionada, campoNombre.getText(), campoDescripcion.getText(), 
-                        campoPrecio.getText(), (String) comboBoxCategoria.getSelectedItem(), campoVendedor.getText());
-                JOptionPane.showMessageDialog(null, "Editado con Éxito", null, JOptionPane.INFORMATION_MESSAGE);
+//        String regex = "^\\d*(\\.\\d+)?$";
+//        if (campoPrecio.getText().matches(regex) && !campoNombre.getText().isEmpty() && !campoDescripcion.getText().isEmpty() 
+//                && !campoPrecio.getText().isEmpty() && !campoVendedor.getText().isEmpty()) {
+//            if(filaSeleccionada==100) {
+//                menuItemsMenu.recibirDatosDeCreacion(campoNombre.getText(), campoDescripcion.getText(), campoPrecio.getText(),
+//                        (String) comboBoxCategoria.getSelectedItem(), campoVendedor.getText());
+//                JOptionPane.showMessageDialog(null, "Creado con Éxito", null, JOptionPane.INFORMATION_MESSAGE);
+//            } else {
+//                menuItemsMenu.recibirDatosDeEdicion(filaSeleccionada, campoNombre.getText(), campoDescripcion.getText(), 
+//                        campoPrecio.getText(), (String) comboBoxCategoria.getSelectedItem(), campoVendedor.getText());
+//                JOptionPane.showMessageDialog(null, "Editado con Éxito", null, JOptionPane.INFORMATION_MESSAGE);
+//            }
+//            dispose();
+//        } else {
+//            JOptionPane.showMessageDialog(null, "Formato Inválido", "Advertencia", JOptionPane.WARNING_MESSAGE);
+//        } 
+        String regex = "^\\d*(\\.\\d+)?$"; // validar precio 
+
+        if (campoPrecio.getText().matches(regex) && 
+            !campoNombre.getText().isEmpty() && 
+            !campoDescripcion.getText().isEmpty() && 
+            !campoPrecio.getText().isEmpty() && 
+            !campoVendedor.getText().isEmpty()) {
+
+            try {
+                double precio = Double.parseDouble(campoPrecio.getText());
+                Categoria categoriaItem = new Categoria((String) comboBoxCategoria.getSelectedItem());
+                if (filaSeleccionada == 100) { // Creación de nuevo ItemMenu
+                    
+                    if(comboBoxCategoria.getSelectedItem()..toString().toLowerCase.equals("bebida")){
+                    itemMenuController.crearNuevaBebida(
+                        campoNombre.getText(),
+                        campoDescripcion.getText(),
+                        precio,
+                        categoriaItem,
+                        campoVendedor.getText()
+                    );
+                    } else {
+                        itemMenuController.crearNuevoPlato(
+                            campoNombre.getText(),
+                            campoDescripcion.getText(),
+                            precio,
+                            categoriaItem,
+                            campoVendedor.getText()
+                            );
+                            } 
+                    JOptionPane.showMessageDialog(this, "ItemMenu creado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
+                } else { // Edición de un ItemMenu existente
+                    itemActual.setNombre(campoNombre.getText());
+                    itemActual.setDescripcion(campoDescripcion.getText());
+                    itemActual.setPrecio(precio);
+                    itemActual.setCategoria(categoriaItem);
+                    itemActual.setVendedor(campoVendedor.getText());
+                    itemMenuController.modificarItemMenu(filaSeleccionada, itemActual);
+                    JOptionPane.showMessageDialog(this, "ItemMenu actualizado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
+                }
+
+                dispose(); 
+
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Precio inválido.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            dispose();
+
         } else {
-            JOptionPane.showMessageDialog(null, "Formato Inválido", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        } 
+            JOptionPane.showMessageDialog(this, "Formato Inválido", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_botonAceptarActionPerformed
 
     private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed

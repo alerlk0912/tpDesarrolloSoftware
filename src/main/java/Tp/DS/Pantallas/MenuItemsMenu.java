@@ -3,9 +3,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package TP.DS.Pantallas;
+import Tp.DS.Controller.ItemMenuController;
+import Tp.DS.DAO.DAOItemMenu;
+import Tp.DS.ItemMenu;
+import Tp.DS.Memory.ItemMenuMemory;
 import javax.swing.*;
 import javax.swing.table.*;
 import Tp.DS.Pantallas.VentanaDeCreacionEdicionItemsMenu;
+import java.sql.SQLException;
+import java.util.List;
 
 public class MenuItemsMenu extends javax.swing.JFrame {
     private MenuPrincipal menuPrincipal;
@@ -13,24 +19,39 @@ public class MenuItemsMenu extends javax.swing.JFrame {
     private MenuCliente menuCliente;
     private MenuItemsMenu menuItemsMenu;
     private MenuPedidos menuPedidos;
+    private ItemMenuController itemMenuController;
     //para tabla
     private Object[][] itemsMenu;
     DefaultTableModel model;
     
-    public void setListaTablaItemsMenu() {
+//    public void setListaTablaItemsMenu() {
+//        model = (DefaultTableModel) tablaItemsMenu.getModel();
+//        itemsMenu = new Object[][] {
+//            {1, "Gaseosa", "Refresco de cola", "2500", "BEBIDA", "Restaurante A"},
+//            {2, "Bife", "Bife de chorizo", "5000", "PLATO", "Restaurante B"},
+//            {3, "Agua", "Agua mineral", "1500", "BEBIDA", "Restaurante C"},
+//            {4, "Ensalada", "Ensalada César", "3000", "PLATO", "Restaurante D"},
+//            {5, "Cerveza", "Cerveza artesanal", "3500", "BEBIDA", "Restaurante E"},
+//            {6, "Pizza", "Pizza de jamón y queso", "4500", "PLATO", "Restaurante F"},
+//            {7, "Jugo", "Jugo de naranja", "2000", "BEBIDA", "Restaurante G"},
+//            {8, "Pasta", "Spaghetti a la bolognesa", "5500", "PLATO", "Restaurante H"},
+//            {9, "Vino", "Vino tinto", "6000", "BEBIDA", "Restaurante I"},
+//            {10, "Hamburguesa", "Hamburguesa con queso", "4000", "PLATO", "Restaurante J"}
+//        };
+//    }
+    private void cargarTablaItems() {
         model = (DefaultTableModel) tablaItemsMenu.getModel();
-        itemsMenu = new Object[][] {
-            {1, "Gaseosa", "Refresco de cola", "2500", "BEBIDA", "Restaurante A"},
-            {2, "Bife", "Bife de chorizo", "5000", "PLATO", "Restaurante B"},
-            {3, "Agua", "Agua mineral", "1500", "BEBIDA", "Restaurante C"},
-            {4, "Ensalada", "Ensalada César", "3000", "PLATO", "Restaurante D"},
-            {5, "Cerveza", "Cerveza artesanal", "3500", "BEBIDA", "Restaurante E"},
-            {6, "Pizza", "Pizza de jamón y queso", "4500", "PLATO", "Restaurante F"},
-            {7, "Jugo", "Jugo de naranja", "2000", "BEBIDA", "Restaurante G"},
-            {8, "Pasta", "Spaghetti a la bolognesa", "5500", "PLATO", "Restaurante H"},
-            {9, "Vino", "Vino tinto", "6000", "BEBIDA", "Restaurante I"},
-            {10, "Hamburguesa", "Hamburguesa con queso", "4000", "PLATO", "Restaurante J"}
-        };
+        model.setRowCount(0); // Limpiar tabla
+        List<ItemMenu> listaItems = itemMenuController.mostrarListaItemsMenu();
+        for (ItemMenu item : listaItems) {
+            model.addRow(new Object[]{
+                item.getId(), 
+                item.getNombre(), 
+                item.getDescripcion(), 
+                item.getPrecio(), 
+                item.getCategoria().getClass().getSimpleName(), 
+                item.getVendedor().getNombre()});
+        }
     }
     public void setMenuPrincipal(MenuPrincipal menuPrincipal) {
         this.menuPrincipal = menuPrincipal;
@@ -47,22 +68,23 @@ public class MenuItemsMenu extends javax.swing.JFrame {
     public void setMenuPedidos(MenuPedidos menuPedidos) {
         this.menuPedidos = menuPedidos;
     }
-    public void recibirDatosDeCreacion(String nombre, String descripcion, String precio, String categoria, String vendedor) {
-        Object[] itemsMenuArr = new Object[] {model.getRowCount() + 1, nombre, descripcion, precio, categoria, vendedor};
-        model.addRow(itemsMenuArr);
-    }
-    public void recibirDatosDeEdicion(int filaSeleccionada, String nombre, String descripcion, String precio, String categoria, String vendedor) {
-        model.setValueAt(nombre, filaSeleccionada, 1);
-        model.setValueAt(descripcion, filaSeleccionada, 2);
-        model.setValueAt(precio, filaSeleccionada, 3);
-        model.setValueAt(categoria, filaSeleccionada, 4);
-        model.setValueAt(vendedor, filaSeleccionada, 5);
-    }
+//    public void recibirDatosDeCreacion(String nombre, String descripcion, String precio, String categoria, String vendedor) {
+//        Object[] itemsMenuArr = new Object[] {model.getRowCount() + 1, nombre, descripcion, precio, categoria, vendedor};
+//        model.addRow(itemsMenuArr);
+//    }
+//    public void recibirDatosDeEdicion(int filaSeleccionada, String nombre, String descripcion, String precio, String categoria, String vendedor) {
+//        model.setValueAt(nombre, filaSeleccionada, 1);
+//        model.setValueAt(descripcion, filaSeleccionada, 2);
+//        model.setValueAt(precio, filaSeleccionada, 3);
+//        model.setValueAt(categoria, filaSeleccionada, 4);
+//        model.setValueAt(vendedor, filaSeleccionada, 5);
+//    }
     
-    public MenuItemsMenu() {
+    public MenuItemsMenu(ItemMenuController itemMenuController) {
+        this.itemMenuController = itemMenuController;
         initComponents();
-        setListaTablaItemsMenu();
-    }
+        cargarTablaItems();
+        }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -435,18 +457,27 @@ public class MenuItemsMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_campoPrecioActionPerformed
 
     private void botonCrearItemsMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearItemsMenuActionPerformed
-        VentanaDeCreacionEdicionItemsMenu nuevaVentana = new VentanaDeCreacionEdicionItemsMenu();
+        VentanaDeCreacionEdicionItemsMenu nuevaVentana = new VentanaDeCreacionEdicionItemsMenu(itemMenuController);
         nuevaVentana.setItemsMenu(this);
         nuevaVentana.setVisible(true);
         nuevaVentana.setLocationRelativeTo(null);
+        nuevaVentana.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                cargarTablaItems(); // actualizar tabla tras creación
+            }
+        });
+
     }//GEN-LAST:event_botonCrearItemsMenuActionPerformed
 
     private void botonEliminarItemsMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarItemsMenuActionPerformed
         int filaSeleccionada = tablaItemsMenu.getSelectedRow();
         if (filaSeleccionada != -1) {
+            int id = (int) model.getValueAt(filaSeleccionada, 0);
             int opcion = JOptionPane.showConfirmDialog(null, "¿Estás seguro de eliminar este Item Menú?", "Confirmar", JOptionPane.YES_NO_OPTION);
             if (opcion == JOptionPane.YES_OPTION) {
-                model.removeRow(filaSeleccionada);
+                itemMenuController.eliminarItemMenu(id);
+                cargarTablaItems();
                 JOptionPane.showMessageDialog(null, "Item Menú borrado con Éxito", "Información", JOptionPane.INFORMATION_MESSAGE);
             }
         }
@@ -458,17 +489,25 @@ public class MenuItemsMenu extends javax.swing.JFrame {
     private void botonEditarItemsMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarItemsMenuActionPerformed
         int filaSeleccionada = tablaItemsMenu.getSelectedRow();
         if (filaSeleccionada != -1) {
-            String nombre = (String) model.getValueAt(filaSeleccionada, 1);
-            String descripcion = (String) model.getValueAt(filaSeleccionada, 2);
-            String precio = (String) model.getValueAt(filaSeleccionada, 3);
-            String categoria = (String) model.getValueAt(filaSeleccionada, 4);
-            String vendedor = (String) model.getValueAt(filaSeleccionada, 5);
-            VentanaDeCreacionEdicionItemsMenu nuevaVentana = new VentanaDeCreacionEdicionItemsMenu();
+            int id = (int) model.getValueAt(filaSeleccionada, 0);
+            ItemMenu item = itemMenuController.buscarItemMenu(id);
+//            String nombre = (String) model.getValueAt(filaSeleccionada, 1);
+//            String descripcion = (String) model.getValueAt(filaSeleccionada, 2);
+//            String precio = (String) model.getValueAt(filaSeleccionada, 3);
+//            String categoria = (String) model.getValueAt(filaSeleccionada, 4);
+//            String vendedor = (String) model.getValueAt(filaSeleccionada, 5);
+            VentanaDeCreacionEdicionItemsMenu nuevaVentana = new VentanaDeCreacionEdicionItemsMenu(itemMenuController);
             nuevaVentana.setItemsMenu(this);
             nuevaVentana.setVisible(true);
             nuevaVentana.setLocationRelativeTo(null);
-            nuevaVentana.recibirDatosEdicion(filaSeleccionada, nombre, descripcion, precio, categoria, vendedor);
+            nuevaVentana.recibirDatosEdicion(filaSeleccionada, item);
             nuevaVentana.setTitulo();
+            nuevaVentana.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                        cargarTablaItems();
+                    }
+                });
         }
         else {
             JOptionPane.showMessageDialog(null, "Por favor selecciona una fila para editar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
@@ -483,26 +522,27 @@ public class MenuItemsMenu extends javax.swing.JFrame {
         String vendedorBuscado = campoVendedor.getText().trim();
         model.setRowCount(0);
         boolean encontrado = false;
-        if (nombreBuscado.isEmpty() && descripcionBuscado.isEmpty() && precioBuscado.isEmpty() && vendedorBuscado.isEmpty() && categoriaBuscado.isEmpty()) {
-            System.out.println("LLegue el array pero no ejecute el for");
-            for (Object[] itemMenuArr : itemsMenu) {
-                model.addRow(itemMenuArr);
-            }
-            encontrado = true;
-        }
-        else {
-            for (Object[] itemMenuArr : itemsMenu) {
-                String nombre = ((String) itemMenuArr[1]).toLowerCase();
-                String descripcion = ((String) itemMenuArr[2]).toLowerCase();
-                String precio = ((String) itemMenuArr[3]).toLowerCase();
-                String categoria = ((String) itemMenuArr[4]).toLowerCase();
-                String vendedor = ((String) itemMenuArr[5]).toLowerCase();
-
-                if (nombre.contains(nombreBuscado)) {
-                    model.addRow(itemMenuArr);
-                    encontrado = true;
-                }
-            }
+        List<ItemMenu> items = itemMenuController.mostrarListaItemsMenu();
+        for(ItemMenu item: items){
+            if (nombreBuscado.isEmpty() || item.getNombre().toLowerCase().contains(nombreBuscado)
+                    && descripcionBuscado.isEmpty() || item.getDescripcion().toLowerCase().contains(descripcionBuscado)
+                    && precioBuscado.isEmpty() ||  Double.toString(item.getPrecio()).equals(precioBuscado)
+                    && vendedorBuscado.isEmpty() || item.getVendedor().getNombre().toLowerCase().contains(vendedorBuscado)
+                    && categoriaBuscado.isEmpty() || item.getCategoria().getClass().getSimpleName().toLowerCase().contains(categoriaBuscado)) {
+            //            System.out.println("LLegue el array pero no ejecute el for");
+            //            for (Object[] itemMenuArr : itemsMenu) {
+            //                model.addRow(itemMenuArr);
+            //            }
+                        encontrado = true;
+                        model.addRow(new Object[]{
+                            item.getId(),
+                            item.getNombre(),
+                            item.getDescripcion(),
+                            item.getPrecio(),
+                            item.getVendedor().getNombre(),
+                            item.getCategoria()
+                        });
+                    }
         }
         if (!encontrado) {
             JOptionPane.showMessageDialog(null, "No se encontró ningún Item Menú con esos parámetros.", "Búsqueda", JOptionPane.INFORMATION_MESSAGE);
@@ -510,8 +550,10 @@ public class MenuItemsMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_buscarItemsMenuActionPerformed
 
     public static void main(String args[]) {
+        DAOItemMenu itemMenuDAO = new ItemMenuMemory();
+        ItemMenuController itemMenuController = new ItemMenuController(itemMenuDAO);
         java.awt.EventQueue.invokeLater(() -> {
-            new MenuItemsMenu().setVisible(true);
+            new MenuItemsMenu(itemMenuController).setVisible(true);
         });
     }
 

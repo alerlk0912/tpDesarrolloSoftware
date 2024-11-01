@@ -49,8 +49,8 @@ public class TpDS {
         Cliente c13 = new Cliente("20-67676767-9", "Cliente 13", "cliente13@mail.com", "Avenida 2829", new Coordenada(-34.6279, -58.3651));
 
         // Crear categorías
-        Categoria catBebidas = new Categoria(1, "Bebidas", "Bebida");
-        Categoria catComidas = new Categoria(2, "Comidas", "Plato");
+        Categoria catBebidas = new Categoria( "Bebida");
+        Categoria catComidas = new Categoria( "Plato");
 
 
         // Crear ítems de menú
