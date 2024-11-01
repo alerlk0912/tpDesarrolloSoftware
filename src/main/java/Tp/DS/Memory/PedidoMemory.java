@@ -24,6 +24,7 @@ public class PedidoMemory implements DAOPedido {
     public void actualizarPedido(Pedido pedido) {
         Pedido p = buscarPedidoPorId(pedido.getId());
         if (p != null) {
+            p.setMetodoPago(pedido.getMetodoPago());
             p.setItemsPedido(pedido.getItemsPedido());
         }
     }

@@ -23,12 +23,17 @@ public class PedidoController {
         Pedido nuevoPedido = new Pedido(cliente, metodoPago);
         pedidoDAO.crearPedido(nuevoPedido);
     }
+    public Pedido crearRetornarPedido(Cliente cliente, Pago metodoPago) {
+        Pedido nuevoPedido = new Pedido(cliente, metodoPago);
+        pedidoDAO.crearPedido(nuevoPedido);
+        return nuevoPedido;
+    }
 
-    public void modificarPedido(int id, Cliente cliente, Pago metodoPago, List<ItemsPedido> items) {
+    public void modificarPedido(int id, Cliente cliente, Pago metodoPago) {
         Pedido pedido = pedidoDAO.buscarPedidoPorId(id);
         if (pedido != null) {
+            pedido.setCliente(cliente);
             pedido.setMetodoPago(metodoPago);
-            pedido.setItemsPedido(items);
             pedidoDAO.actualizarPedido(pedido);
         }
     }

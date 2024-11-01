@@ -31,7 +31,7 @@ public class VentanaDeCreacionEdicionVendedor extends javax.swing.JFrame {
         campoDireccion.setText(vendedor.getDireccion());
         campoLatitud.setText(String.valueOf(vendedor.getCoordenadas().getLat()));
         campoLongitud.setText(String.valueOf(vendedor.getCoordenadas().getLng()));
-        campoItemsMenu.setText(String.join(", ", vendedor.getNombresMenu()));
+        campoItemsMenu.setText(vendedor.getNombresMenu());
     }
     
     public VentanaDeCreacionEdicionVendedor(VendedorController vendedorController) {

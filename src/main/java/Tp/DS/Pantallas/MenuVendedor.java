@@ -436,13 +436,13 @@ public class MenuVendedor extends javax.swing.JFrame {
                 nuevaVentana.setMenuVendedor(this);
                 nuevaVentana.setVisible(true);
                 nuevaVentana.setLocationRelativeTo(null);
+                nuevaVentana.setTitulo();
                 nuevaVentana.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosed(java.awt.event.WindowEvent windowEvent) {
                         cargarTablaVendedores(); // actualizar tabla tras edición
                     }
                 });
-                nuevaVentana.setTitulo();
             }
         }
         else {

@@ -9,7 +9,10 @@ public class MenuPrincipal extends javax.swing.JFrame {
     VendedorController vendedorController = new VendedorController(vendedorDAO);
     MenuVendedor menuVendedor = new MenuVendedor(vendedorController);
     MenuItemsMenu menuItemsMenu = new MenuItemsMenu();
-    MenuPedidos menuPedidos = new MenuPedidos();
+    
+    DAOPedido pedidoDAO = new PedidoMemory(); // Crear instancia del DAO
+    PedidoController pedidoController = new PedidoController(pedidoDAO);
+    MenuPedidos menuPedidos = new MenuPedidos(pedidoController);
     
     DAOCliente clienteDAO = new ClienteMemory(); // Crear instancia del DAO
     ClienteController clienteController = new ClienteController(clienteDAO);

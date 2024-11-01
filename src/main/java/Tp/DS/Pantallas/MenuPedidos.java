@@ -3,9 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package TP.DS.Pantallas;
+import Tp.DS.Controller.PedidoController;
+import Tp.DS.DAO.DAOPedido;
+import Tp.DS.Memory.PedidoMemory;
 import javax.swing.*;
 import javax.swing.table.*;
 import Tp.DS.Pantallas.VentanaDeCreacionEdicionPedido;
+import Tp.DS.Pedido;
+import java.util.List;
 
 public class MenuPedidos extends javax.swing.JFrame {
     private MenuPrincipal menuPrincipal;
@@ -13,24 +18,35 @@ public class MenuPedidos extends javax.swing.JFrame {
     private MenuCliente menuCliente;
     private MenuItemsMenu menuItemsMenu;
     private MenuPedidos menuPedidos;
+    private PedidoController pedidoController;
+
     //para tabla
     private Object[][] pedidos;
     DefaultTableModel model;
     
-    public void setListaTablaPedidos() {
+//    public void setListaTablaPedidos() {
+//        model = (DefaultTableModel) tablaPedido.getModel();
+//        pedidos = new Object[][] {
+//            {1, "Cliente 1", "Items Pedido 1", "EFECTIVO", "RECIBIDO", "1000", "15/08/2024", "5000"},
+//            {2, "Cliente 2", "Items Pedido 2", "MERCADO PAGO", "EN PREPARACION", "1500", "16/08/2024", "7500"},
+//            {3, "Cliente 3", "Items Pedido 3", "EFECTIVO", "EN ENVIO", "2000", "17/08/2024", "10000"},
+//            {4, "Cliente 4", "Items Pedido 4", "MERCADO PAGO", "ENTREGADO", "2500", "18/08/2024", "12500"},
+//            {5, "Cliente 5", "Items Pedido 5", "EFECTIVO", "RECIBIDO", "3000", "19/08/2024", "15000"},
+//            {6, "Cliente 6", "Items Pedido 6", "MERCADO PAGO", "EN PREPARACION", "3500", "20/08/2024", "17500"},
+//            {7, "Cliente 7", "Items Pedido 7", "EFECTIVO", "EN ENVIO", "4000", "21/08/2024", "20000"},
+//            {8, "Cliente 8", "Items Pedido 8", "MERCADO PAGO", "ENTREGADO", "4500", "22/08/2024", "22500"},
+//            {9, "Cliente 9", "Items Pedido 9", "EFECTIVO", "RECIBIDO", "5000", "23/08/2024", "25000"},
+//            {10, "Cliente 10", "Items Pedido 10", "MERCADO PAGO", "EN PREPARACION", "5500", "24/08/2024", "27500"}
+//        };
+//    }
+    private void cargarTablaPedidos() {
         model = (DefaultTableModel) tablaPedido.getModel();
-        pedidos = new Object[][] {
-            {1, "Cliente 1", "Items Pedido 1", "EFECTIVO", "RECIBIDO", "1000", "15/08/2024", "5000"},
-            {2, "Cliente 2", "Items Pedido 2", "MERCADO PAGO", "EN PREPARACION", "1500", "16/08/2024", "7500"},
-            {3, "Cliente 3", "Items Pedido 3", "EFECTIVO", "EN ENVIO", "2000", "17/08/2024", "10000"},
-            {4, "Cliente 4", "Items Pedido 4", "MERCADO PAGO", "ENTREGADO", "2500", "18/08/2024", "12500"},
-            {5, "Cliente 5", "Items Pedido 5", "EFECTIVO", "RECIBIDO", "3000", "19/08/2024", "15000"},
-            {6, "Cliente 6", "Items Pedido 6", "MERCADO PAGO", "EN PREPARACION", "3500", "20/08/2024", "17500"},
-            {7, "Cliente 7", "Items Pedido 7", "EFECTIVO", "EN ENVIO", "4000", "21/08/2024", "20000"},
-            {8, "Cliente 8", "Items Pedido 8", "MERCADO PAGO", "ENTREGADO", "4500", "22/08/2024", "22500"},
-            {9, "Cliente 9", "Items Pedido 9", "EFECTIVO", "RECIBIDO", "5000", "23/08/2024", "25000"},
-            {10, "Cliente 10", "Items Pedido 10", "MERCADO PAGO", "EN PREPARACION", "5500", "24/08/2024", "27500"}
-        };
+        model.setRowCount(0); // ñimpiar tabla
+        List<Pedido> listaPedidos = pedidoController.mostrarListaPedidos();
+        for (Pedido pedido : listaPedidos) {
+            String nombresItems = pedido.obtenerNombresItems();
+            model.addRow(new Object[]{pedido.getId(), pedido.getCliente().getNombre(), nombresItems, pedido.getMetodoPago().getClass().getSimpleName(), pedido.getEstado(), pedido.getMontoBase(), pedido.getFechaPago(), pedido.getMontoTotal()});
+        }
     }
     
     public void setMenuPrincipal(MenuPrincipal menuPrincipal) {
@@ -48,23 +64,25 @@ public class MenuPedidos extends javax.swing.JFrame {
     public void setMenuPedidos(MenuPedidos menuPedidos) {
         this.menuPedidos = menuPedidos;
     }
-    public void recibirDatosDeCreacion(String cliente, String itemsPedido, String metodoDePago, String estadoPedido, String montoBase, String fechaDePago, String montoTotal) {
-        Object[] vendedor = new Object[] {model.getRowCount() + 1, cliente, itemsPedido, metodoDePago, estadoPedido, montoBase, fechaDePago, montoTotal};
-        model.addRow(vendedor);
-    }
-    public void recibirDatosDeEdicion(int filaSeleccionada, String cliente, String itemsPedido, String metodoDePago, String estadoPedido, String montoBase, String fechaDePago, String montoTotal) {
-        model.setValueAt(cliente, filaSeleccionada, 1);
-        model.setValueAt(itemsPedido, filaSeleccionada, 2);
-        model.setValueAt(metodoDePago, filaSeleccionada, 3);
-        model.setValueAt(estadoPedido, filaSeleccionada, 4);
-        model.setValueAt(montoBase, filaSeleccionada, 5);
-        model.setValueAt(fechaDePago, filaSeleccionada, 6); 
-        model.setValueAt(montoTotal, filaSeleccionada, 7); 
-    }
+//    public void recibirDatosDeCreacion(String cliente, String itemsPedido, String metodoDePago, String estadoPedido, String montoBase, String fechaDePago, String montoTotal) {
+//        Object[] vendedor = new Object[] {model.getRowCount() + 1, cliente, itemsPedido, metodoDePago, estadoPedido, montoBase, fechaDePago, montoTotal};
+//        model.addRow(vendedor);
+//    }
+//    public void recibirDatosDeEdicion(int filaSeleccionada, String cliente, String itemsPedido, String metodoDePago, String estadoPedido, String montoBase, String fechaDePago, String montoTotal) {
+//        model.setValueAt(cliente, filaSeleccionada, 1);
+//        model.setValueAt(itemsPedido, filaSeleccionada, 2);
+//        model.setValueAt(metodoDePago, filaSeleccionada, 3);
+//        model.setValueAt(estadoPedido, filaSeleccionada, 4);
+//        model.setValueAt(montoBase, filaSeleccionada, 5);
+//        model.setValueAt(fechaDePago, filaSeleccionada, 6); 
+//        model.setValueAt(montoTotal, filaSeleccionada, 7); 
+//    }
     
-    public MenuPedidos() {
+    public MenuPedidos(PedidoController pedidoController) {
+        this.pedidoController = pedidoController;
         initComponents();
-        setListaTablaPedidos();
+//        setListaTablaPedidos();
+        cargarTablaPedidos();
     }
     
     @SuppressWarnings("unchecked")
@@ -493,36 +511,36 @@ public class MenuPedidos extends javax.swing.JFrame {
     }//GEN-LAST:event_botonVolverActionPerformed
 
     private void buscarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarPedidoActionPerformed
-        String clienteBuscado = campoCliente.getText().trim();
-        String itemsPedidoBuscado = campoItemsPedido.getText().trim();
-        String metodoDePagoBuscado = comboBoxMetodoDePago.toString();
-        String estadoPedidoBuscado = comboBoxEstadoPedido.toString();
+        String clienteBuscado = campoCliente.getText().trim().toLowerCase();
+        String itemsPedidoBuscado = campoItemsPedido.getText().trim().toLowerCase();
+        String metodoDePagoBuscado = comboBoxMetodoDePago.getSelectedItem() != null ? comboBoxMetodoDePago.getSelectedItem().toString() : "";
+        String estadoPedidoBuscado = comboBoxEstadoPedido.getSelectedItem() != null ? comboBoxEstadoPedido.getSelectedItem().toString() : "";
         String montoBaseBuscado = campoMontoBase.getText().trim();
         String fechaDePagoBuscado = campoFechaDePago.getText().trim();
         String montoTotalBuscado = campoMontoTotal.getText().trim();
         model.setRowCount(0);
         boolean encontrado = false;
-        if (clienteBuscado.isEmpty() && itemsPedidoBuscado.isEmpty() && metodoDePagoBuscado.isEmpty() && estadoPedidoBuscado.isEmpty() 
-                && montoBaseBuscado.isEmpty() && fechaDePagoBuscado.isEmpty() && montoTotalBuscado.isEmpty()) {
-            for (Object[] pedido : pedidos) {
-                model.addRow(pedido);
-            }
-            encontrado = true;
-        }
-        else {
-            for (Object[] pedido : pedidos) {
-                String cliente = ((String) pedido[1]).toLowerCase();
-                String itemPedido = ((String) pedido[2]).toLowerCase();
-                String metodoDePago = ((String) pedido[3]).toLowerCase();
-                String estadoPedido = ((String) pedido[4]).toLowerCase();
-                String montoBase = ((String) pedido[5]).toLowerCase();
-                String fechaDePago = ((String) pedido[6]).toLowerCase();
-                String montoTotal = ((String) pedido[7]).toLowerCase();
-
-                if (cliente.contains(clienteBuscado)) {
-                    model.addRow(pedido);
-                    encontrado = true;
-                }
+        List<Pedido> listaPedidos = pedidoController.mostrarListaPedidos();
+        for (Pedido pedido : listaPedidos) {
+            
+            String nombresItems = pedido.obtenerNombresItems();
+            if ((clienteBuscado.isEmpty() || pedido.getCliente().getNombre().contains(clienteBuscado.toLowerCase())) 
+                        && (itemsPedidoBuscado.isEmpty() || nombresItems.toLowerCase().contains(itemsPedidoBuscado.toLowerCase())) 
+                        && (metodoDePagoBuscado.isEmpty() || pedido.getMetodoPago().getClass().getSimpleName().equalsIgnoreCase(metodoDePagoBuscado)) 
+                        && (estadoPedidoBuscado.isEmpty() || pedido.getEstado().toString().equalsIgnoreCase(estadoPedidoBuscado)) 
+                        && (montoBaseBuscado.isEmpty() || Double.toString(pedido.getMontoBase()).equals(montoBaseBuscado)) 
+                        && (fechaDePagoBuscado.isEmpty() || (pedido.getFechaPago().toString().equals(fechaDePagoBuscado))) 
+                        && (montoTotalBuscado.isEmpty() || Double.toString(pedido.getMontoTotal()).equals(montoTotalBuscado))) {
+                encontrado = true;
+                model.addRow(new Object[]{
+                    pedido.getId(),
+                    pedido.getCliente().getNombre(),
+                    nombresItems,  
+                    pedido.getMetodoPago().getClass().getSimpleName(),
+                    pedido.getEstado().toString(),
+                    pedido.getMontoBase(),
+                    pedido.getFechaPago() != null ? pedido.getFechaPago().toString() : "",
+                    pedido.getMontoTotal()});
             }
         }
         if (!encontrado) {
@@ -533,19 +551,24 @@ public class MenuPedidos extends javax.swing.JFrame {
     private void botonEditarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarPedidoActionPerformed
         int filaSeleccionada = tablaPedido.getSelectedRow();
         if (filaSeleccionada != -1) {
-            String cliente = (String) model.getValueAt(filaSeleccionada, 1);
-            String itemPedido = (String) model.getValueAt(filaSeleccionada, 2);
-            String metodoDePago = (String) model.getValueAt(filaSeleccionada, 3);
-            String estadoPedido = (String) model.getValueAt(filaSeleccionada, 4);
-            String montoBase = (String) model.getValueAt(filaSeleccionada, 5);
-            String fechaDePago = (String) model.getValueAt(filaSeleccionada, 6);
-            String montoTotal = (String) model.getValueAt(filaSeleccionada, 7);
-            VentanaDeCreacionEdicionPedido nuevaVentana = new VentanaDeCreacionEdicionPedido();
+            int pedidoId = (int) model.getValueAt(filaSeleccionada, 0);
+            Pedido pedido = pedidoController.buscarPedido(pedidoId);
+            if (pedido != null) {
+            VentanaDeCreacionEdicionPedido nuevaVentana = new VentanaDeCreacionEdicionPedido(pedidoController);
+            nuevaVentana.recibirDatosEdicion(filaSeleccionada, pedido); // pasa el objeto Pedido 
             nuevaVentana.setMenuPedido(this);
             nuevaVentana.setVisible(true);
             nuevaVentana.setLocationRelativeTo(null);
-            nuevaVentana.recibirDatosEdicion(filaSeleccionada, cliente, itemPedido, metodoDePago, estadoPedido, montoBase, fechaDePago, montoTotal);
             nuevaVentana.setTitulo();
+            nuevaVentana.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                        cargarTablaPedidos(); // actualizar tabla tras edición
+                    }
+                });
+        } else {
+            JOptionPane.showMessageDialog(null, "No se encontró el pedido para editar.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
         }
         else {
             JOptionPane.showMessageDialog(null, "Por favor selecciona una fila para editar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
@@ -555,9 +578,12 @@ public class MenuPedidos extends javax.swing.JFrame {
     private void botonEliminarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarPedidoActionPerformed
         int filaSeleccionada = tablaPedido.getSelectedRow();
         if (filaSeleccionada != -1) {
+            int pedidoId = (int) model.getValueAt(filaSeleccionada, 0);
             int opcion = JOptionPane.showConfirmDialog(null, "¿Estás seguro de eliminar este Pedido?", "Confirmar", JOptionPane.YES_NO_OPTION);
             if (opcion == JOptionPane.YES_OPTION) {
-                model.removeRow(filaSeleccionada);
+                pedidoController.eliminarPedido(pedidoId);
+                cargarTablaPedidos();
+                
                 JOptionPane.showMessageDialog(null, "Pedido borrado con Éxito", "Información", JOptionPane.INFORMATION_MESSAGE);
             }
         }
@@ -567,15 +593,23 @@ public class MenuPedidos extends javax.swing.JFrame {
     }//GEN-LAST:event_botonEliminarPedidoActionPerformed
 
     private void botonCrearPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearPedidoActionPerformed
-        VentanaDeCreacionEdicionPedido nuevaVentana = new VentanaDeCreacionEdicionPedido();
+        VentanaDeCreacionEdicionPedido nuevaVentana = new VentanaDeCreacionEdicionPedido(pedidoController);
         nuevaVentana.setMenuPedido(this);
         nuevaVentana.setVisible(true);
         nuevaVentana.setLocationRelativeTo(null);
+        nuevaVentana.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                cargarTablaPedidos(); // actualizar tabla tras creación
+            }
+        });
     }//GEN-LAST:event_botonCrearPedidoActionPerformed
     
     public static void main(String args[]) {
+        DAOPedido pedidoDAO = new PedidoMemory();
+        PedidoController pedidoController = new PedidoController(pedidoDAO);
         java.awt.EventQueue.invokeLater(() -> {
-            new MenuPedidos().setVisible(true);
+            new MenuPedidos(pedidoController).setVisible(true);
         });
     }
 

@@ -5,10 +5,22 @@
 package Tp.DS.Pantallas;
 
 import TP.DS.Pantallas.MenuPedidos;
+import Tp.DS.Cliente;
+import Tp.DS.Controller.PedidoController;
+import Tp.DS.DAO.DAOPedido;
+import Tp.DS.Efectivo;
+import Tp.DS.ItemsPedido;
+import Tp.DS.Memory.PedidoMemory;
+import Tp.DS.MercadoPago;
+import Tp.DS.Pago;
+import Tp.DS.Pedido;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 public class VentanaDeCreacionEdicionPedido extends javax.swing.JFrame {
     private MenuPedidos menuPedido;
+    private PedidoController pedidoController;
+    private Pedido pedidoActual;
     private int filaSeleccionada=100;
     
     public void setMenuPedido(MenuPedidos menuPedido) {
@@ -17,19 +29,20 @@ public class VentanaDeCreacionEdicionPedido extends javax.swing.JFrame {
     public void setTitulo() {
         tituloPrincipal.setText("Editar Pedido");
     }
-    public void recibirDatosEdicion(int filaSeleccionada, String cliente, String itemsPedido, String metodoDePago, String estadoPedido, 
-            String montoBase, String fechaDePago, String montoTotal) {
+    public void recibirDatosEdicion(int filaSeleccionada, Pedido pedido) {
         this.filaSeleccionada = filaSeleccionada;
-        campoCliente.setText(cliente);
-        campoItemsPedido.setText(itemsPedido);
-        comboBoxMetodoDePago.setSelectedItem(metodoDePago);
-        comboBoxEstadoPedido.setSelectedItem(estadoPedido);
-        campoMontoBase.setText(montoBase);
-        campoFechaDePago.setText(fechaDePago.trim());
-        campoMontoTotal.setText(montoTotal.trim());
+        this.pedidoActual = pedido;
+        campoCliente.setText(pedido.getCliente().getNombre());
+        campoItemsPedido.setText(pedido.obtenerNombresItems());
+        comboBoxMetodoDePago.setSelectedItem(pedido.getMetodoPago().getClass().getSimpleName());
+        comboBoxEstadoPedido.setSelectedItem(pedido.getEstado().toString());
+        campoMontoBase.setText(Double.toString(pedido.getMontoBase()));
+        campoFechaDePago.setText(pedido.getFechaPago().toString());
+        campoMontoTotal.setText(Double.toString(pedido.getMontoTotal()));
     }
     
-    public VentanaDeCreacionEdicionPedido() {
+    public VentanaDeCreacionEdicionPedido(PedidoController pedidoController) {
+        this.pedidoController = pedidoController;
         initComponents();
     }
     @SuppressWarnings("unchecked")
@@ -291,20 +304,46 @@ public class VentanaDeCreacionEdicionPedido extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarActionPerformed
-        String regex = "^\\d{2}/\\d{2}/\\d{4}$";
-        String regex1 = "^\\d*(\\.\\d+)?$";
-        if (campoMontoBase.getText().matches(regex1) && campoMontoTotal.getText().matches(regex1) && campoFechaDePago.getText().matches(regex)
-                && !campoCliente.getText().isEmpty() && !campoItemsPedido.getText().isEmpty() && !campoMontoBase.getText().isEmpty() 
-                && !campoFechaDePago.getText().isEmpty() && !campoMontoTotal.getText().isEmpty()) {
+        String regexFecha = "^\\d{2}/\\d{2}/\\d{4}$"; // Formato de fecha: dd/MM/yyyy
+        String regexNumero = "^\\d*(\\.\\d+)?$"; // Formato para números decimales positivos
+        
+        if (campoMontoBase.getText().matches(regexNumero)  && !campoMontoBase.getText().isEmpty()
+            && campoMontoTotal.getText().matches(regexNumero)  && !campoMontoTotal.getText().isEmpty()
+            && campoFechaDePago.getText().matches(regexFecha)  
+            && !campoCliente.getText().isEmpty()  
+            && !campoItemsPedido.getText().isEmpty()
+            && !campoFechaDePago.getText().isEmpty()) {
+            Cliente clientePedido = new Cliente(campoCliente.getText());
+            Pago pagoPedido = null;
+            switch (comboBoxMetodoDePago.getSelectedItem().toString()){
+                case "EFECTIVO":
+                    pagoPedido = new Efectivo();
+                    break;
+                case "MERCADO PAGO":
+                    pagoPedido = new MercadoPago("alias");
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(null, "Método de pago no reconocido", "Error", JOptionPane.ERROR_MESSAGE);
+                    break;
+            }
             if(filaSeleccionada==100) {
-                menuPedido.recibirDatosDeCreacion(campoCliente.getText(), campoItemsPedido.getText(), 
-                        (String) comboBoxMetodoDePago.getSelectedItem(), (String) comboBoxEstadoPedido.getSelectedItem(),
-                        campoMontoBase.getText(), campoFechaDePago.getText(), campoMontoTotal.getText());
+                // harcodeo porque no puedo obtener los datos ya que los DAO no van a estar creados hasta la proxima etapa
+                
+                
+                Pedido pedidoActual = pedidoController.crearRetornarPedido(clientePedido, pagoPedido);
+                /* hacer la logica para setear todo lo de la interfaz en el pedido
+                pedidoActual.setItemsPedido(campoItemsPedido.getText());
+                pedidoActual.setEstado(comboBoxEstadoPedido.getSelectedItem().toString());
+                pedidoActual.setFechaPago(campoFechaDePago.getText()); 
+                
+*/
+                pedidoActual.setMontoBase(Double.parseDouble(campoMontoBase.getText()));
+                pedidoActual.setMontoTotal(Double.parseDouble(campoMontoTotal.getText()));
                 JOptionPane.showMessageDialog(null, "Creado con Éxito", null, JOptionPane.INFORMATION_MESSAGE);
             } else {
-                menuPedido.recibirDatosDeEdicion(filaSeleccionada, campoCliente.getText(), campoItemsPedido.getText(), 
-                        (String) comboBoxMetodoDePago.getSelectedItem(), (String) comboBoxEstadoPedido.getSelectedItem(),
-                        campoMontoBase.getText(), campoFechaDePago.getText(), campoMontoTotal.getText());
+                pedidoActual.setMontoBase(Double.parseDouble(campoMontoBase.getText()));
+                pedidoActual.setMontoTotal(Double.parseDouble(campoMontoTotal.getText()));
+                pedidoController.modificarPedido(pedidoActual.getId(), clientePedido, pagoPedido);
                 JOptionPane.showMessageDialog(null, "Editado con Éxito", null, JOptionPane.INFORMATION_MESSAGE);
             }
             dispose();
@@ -318,8 +357,10 @@ public class VentanaDeCreacionEdicionPedido extends javax.swing.JFrame {
     }//GEN-LAST:event_botonCancelarActionPerformed
 
     public static void main(String args[]) {
+        DAOPedido pedidoDAO = new PedidoMemory();
+        PedidoController pedidoController = new PedidoController(pedidoDAO);
         java.awt.EventQueue.invokeLater(() -> {
-            new VentanaDeCreacionEdicionPedido().setVisible(true);
+            new VentanaDeCreacionEdicionPedido(pedidoController).setVisible(true);
         });
     }
 

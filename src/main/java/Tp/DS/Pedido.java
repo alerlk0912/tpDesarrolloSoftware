@@ -3,6 +3,7 @@ package Tp.DS;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Pedido implements PedidoObservable{
     private int id;
@@ -101,6 +102,18 @@ public class Pedido implements PedidoObservable{
         this.itemsPedido = itemsPedido;
     }
 
+    public void setMontoBase(double montoBase) {
+        this.montoBase = montoBase;
+    }
+
+    public void setFechaPago(Date fechaPago) {
+        this.fechaPago = fechaPago;
+    }
+
+    public void setMontoTotal(double montoTotal) {
+        this.montoTotal = montoTotal;
+    }
+
     
 
     @Override
@@ -171,6 +184,13 @@ public class Pedido implements PedidoObservable{
 
         return pedido;
     }
+    
+    public String obtenerNombresItems() {
+        List<ItemsPedido> itemsPedido = this.getItemsPedido();
+        return itemsPedido.stream()
+                .map(item -> item.getItemMenu().getNombre())
+                .collect(Collectors.joining(", "));
+    }
 
     @Override
     public void agregarObservador(PedidoObserver observer) {
@@ -194,4 +214,6 @@ public class Pedido implements PedidoObservable{
         this.estado = nuevoEstado;
         notificarObservadores();
     }
+
+    
 }
