@@ -148,17 +148,6 @@ public class MenuCliente extends javax.swing.JFrame {
             }
         });
 
-        botonCliente.setBackground(new java.awt.Color(123, 36, 28));
-        botonCliente.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        botonCliente.setForeground(new java.awt.Color(255, 255, 255));
-        botonCliente.setText("CLIENTES");
-        botonCliente.setEnabled(false);
-        botonCliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonClienteActionPerformed(evt);
-            }
-        });
-
         botonPedidos.setBackground(new java.awt.Color(123, 36, 28));
         botonPedidos.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         botonPedidos.setForeground(new java.awt.Color(255, 255, 255));
@@ -455,10 +444,6 @@ public class MenuCliente extends javax.swing.JFrame {
         }
     }
     
-    private void botonClienteActionPerformed(java.awt.event.ActionEvent evt) {
-        //
-    }
-    
     private void botonPedidosActionPerformed(java.awt.event.ActionEvent evt) {                                             
         menuPedidos.setMenuCliente(this);
         menuPedidos.setVisible(true);
@@ -526,6 +511,7 @@ public class MenuCliente extends javax.swing.JFrame {
             ventanaEdicion.recibirDatosEdicion(filaSeleccionada, cuit, nombre, email, direccion, coordenada);
             ventanaEdicion.setVisible(true);
             ventanaEdicion.setLocationRelativeTo(null);
+            ventanaEdicion.setTitulo();
         } else {
             JOptionPane.showMessageDialog(null, "Por favor selecciona una fila para editar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }

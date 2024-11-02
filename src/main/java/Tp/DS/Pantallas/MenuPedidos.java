@@ -187,7 +187,6 @@ public class MenuPedidos extends javax.swing.JFrame {
         });
 
         texto1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        texto1.setDisabledIcon(new javax.swing.ImageIcon("C:\\Users\\Ale\\Desktop\\UTN 2024\\2do Cuatri\\3ro - Desarrollo Software\\TP\\tpDesarrolloSoftware\\logo.jpg")); // NOI18N
         texto1.setEnabled(false);
         texto1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
@@ -281,7 +280,7 @@ public class MenuPedidos extends javax.swing.JFrame {
 
             },
             new String [] {
-                "", "Cliente", "Items Pedido", "Método de Pago", "Estado Pedido", "Monto Base", "Fecha de Pago", "Monto Total"
+                "ID", "Cliente", "Items Pedido", "Método de Pago", "Estado Pedido", "Monto Base", "Fecha de Pago", "Monto Total"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -292,7 +291,7 @@ public class MenuPedidos extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tablaPedido.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        tablaPedido.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tablaPedido.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         tablaPedido.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tablaPedido.setShowGrid(true);

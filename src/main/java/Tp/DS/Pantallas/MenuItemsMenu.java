@@ -10,7 +10,6 @@ import Tp.DS.Memory.ItemMenuMemory;
 import javax.swing.*;
 import javax.swing.table.*;
 import Tp.DS.Pantallas.VentanaDeCreacionEdicionItemsMenu;
-import java.sql.SQLException;
 import java.util.List;
 
 public class MenuItemsMenu extends javax.swing.JFrame {
@@ -19,7 +18,7 @@ public class MenuItemsMenu extends javax.swing.JFrame {
     private MenuCliente menuCliente;
     private MenuItemsMenu menuItemsMenu;
     private MenuPedidos menuPedidos;
-    private ItemMenuController itemMenuController;
+    private final ItemMenuController itemMenuController;
     //para tabla
     private Object[][] itemsMenu;
     DefaultTableModel model;
@@ -49,8 +48,7 @@ public class MenuItemsMenu extends javax.swing.JFrame {
                 item.getNombre(), 
                 item.getDescripcion(), 
                 item.getPrecio(), 
-                item.getCategoria().getClass().getSimpleName(), 
-                item.getVendedor().getNombre()});
+                item.getCategoria().getTipo_item()});
         }
     }
     public void setMenuPrincipal(MenuPrincipal menuPrincipal) {
@@ -90,7 +88,6 @@ public class MenuItemsMenu extends javax.swing.JFrame {
     private void initComponents() {
 
         Panel = new javax.swing.JPanel();
-        texto1 = new javax.swing.JLabel();
         buscarItemsMenu = new javax.swing.JButton();
         botonEditarItemsMenu = new javax.swing.JButton();
         botonEliminarItemsMenu = new javax.swing.JButton();
@@ -123,10 +120,6 @@ public class MenuItemsMenu extends javax.swing.JFrame {
         Panel.setMaximumSize(new java.awt.Dimension(1000, 1000));
         Panel.setMinimumSize(new java.awt.Dimension(900, 600));
         Panel.setPreferredSize(new java.awt.Dimension(900, 600));
-
-        texto1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        texto1.setEnabled(false);
-        texto1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         buscarItemsMenu.setBackground(new java.awt.Color(123, 36, 28));
         buscarItemsMenu.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
@@ -208,11 +201,11 @@ public class MenuItemsMenu extends javax.swing.JFrame {
 
             },
             new String [] {
-                "", "Nombre", "Descripción", "Precio", "Categoría", "Vendedor"
+                "ID", "Nombre", "Descripción", "Precio", "Categoría"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -233,11 +226,6 @@ public class MenuItemsMenu extends javax.swing.JFrame {
         campoPrecio.setBackground(new java.awt.Color(123, 36, 28));
         campoPrecio.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         campoPrecio.setForeground(new java.awt.Color(255, 255, 255));
-        campoPrecio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoPrecioActionPerformed(evt);
-            }
-        });
 
         tit5.setBackground(new java.awt.Color(123, 35, 27));
         tit5.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
@@ -324,22 +312,16 @@ public class MenuItemsMenu extends javax.swing.JFrame {
             .addGroup(PanelLayout.createSequentialGroup()
                 .addGroup(PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelLayout.createSequentialGroup()
-                        .addGap(130, 130, 130)
-                        .addComponent(texto1, javax.swing.GroupLayout.DEFAULT_SIZE, 763, Short.MAX_VALUE))
+                        .addGap(158, 158, 158)
+                        .addComponent(botonEditarItemsMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(botonCrearItemsMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(botonEliminarItemsMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(PanelLayout.createSequentialGroup()
-                        .addGroup(PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(PanelLayout.createSequentialGroup()
-                                .addGap(158, 158, 158)
-                                .addComponent(botonEditarItemsMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(botonCrearItemsMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(botonEliminarItemsMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(PanelLayout.createSequentialGroup()
-                                .addGap(349, 349, 349)
-                                .addComponent(buscarItemsMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(121, 121, 121)))
-                .addContainerGap(7, Short.MAX_VALUE))
+                        .addGap(349, 349, 349)
+                        .addComponent(buscarItemsMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(166, Short.MAX_VALUE))
             .addGroup(PanelLayout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addGroup(PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -379,9 +361,7 @@ public class MenuItemsMenu extends javax.swing.JFrame {
         PanelLayout.setVerticalGroup(
             PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(texto1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
+                .addGap(145, 145, 145)
                 .addGroup(PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -452,10 +432,6 @@ public class MenuItemsMenu extends javax.swing.JFrame {
         setVisible(false);
     }//GEN-LAST:event_botonClienteActionPerformed
 
-    private void campoPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoPrecioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_campoPrecioActionPerformed
-
     private void botonCrearItemsMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearItemsMenuActionPerformed
         VentanaDeCreacionEdicionItemsMenu nuevaVentana = new VentanaDeCreacionEdicionItemsMenu(itemMenuController);
         nuevaVentana.setItemsMenu(this);
@@ -467,7 +443,6 @@ public class MenuItemsMenu extends javax.swing.JFrame {
                 cargarTablaItems(); // actualizar tabla tras creación
             }
         });
-
     }//GEN-LAST:event_botonCrearItemsMenuActionPerformed
 
     private void botonEliminarItemsMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarItemsMenuActionPerformed
@@ -491,11 +466,13 @@ public class MenuItemsMenu extends javax.swing.JFrame {
         if (filaSeleccionada != -1) {
             int id = (int) model.getValueAt(filaSeleccionada, 0);
             ItemMenu item = itemMenuController.buscarItemMenu(id);
-//            String nombre = (String) model.getValueAt(filaSeleccionada, 1);
-//            String descripcion = (String) model.getValueAt(filaSeleccionada, 2);
-//            String precio = (String) model.getValueAt(filaSeleccionada, 3);
-//            String categoria = (String) model.getValueAt(filaSeleccionada, 4);
-//            String vendedor = (String) model.getValueAt(filaSeleccionada, 5);
+            
+            //String nombre = (String) model.getValueAt(filaSeleccionada, 1)
+            //String descripcion = (String) model.getValueAt(filaSeleccionada, 2);
+            //String precio = (String) model.getValueAt(filaSeleccionada, 3);
+            //String categoria = (String) model.getValueAt(filaSeleccionada, 4);
+            //String vendedor = (String) model.getValueAt(filaSeleccionada, 5);
+            
             VentanaDeCreacionEdicionItemsMenu nuevaVentana = new VentanaDeCreacionEdicionItemsMenu(itemMenuController);
             nuevaVentana.setItemsMenu(this);
             nuevaVentana.setVisible(true);
@@ -524,6 +501,8 @@ public class MenuItemsMenu extends javax.swing.JFrame {
         boolean encontrado = false;
         List<ItemMenu> items = itemMenuController.mostrarListaItemsMenu();
         for(ItemMenu item: items){
+            //la condición del if desp no va a existir porq cuando traemos de la base de datos se usa el operador like
+            //la condición de ahora no arrojaría nada y generaría q no se carguen algunos datos
             if (nombreBuscado.isEmpty() || item.getNombre().toLowerCase().contains(nombreBuscado)
                     && descripcionBuscado.isEmpty() || item.getDescripcion().toLowerCase().contains(descripcionBuscado)
                     && precioBuscado.isEmpty() ||  Double.toString(item.getPrecio()).equals(precioBuscado)
@@ -575,7 +554,6 @@ public class MenuItemsMenu extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> comboBoxCategoria;
     private javax.swing.JScrollPane scrollTablaItemsMenu;
     private javax.swing.JTable tablaItemsMenu;
-    private javax.swing.JLabel texto1;
     private javax.swing.JLabel tit1;
     private javax.swing.JLabel tit2;
     private javax.swing.JLabel tit3;

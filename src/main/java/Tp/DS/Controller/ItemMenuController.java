@@ -5,8 +5,6 @@ import Tp.DS.Bebida;
 import Tp.DS.Categoria;
 import Tp.DS.ItemMenu;
 import Tp.DS.Plato;
-import Tp.DS.Vendedor;
-import java.sql.SQLException;
 import java.util.List;
 
 public class ItemMenuController {
@@ -20,13 +18,13 @@ public class ItemMenuController {
         return itemMenuDAO.listarItemsMenu();
     }
 
-    public void crearNuevoPlato(String nombre, String descripcion, double precio, Categoria categoria, Vendedor vendedor, double peso, double calorias, boolean aptoVegano) {
-        Plato nuevoPlato = new Plato(nombre, descripcion, precio, categoria, vendedor, peso, calorias, aptoVegano);
+    public void crearNuevoPlato(String nombre, String descripcion, double precio, Categoria categoria, double peso, double calorias, boolean aptoVegano) {
+        Plato nuevoPlato = new Plato(nombre, descripcion, precio, categoria, peso, calorias, aptoVegano);
         itemMenuDAO.crearItemMenu(nuevoPlato);
     }
 
-    public void crearNuevaBebida(String nombre, String descripcion, double precio, Categoria categoria, Vendedor vendedor, double tamanio, boolean alcoholica)  {
-        Bebida nuevaBebida = new Bebida(nombre, descripcion, precio, categoria, vendedor, tamanio, alcoholica);
+    public void crearNuevaBebida(String nombre, String descripcion, double precio, Categoria categoria, double tamanio, boolean alcoholica)  {
+        Bebida nuevaBebida = new Bebida(nombre, descripcion, precio, categoria, tamanio, alcoholica);
         itemMenuDAO.crearItemMenu(nuevaBebida);
     }
 
@@ -41,7 +39,7 @@ public class ItemMenuController {
         itemMenuDAO.eliminarItemMenu(id);
     }
 
-    public ItemMenu buscarItemMenu(int id) throws SQLException {
+    public ItemMenu buscarItemMenu(int id) {
         return itemMenuDAO.buscarItemMenuPorId(id);
     }
 }

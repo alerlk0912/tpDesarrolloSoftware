@@ -9,6 +9,12 @@ public class Bebida extends ItemMenu {
         this.tamanio = tamanio;
         this.graduacionAlcoholica = alcoholica;
     }
+    
+    public Bebida(String nombre, String descripcion, double precio, Categoria categoria, double tamanio, boolean alcoholica) {
+        super( nombre, descripcion, precio, categoria);
+        this.tamanio = tamanio;
+        this.graduacionAlcoholica = alcoholica;
+    }
 
     @Override
     public String toString() {

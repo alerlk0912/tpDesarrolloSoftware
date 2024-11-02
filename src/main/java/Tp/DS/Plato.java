@@ -11,6 +11,13 @@ public class Plato extends ItemMenu {
         this.calorias = calorias;
         this.aptoVegano = aptoVegano;
     }
+    
+    public Plato(String nombre, String descripcion, double precio, Categoria categoria, double peso, double calorias, boolean aptoVegano) {
+        super(nombre, descripcion, precio, categoria);
+        this.peso = peso;
+        this.calorias = calorias;
+        this.aptoVegano = aptoVegano;
+    }
 
     @Override
     public String toString() {

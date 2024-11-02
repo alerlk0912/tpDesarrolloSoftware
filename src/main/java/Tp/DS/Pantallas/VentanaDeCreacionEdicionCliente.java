@@ -16,6 +16,10 @@ public class VentanaDeCreacionEdicionCliente extends javax.swing.JFrame {
     public void setClienteListener(ClienteListener listener) {
         this.clienteListener = listener;
     }
+    
+    public void setTitulo() {
+        tituloPrincipal.setText("Editar Cliente");
+    }
 
     // Al guardar, notifica a MenuCliente
     private void guardarCliente() {
@@ -38,9 +42,7 @@ public class VentanaDeCreacionEdicionCliente extends javax.swing.JFrame {
     public interface ClienteListener {
         void onClienteSaved(String cuit, String nombre, String email, String direccion, Coordenada coordenadas);
     }
-    public void setTitulo() {
-        tituloPrincipal.setText("Editar Cliente");
-    }
+    
     public void recibirDatosEdicion(int filaSeleccionada, String cuit, String nombre, String email, String direccion, String coordenada) {
         this.filaSeleccionada = filaSeleccionada;
         campoCUIT.setText(cuit);

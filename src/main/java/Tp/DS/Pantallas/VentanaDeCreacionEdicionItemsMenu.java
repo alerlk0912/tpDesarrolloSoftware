@@ -7,7 +7,10 @@ package Tp.DS.Pantallas;
 import TP.DS.Pantallas.MenuItemsMenu;
 import Tp.DS.Categoria;
 import Tp.DS.Controller.ItemMenuController;
+import Tp.DS.DAO.DAOItemMenu;
 import Tp.DS.ItemMenu;
+import Tp.DS.Memory.ItemMenuMemory;
+import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
 
 public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
@@ -28,13 +31,24 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
         campoNombre.setText(item.getNombre());
         campoDescripcion.setText(item.getDescripcion());
         campoPrecio.setText(Double.toString(item.getPrecio()));
-        comboBoxCategoria.setSelectedItem(item.getCategoria().getClass().getName());     
-        campoVendedor.setText(item.getVendedor().getNombre());
+        comboBoxCategoria.setSelectedItem(item.getCategoria().getClass().getName());
+        
+        //estos campos deberían completarse, no se si habría q crear la instancia en la pantalla anterior para que se muestre estos datos
+        if(comboBoxCategoria.getSelectedItem().equals("BEBIDA")) {
+            campoTamanio.setText(""); //falta llenar
+            comboBoxAlcohol.setSelectedItem("SI"); //falta llenar
+        } else {
+            campoPeso.setText(""); //falta llenar
+            campoCalorias.setText(""); //falta llenar
+            comboBoxAptoVegano.setSelectedItem("SI"); //falta llenar
+        }      
     }
     
     public VentanaDeCreacionEdicionItemsMenu(ItemMenuController itemMenuController) {
         this.itemMenuController = itemMenuController;
         initComponents();
+        ActionEvent evt = null;
+        comboBoxCategoriaActionPerformed(evt);
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -52,8 +66,20 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
         tit2 = new javax.swing.JLabel();
         campoDescripcion = new javax.swing.JTextField();
         tit5 = new javax.swing.JLabel();
-        campoVendedor = new javax.swing.JTextField();
         comboBoxCategoria = new javax.swing.JComboBox<>();
+        jPanel1 = new javax.swing.JPanel();
+        campoTamanio = new javax.swing.JTextField();
+        tit4 = new javax.swing.JLabel();
+        tit6 = new javax.swing.JLabel();
+        comboBoxAlcohol = new javax.swing.JComboBox<>();
+        jPanel3 = new javax.swing.JPanel();
+        tit7 = new javax.swing.JLabel();
+        campoPeso = new javax.swing.JTextField();
+        tit8 = new javax.swing.JLabel();
+        comboBoxAptoVegano = new javax.swing.JComboBox<>();
+        campoCalorias = new javax.swing.JTextField();
+        tit9 = new javax.swing.JLabel();
+        botonAgregarDesagregarVendedor = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(400, 400));
@@ -64,9 +90,9 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
         panelEditable.setAlignmentX(0.0F);
         panelEditable.setAlignmentY(0.0F);
         panelEditable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        panelEditable.setMaximumSize(new java.awt.Dimension(400, 400));
-        panelEditable.setMinimumSize(new java.awt.Dimension(400, 400));
-        panelEditable.setPreferredSize(new java.awt.Dimension(400, 400));
+        panelEditable.setMaximumSize(new java.awt.Dimension(1000, 1000));
+        panelEditable.setMinimumSize(new java.awt.Dimension(500, 500));
+        panelEditable.setPreferredSize(new java.awt.Dimension(500, 500));
 
         botonCancelar.setBackground(new java.awt.Color(123, 36, 28));
         botonCancelar.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
@@ -160,61 +186,220 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
         tit5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         tit5.setInheritsPopupMenu(false);
 
-        campoVendedor.setBackground(new java.awt.Color(123, 36, 28));
-        campoVendedor.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
-        campoVendedor.setForeground(new java.awt.Color(255, 255, 255));
-
         comboBoxCategoria.setBackground(new java.awt.Color(123, 36, 28));
         comboBoxCategoria.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         comboBoxCategoria.setForeground(new java.awt.Color(255, 255, 255));
         comboBoxCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PLATO", "BEBIDA" }));
+        comboBoxCategoria.setSelectedIndex(1);
+        comboBoxCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxCategoriaActionPerformed(evt);
+            }
+        });
+
+        jPanel1.setBackground(new java.awt.Color(69, 69, 69));
+
+        campoTamanio.setBackground(new java.awt.Color(123, 36, 28));
+        campoTamanio.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        campoTamanio.setForeground(new java.awt.Color(255, 255, 255));
+
+        tit4.setBackground(new java.awt.Color(123, 35, 27));
+        tit4.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        tit4.setForeground(new java.awt.Color(255, 255, 255));
+        tit4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        tit4.setText("Tamaño");
+        tit4.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tit4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        tit4.setInheritsPopupMenu(false);
+
+        tit6.setBackground(new java.awt.Color(123, 35, 27));
+        tit6.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        tit6.setForeground(new java.awt.Color(255, 255, 255));
+        tit6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        tit6.setText("Alcohólica");
+        tit6.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tit6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        tit6.setInheritsPopupMenu(false);
+
+        comboBoxAlcohol.setBackground(new java.awt.Color(123, 36, 28));
+        comboBoxAlcohol.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        comboBoxAlcohol.setForeground(new java.awt.Color(255, 255, 255));
+        comboBoxAlcohol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NO", "SI" }));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(tit4, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(campoTamanio, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(tit6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(comboBoxAlcohol, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(15, 15, 15))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(tit6)
+                        .addGap(36, 36, 36))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(tit4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(campoTamanio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboBoxAlcohol, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
+        );
+
+        jPanel3.setBackground(new java.awt.Color(69, 69, 69));
+
+        tit7.setBackground(new java.awt.Color(123, 35, 27));
+        tit7.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        tit7.setForeground(new java.awt.Color(255, 255, 255));
+        tit7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        tit7.setText("Peso");
+        tit7.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tit7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        tit7.setInheritsPopupMenu(false);
+
+        campoPeso.setBackground(new java.awt.Color(123, 36, 28));
+        campoPeso.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        campoPeso.setForeground(new java.awt.Color(255, 255, 255));
+
+        tit8.setBackground(new java.awt.Color(123, 35, 27));
+        tit8.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        tit8.setForeground(new java.awt.Color(255, 255, 255));
+        tit8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        tit8.setText("Apto Vegano");
+        tit8.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tit8.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        tit8.setInheritsPopupMenu(false);
+
+        comboBoxAptoVegano.setBackground(new java.awt.Color(123, 36, 28));
+        comboBoxAptoVegano.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        comboBoxAptoVegano.setForeground(new java.awt.Color(255, 255, 255));
+        comboBoxAptoVegano.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NO", "SI" }));
+
+        campoCalorias.setBackground(new java.awt.Color(123, 36, 28));
+        campoCalorias.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        campoCalorias.setForeground(new java.awt.Color(255, 255, 255));
+
+        tit9.setBackground(new java.awt.Color(123, 35, 27));
+        tit9.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        tit9.setForeground(new java.awt.Color(255, 255, 255));
+        tit9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        tit9.setText("Calorías");
+        tit9.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tit9.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        tit9.setInheritsPopupMenu(false);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(tit7, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(campoPeso, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(tit9, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(campoCalorias, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(tit8, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboBoxAptoVegano, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(16, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(tit9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(campoCalorias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addComponent(tit8)
+                            .addGap(36, 36, 36))
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addComponent(tit7)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(campoPeso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(comboBoxAptoVegano, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap())
+        );
+
+        botonAgregarDesagregarVendedor.setBackground(new java.awt.Color(123, 36, 28));
+        botonAgregarDesagregarVendedor.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        botonAgregarDesagregarVendedor.setForeground(new java.awt.Color(255, 255, 255));
+        botonAgregarDesagregarVendedor.setText("Agregar/Eliminar Vendedor");
+        botonAgregarDesagregarVendedor.setAlignmentY(0.0F);
+        botonAgregarDesagregarVendedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAgregarDesagregarVendedorActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelEditableLayout = new javax.swing.GroupLayout(panelEditable);
         panelEditable.setLayout(panelEditableLayout);
         panelEditableLayout.setHorizontalGroup(
             panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEditableLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(tit3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(comboBoxCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(panelEditableLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(panelEditableLayout.createSequentialGroup()
-                            .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(tit3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(comboBoxCategoria, 0, 170, Short.MAX_VALUE))
-                            .addGap(18, 18, 18)
-                            .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(campoPrecio, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
-                                .addComponent(titFechaDePago, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGap(0, 0, Short.MAX_VALUE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEditableLayout.createSequentialGroup()
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(tit5, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(campoVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(81, 81, 81)))
-                    .addGroup(panelEditableLayout.createSequentialGroup()
-                        .addGap(75, 75, 75)
-                        .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(botonAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelEditableLayout.createSequentialGroup()
-                            .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(tit1, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
-                                .addComponent(campoNombre))
-                            .addGap(18, 18, 18)
-                            .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(campoDescripcion)
-                                .addComponent(tit2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addComponent(tituloPrincipal, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(tituloPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEditableLayout.createSequentialGroup()
+                        .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(panelEditableLayout.createSequentialGroup()
+                                .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(titFechaDePago, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(campoPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(botonAgregarDesagregarVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(tit5, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(panelEditableLayout.createSequentialGroup()
+                                .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(tit1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(campoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(campoDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(tit2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(12, 12, 12))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(panelEditableLayout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addComponent(botonAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(40, Short.MAX_VALUE))
         );
         panelEditableLayout.setVerticalGroup(
             panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEditableLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(tituloPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(tit1)
@@ -224,28 +409,30 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
                         .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(campoDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(campoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
-                .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelEditableLayout.createSequentialGroup()
-                        .addComponent(tit3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(comboBoxCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelEditableLayout.createSequentialGroup()
-                        .addComponent(titFechaDePago)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(campoPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(tit5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(campoVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
-                .addComponent(botonAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(titFechaDePago)
+                    .addComponent(tit5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(botonAgregarDesagregarVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(campoPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(tit3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(comboBoxCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(17, 17, 17))
         );
 
-        getContentPane().add(panelEditable, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 400));
+        getContentPane().add(panelEditable, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 500));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -268,52 +455,47 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
 //            JOptionPane.showMessageDialog(null, "Formato Inválido", "Advertencia", JOptionPane.WARNING_MESSAGE);
 //        } 
         String regex = "^\\d*(\\.\\d+)?$"; // validar precio 
-
+        System.out.println(filaSeleccionada);
+        
         if (campoPrecio.getText().matches(regex) && 
             !campoNombre.getText().isEmpty() && 
             !campoDescripcion.getText().isEmpty() && 
-            !campoPrecio.getText().isEmpty() && 
-            !campoVendedor.getText().isEmpty()) {
-
-            try {
-                double precio = Double.parseDouble(campoPrecio.getText());
-                Categoria categoriaItem = new Categoria((String) comboBoxCategoria.getSelectedItem());
-                if (filaSeleccionada == 100) { // Creación de nuevo ItemMenu
-                    
-                    if(comboBoxCategoria.getSelectedItem()..toString().toLowerCase.equals("bebida")){
+            !campoPrecio.getText().isEmpty() /*&& 
+            (campoTamanio.getText().matches(regex) || !campoTamanio.getText().isEmpty()) && 
+            (campoPeso.getText().matches(regex) || !campoPeso.getText().isEmpty()) && 
+            (campoCalorias.getText().matches(regex) || !campoCalorias.getText().isEmpty()) */) {
+            double precio = Double.parseDouble(campoPrecio.getText());
+            Categoria categoriaItem = new Categoria((String) comboBoxCategoria.getSelectedItem());
+            
+            if (filaSeleccionada == 100) { // Creación de nuevo ItemMenu
+                if(comboBoxCategoria.getSelectedItem().equals("BEBIDA")) {
                     itemMenuController.crearNuevaBebida(
-                        campoNombre.getText(),
-                        campoDescripcion.getText(),
-                        precio,
-                        categoriaItem,
-                        campoVendedor.getText()
-                    );
-                    } else {
-                        itemMenuController.crearNuevoPlato(
                             campoNombre.getText(),
                             campoDescripcion.getText(),
                             precio,
                             categoriaItem,
-                            campoVendedor.getText()
-                            );
-                            } 
-                    JOptionPane.showMessageDialog(this, "ItemMenu creado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
-                } else { // Edición de un ItemMenu existente
-                    itemActual.setNombre(campoNombre.getText());
-                    itemActual.setDescripcion(campoDescripcion.getText());
-                    itemActual.setPrecio(precio);
-                    itemActual.setCategoria(categoriaItem);
-                    itemActual.setVendedor(campoVendedor.getText());
-                    itemMenuController.modificarItemMenu(filaSeleccionada, itemActual);
-                    JOptionPane.showMessageDialog(this, "ItemMenu actualizado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
+                            Double.parseDouble(campoTamanio.getText()),
+                            comboBoxAlcohol.getSelectedItem().equals("SI"));
+                } else {
+                    itemMenuController.crearNuevoPlato(campoNombre.getText(),
+                            campoDescripcion.getText(),
+                            precio,
+                            categoriaItem,
+                            Double.parseDouble(campoPeso.getText()),
+                            Double.parseDouble(campoCalorias.getText()),
+                            comboBoxAptoVegano.getSelectedItem().equals("SI")
+                    );
                 }
-
-                dispose(); 
-
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "Precio inválido.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "ItemMenu creado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
+            } else { // Edición de un ItemMenu existente
+                itemActual.setNombre(campoNombre.getText());
+                itemActual.setDescripcion(campoDescripcion.getText());
+                itemActual.setPrecio(precio);
+                itemActual.setCategoria(categoriaItem);
+                itemMenuController.modificarItemMenu(filaSeleccionada, itemActual);
+                JOptionPane.showMessageDialog(this, "ItemMenu actualizado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
             }
-
+            dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Formato Inválido", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
@@ -323,25 +505,71 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_botonCancelarActionPerformed
 
+    private void botonAgregarDesagregarVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarDesagregarVendedorActionPerformed
+        VentanaAsignarEliminarVendedorDeItemMenu nuevaVentana = new VentanaAsignarEliminarVendedorDeItemMenu();
+        nuevaVentana.setPantallaAgregarDesagregarVendedor(this);
+        nuevaVentana.setVisible(true);
+        nuevaVentana.setLocationRelativeTo(null);
+        /*nuevaVentana.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                cargarTablaItems(); // actualizar tabla tras creación
+            }
+        });*/
+    }//GEN-LAST:event_botonAgregarDesagregarVendedorActionPerformed
+
+    private void comboBoxCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxCategoriaActionPerformed
+        if(comboBoxCategoria.getSelectedItem().equals("BEBIDA")) {
+            campoTamanio.enable(true);
+            comboBoxAlcohol.enable(true);
+            campoPeso.enable(false);
+            campoCalorias.enable(false);
+            comboBoxAptoVegano.enable(false);
+            campoPeso.setText("");
+            campoCalorias.setText("");
+        } else {
+            campoTamanio.enable(false);
+            comboBoxAlcohol.enable(false);
+            campoPeso.enable(true);
+            campoCalorias.enable(true);
+            comboBoxAptoVegano.enable(true);
+            campoTamanio.setText("");
+        }
+    }//GEN-LAST:event_comboBoxCategoriaActionPerformed
+
     public static void main(String args[]) {
+        DAOItemMenu itemsMenuDAO = new ItemMenuMemory();
+        ItemMenuController itemsMenuController = new ItemMenuController(itemsMenuDAO);
         java.awt.EventQueue.invokeLater(() -> {
-            new VentanaDeCreacionEdicionItemsMenu().setVisible(true);
+            new VentanaDeCreacionEdicionItemsMenu(itemsMenuController).setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAceptar;
+    private javax.swing.JButton botonAgregarDesagregarVendedor;
     private javax.swing.JButton botonCancelar;
+    private javax.swing.JTextField campoCalorias;
     private javax.swing.JTextField campoDescripcion;
     private javax.swing.JTextField campoNombre;
+    private javax.swing.JTextField campoPeso;
     private javax.swing.JTextField campoPrecio;
-    private javax.swing.JTextField campoVendedor;
+    private javax.swing.JTextField campoTamanio;
+    private javax.swing.JComboBox<String> comboBoxAlcohol;
+    private javax.swing.JComboBox<String> comboBoxAptoVegano;
     private javax.swing.JComboBox<String> comboBoxCategoria;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel panelEditable;
     private javax.swing.JLabel tit1;
     private javax.swing.JLabel tit2;
     private javax.swing.JLabel tit3;
+    private javax.swing.JLabel tit4;
     private javax.swing.JLabel tit5;
+    private javax.swing.JLabel tit6;
+    private javax.swing.JLabel tit7;
+    private javax.swing.JLabel tit8;
+    private javax.swing.JLabel tit9;
     private javax.swing.JLabel titFechaDePago;
     private javax.swing.JLabel tituloPrincipal;
     // End of variables declaration//GEN-END:variables

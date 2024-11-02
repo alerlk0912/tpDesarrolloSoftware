@@ -16,6 +16,13 @@ public abstract class ItemMenu {
         this.categoria = categoria;
         this.vendedor = vendedor;
     }
+    
+    public ItemMenu(String nombre, String descripcion, double precio, Categoria categoria) {
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.precio = precio;
+        this.categoria = categoria;
+    }
 
     public int getId() {
         return id;
