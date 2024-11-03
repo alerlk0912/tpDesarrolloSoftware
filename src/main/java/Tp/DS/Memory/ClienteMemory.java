@@ -9,7 +9,6 @@ public class ClienteMemory implements DAOCliente{
     private List<Cliente> clientes = new ArrayList<>();
     private int nextId = 1;
     
-    @Override
     public List<Cliente> listarClientes() {
         return clientes;
     }
@@ -35,7 +34,7 @@ public class ClienteMemory implements DAOCliente{
     }
 
     @Override
-    public Cliente buscarClientePorId(int id) {
+    public Cliente buscarClientePorId(double id) {
         return clientes.stream().filter(c -> c.getId() == id).findFirst().orElse(null);
     }
 }

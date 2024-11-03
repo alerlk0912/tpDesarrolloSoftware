@@ -18,75 +18,35 @@ public class MenuCliente extends javax.swing.JFrame {
     private MenuPedidos menuPedidos;
     private ClienteController clienteController;
     
+    private javax.swing.JPanel Panel;
+    private javax.swing.JButton botonCliente;
+    private javax.swing.JButton botonCrearCliente;
+    private javax.swing.JButton botonEditarCliente;
+    private javax.swing.JButton botonEliminarCliente;
+    private javax.swing.JButton botonItemsMenu;
+    private javax.swing.JButton botonPedidos;
+    private javax.swing.JButton botonVendedor;
+    private javax.swing.JButton botonVolver;
+    private javax.swing.JButton buscarCliente;
+    private javax.swing.JTextField coordenadasCliente;
+    private javax.swing.JTextField cuitCliente;
+    private javax.swing.JTextField direccionCliente;
+    private javax.swing.JTextField emailCliente;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField nombreCliente;
+    private javax.swing.JScrollPane scrollTablaClientes;
+    private javax.swing.JTable tablaClientes;
+    private javax.swing.JLabel texto1;
+    private javax.swing.JLabel textoCUIT;
+    private javax.swing.JLabel textoCoordenadas;
+    private javax.swing.JLabel textoDireccion;
+    private javax.swing.JLabel textoEmail;
+    private javax.swing.JLabel textoNombre;
+
+
     //para tabla
-    private Object[][] clientes;
-    DefaultTableModel model;
-    
-    public void setListaTablaClientes() {
-        model = (DefaultTableModel) tablaClientes.getModel();
-        cargarClientes();
-    }
-    
-    public void setMenuPrincipal(MenuPrincipal menuPrincipal) {
-        this.menuPrincipal = menuPrincipal;
-    }
-    public void setMenuVendedor(MenuVendedor menuVendedor) {
-        this.menuVendedor = menuVendedor;
-    }
-    public void setMenuCliente(MenuCliente menuCliente) {
-        this.menuCliente = menuCliente;
-    }
-    public void setMenuItemsMenu(MenuItemsMenu menuItemsMenu) {
-        this.menuItemsMenu = menuItemsMenu;
-    }
-    public void setMenuPedidos(MenuPedidos menuPedidos) {
-        this.menuPedidos = menuPedidos;
-    }
-    public void recibirDatosDeCreacion(String cuit, String nombre, String email, String direccion, String latitud, String longitud) {
-        Coordenada coordenadas = new Coordenada(Double.parseDouble(latitud), Double.parseDouble(longitud));
-
-        // Crear el cliente usando ClienteController
-        clienteController.crearNuevoCliente(cuit, nombre, email, direccion, coordenadas);
-
-        // Actualizar la tabla para reflejar el nuevo cliente
-        actualizarTablaClientes();
-    }
-
-    public void recibirDatosDeEdicion(int filaSeleccionada, String cuit, String nombre, String email, String direccion, String latitud, String longitud) {
-        int id = (int) model.getValueAt(filaSeleccionada, 0); // Obtener ID del cliente seleccionado
-        Coordenada coordenadas = new Coordenada(Double.parseDouble(latitud), Double.parseDouble(longitud));
-
-        // Modificar el cliente usando ClienteController
-        clienteController.modificarCliente(id, cuit, nombre, email, direccion, coordenadas);
-
-        // Actualizar la tabla para reflejar los cambios
-        actualizarTablaClientes();
-    }
-    
-    
-    public MenuCliente(ClienteController clienteController) {
-        this.clienteController = clienteController;
-        initComponents();
-        cargarClientesEnTabla();
-    }
-    
-    private void cargarClientesEnTabla() {
-        model = (DefaultTableModel) tablaClientes.getModel();
-        model.setRowCount(0); // Limpiar la tabla antes de cargar nuevos datos
-
-        List<Cliente> listaClientes = clienteController.mostrarClientes();
-        for (Cliente cliente : listaClientes) {
-            Object[] fila = {
-                cliente.getId(),
-                cliente.getCuit(),
-                cliente.getNombre(),
-                cliente.getEmail(),
-                cliente.getDireccion(),
-                cliente.getCoordenadas() != null ? cliente.getCoordenadas().toString() : ""
-            };
-            model.addRow(fila);
-        }
-    }
+     private final DefaultTableModel model;;
+     private Object[][] clientes;
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
@@ -416,7 +376,81 @@ public class MenuCliente extends javax.swing.JFrame {
 
         pack();
     }
+    
+    private void cargarClientesEnTabla() {
+        model.setRowCount(0); // Limpiar la tabla antes de cargar nuevos datos
+        List<Cliente> listaClientes = clienteController.mostrarClientes();
+        if (listaClientes != null) {
+            clientes = new Object[listaClientes.size()][6];
+            int index =0;
+                for (Cliente cliente : listaClientes) {
+                clientes[index][0] = cliente.getId();
+                clientes[index][1] = cliente.getCuit();
+                clientes[index][2] = cliente.getNombre();
+                clientes[index][3] = cliente.getEmail();
+                clientes[index][4] = cliente.getDireccion();
+                clientes[index][5] = cliente.getCoordenadas().getLat() + ", " + cliente.getCoordenadas().getLng();
+                model.addRow(clientes[index]);
+                index++;
+            }
+        }
+    }
+    
+    public void setMenuPrincipal(MenuPrincipal menuPrincipal) {
+        this.menuPrincipal = menuPrincipal;
+    }
+    public void setMenuVendedor(MenuVendedor menuVendedor) {
+        this.menuVendedor = menuVendedor;
+    }
+    public void setMenuCliente(MenuCliente menuCliente) {
+        this.menuCliente = menuCliente;
+        this.clienteController = clienteController;
+        cargarClientesEnTabla();
+    }
+    public void setMenuItemsMenu(MenuItemsMenu menuItemsMenu) {
+        this.menuItemsMenu = menuItemsMenu;
+    }
+    public void setMenuPedidos(MenuPedidos menuPedidos) {
+        this.menuPedidos = menuPedidos;
+    }
+    public void recibirDatosDeCreacion(String cuit, String nombre, String email, String direccion, String latitud, String longitud) {
+        Coordenada coordenadas = new Coordenada(Double.parseDouble(latitud), Double.parseDouble(longitud));
 
+        // Crear el cliente usando ClienteController
+        clienteController.crearNuevoCliente(cuit, nombre, email, direccion, coordenadas);
+
+        // Actualizar la tabla para reflejar el nuevo cliente
+        cargarClientesEnTabla();
+    }
+
+    public void recibirDatosDeEdicion(int filaSeleccionada, String cuit, String nombre, String email, String direccion, String latitud, String longitud) {
+        int id = (int) model.getValueAt(filaSeleccionada, 0); // Obtener ID del cliente seleccionado
+        Coordenada coordenadas = new Coordenada(Double.parseDouble(latitud), Double.parseDouble(longitud));
+
+        // Modificar el cliente usando ClienteController
+        clienteController.modificarCliente(id, cuit, nombre, email, direccion, coordenadas);
+
+        // Actualizar la tabla para reflejar los cambios
+        cargarClientesEnTabla();
+    }
+    
+    
+    public MenuCliente(ClienteController clienteController) {
+        initComponents();
+        this.model = (DefaultTableModel) tablaClientes.getModel();
+        this.clienteController = clienteController;
+        
+        cargarClientesEnTabla();
+    }
+
+    private void cargarClientes() {
+            model.setRowCount(0); // Limpiar la tabla
+            List<Cliente> clientes = clienteController.mostrarClientes();
+            for (Cliente cliente : clientes) {
+                model.addRow(new Object[]{cliente.getId(), cliente.getNombre(), cliente.getDireccion()});
+            }
+    }  
+    
     private void botonVendedorActionPerformed(java.awt.event.ActionEvent evt) {                                              
         menuVendedor.setMenuCliente(this);
         menuVendedor.setVisible(true);
@@ -425,24 +459,56 @@ public class MenuCliente extends javax.swing.JFrame {
     }
 
     private void buscarClienteActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        int idBuscado = Integer.parseInt(cuitCliente.getText().trim()); // Si se busca por CUIT, cambia la variable según tu necesidad.
+        String cuit = cuitCliente.getText().trim(); 
+        String nombre = nombreCliente.getText().trim().toLowerCase();
+        String email = emailCliente.getText().trim().toLowerCase();
+        String direccion = direccionCliente.getText().trim().toLowerCase();
+        String coordenada = textoCoordenadas.getText().trim().toLowerCase();
+        Double latitud = null;
+        Double longitud = null;
         model.setRowCount(0); // Limpia la tabla
 
-        Cliente clienteEncontrado = clienteController.buscarCliente(idBuscado);
-        if (clienteEncontrado != null) {
-            Object[] fila = {
-                clienteEncontrado.getId(),
-                clienteEncontrado.getCuit(),
-                clienteEncontrado.getNombre(),
-                clienteEncontrado.getEmail(),
-                clienteEncontrado.getDireccion(),
-                (clienteEncontrado.getCoordenadas().getLat()+", "+clienteEncontrado.getCoordenadas().getLng())
-            };
-            model.addRow(fila);
-        } else {
-            JOptionPane.showMessageDialog(null, "No se encontró ningún cliente con esos parámetros.", "Búsqueda", JOptionPane.INFORMATION_MESSAGE);
+                
+        List<Cliente> clientes = clienteController.mostrarClientes();
+        boolean encontrado = false;
+        
+        if (!coordenada.isEmpty()) {
+            String[] partes = coordenada.split(",");
+            if (partes.length == 2) {
+                try {
+                    latitud = Double.parseDouble(partes[0].trim());
+                    longitud = Double.parseDouble(partes[1].trim());
+                    System.out.println(latitud);
+                } catch (NumberFormatException e) {
+                   // JOptionPane.showMessageDialog(this, "Formato de coordenadas incorrecto. Use el formato: 'Latitud, Longitud'.", "Error", JOptionPane.ERROR_MESSAGE);
+                   // return;
+                }
+            } else {
+                //JOptionPane.showMessageDialog(this, "Formato de coordenadas incorrecto. Use el formato: 'Latitud, Longitud'.", "Error", JOptionPane.ERROR_MESSAGE);
+                //return;
+            }
+        }     
+
+        for (Cliente cliente : clientes) {
+            boolean coincide = (cuit.isEmpty() || cliente.getCuit().contains(cuit)) &&
+                           (nombre.isEmpty() || cliente.getNombre().toLowerCase().contains(nombre)) &&
+                           (direccion.isEmpty() || cliente.getDireccion().toLowerCase().contains(direccion)) &&
+                           (email.isEmpty() || cliente.getEmail().toLowerCase().contains(email)) &&
+                           (latitud == null || cliente.getCoordenadas().getLat() == latitud) &&
+                           (longitud == null || cliente.getCoordenadas().getLng() == longitud);
+
+            if (coincide) {
+                String coord = cliente.getCoordenadas().getLat() + ", " + cliente.getCoordenadas().getLng();
+                model.addRow(new Object[]{cliente.getId(), cliente.getCuit(), cliente.getNombre(), cliente.getEmail(), cliente.getDireccion(), coord});
+                encontrado = true;
+            }
         }
-    }
+        
+        if (!encontrado) {
+            JOptionPane.showMessageDialog(this, "No se encontró ningún cliente con esos parámetros.", "Búsqueda", JOptionPane.INFORMATION_MESSAGE);
+        }
+        
+    }    
     
     private void botonPedidosActionPerformed(java.awt.event.ActionEvent evt) {                                             
         menuPedidos.setMenuCliente(this);
@@ -463,39 +529,6 @@ public class MenuCliente extends javax.swing.JFrame {
         menuPrincipal.setLocationRelativeTo(null);
         setVisible(false);
     }
-
-    /*private void buscarClienteActionPerformed(java.awt.event.ActionEvent evt) {                                              
-        String cuitBuscado = cuitCliente.getText().trim();
-        String nombreBuscado = nombreCliente.getText().trim();
-        String emailBuscado = emailCliente.getText().trim();
-        String direccionBuscado = direccionCliente.getText().trim();
-        String coordenadasBuscado = coordenadasCliente.getText().trim();
-        model.setRowCount(0);
-        boolean encontrado = false;
-        if (cuitBuscado.isEmpty() && nombreBuscado.isEmpty() && emailBuscado.isEmpty() && direccionBuscado.isEmpty() && coordenadasBuscado.isEmpty()) {
-            for (Object[] cliente : clientes) {
-                
-            }
-            encontrado = true;
-        }
-        else {
-            for (Object[] cliente : clientes) {
-                String cuit = ((String) cliente[1]).toLowerCase();
-                String nombre = ((String) cliente[2]).toLowerCase();
-                String email = ((String) cliente[3]).toLowerCase();
-                String dir = ((String) cliente[4]).toLowerCase();
-                String coordenada = ((String) cliente[5]).toLowerCase();
-
-                if (nombre.contains(nombreBuscado)) {
-                    model.addRow(cliente);
-                    encontrado = true;
-                }
-            }
-        }
-        if (!encontrado) {
-            JOptionPane.showMessageDialog(null, "No se encontró ningún cliente con esos parámetros.", "Búsqueda", JOptionPane.INFORMATION_MESSAGE);
-        }
-    }*/
 
     private void botonEditarClienteActionPerformed(java.awt.event.ActionEvent evt) {
         int filaSeleccionada = tablaClientes.getSelectedRow();
@@ -520,12 +553,16 @@ public class MenuCliente extends javax.swing.JFrame {
     private void botonEliminarClienteActionPerformed(java.awt.event.ActionEvent evt) {                                                     
         int filaSeleccionada = tablaClientes.getSelectedRow();
         if (filaSeleccionada != -1) {
+            int id = (int) model.getValueAt(filaSeleccionada, 0);
             int opcion = JOptionPane.showConfirmDialog(null, "¿Estás seguro de eliminar este Cliente?", "Confirmar", JOptionPane.YES_NO_OPTION);
             if (opcion == JOptionPane.YES_OPTION) {
+                clienteController.eliminarCliente(id);
                 model.removeRow(filaSeleccionada);
+                cargarClientesEnTabla(); // actualizar tabla tras eliminación
                 JOptionPane.showMessageDialog(null, "Cliente borrado con Éxito", "Información", JOptionPane.INFORMATION_MESSAGE);
             }
-        }
+        }          
+
         else {
             JOptionPane.showMessageDialog(null, "Por favor selecciona una fila para editar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
@@ -544,55 +581,5 @@ public class MenuCliente extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(() -> {
             new MenuCliente(clienteController).setVisible(true);
         });
-    }
-
-    private javax.swing.JPanel Panel;
-    private javax.swing.JButton botonCliente;
-    private javax.swing.JButton botonCrearCliente;
-    private javax.swing.JButton botonEditarCliente;
-    private javax.swing.JButton botonEliminarCliente;
-    private javax.swing.JButton botonItemsMenu;
-    private javax.swing.JButton botonPedidos;
-    private javax.swing.JButton botonVendedor;
-    private javax.swing.JButton botonVolver;
-    private javax.swing.JButton buscarCliente;
-    private javax.swing.JTextField coordenadasCliente;
-    private javax.swing.JTextField cuitCliente;
-    private javax.swing.JTextField direccionCliente;
-    private javax.swing.JTextField emailCliente;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField nombreCliente;
-    private javax.swing.JScrollPane scrollTablaClientes;
-    private javax.swing.JTable tablaClientes;
-    private javax.swing.JLabel texto1;
-    private javax.swing.JLabel textoCUIT;
-    private javax.swing.JLabel textoCoordenadas;
-    private javax.swing.JLabel textoDireccion;
-    private javax.swing.JLabel textoEmail;
-    private javax.swing.JLabel textoNombre;
-
-    
-    private void cargarClientes() {
-            model.setRowCount(0); // Limpiar la tabla
-            List<Cliente> clientes = clienteController.mostrarClientes();
-            for (Cliente cliente : clientes) {
-                model.addRow(new Object[]{cliente.getId(), cliente.getNombre(), cliente.getDireccion()});
-            }
-        }
-    
-    private void actualizarTablaClientes() {
-        model.setRowCount(0); // Limpia la tabla
-        for (Cliente cliente : clienteController.mostrarClientes()) {
-            Object[] fila = {
-                cliente.getId(),
-                cliente.getCuit(),
-                cliente.getNombre(),
-                cliente.getEmail(),
-                cliente.getDireccion(),
-                (cliente.getCoordenadas().getLat()+", "+cliente.getCoordenadas().getLng())
-            };
-            model.addRow(fila);
-        }
-    }
+    }   
 }
-

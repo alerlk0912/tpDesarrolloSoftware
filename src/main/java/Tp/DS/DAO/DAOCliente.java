@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface DAOCliente {
     List<Cliente> listarClientes();
-    Cliente buscarClientePorId(int id);
+    Cliente buscarClientePorId(double id);
     void agregarCliente(Cliente cliente);
     void actualizarCliente(Cliente cliente);
     void eliminarCliente(int id);

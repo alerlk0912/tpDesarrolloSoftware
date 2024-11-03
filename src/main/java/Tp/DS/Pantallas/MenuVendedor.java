@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package TP.DS.Pantallas;
 
 import Tp.DS.Controller.VendedorController;
@@ -19,68 +15,42 @@ public class MenuVendedor extends javax.swing.JFrame {
     private MenuCliente menuCliente;
     private MenuItemsMenu menuItemsMenu;
     private MenuPedidos menuPedidos;
+    
+    private javax.swing.JPanel Panel;
+    private javax.swing.JButton botonBuscarVendedor;
+    private javax.swing.JButton botonCliente;
+    private javax.swing.JButton botonCrearVendedor;
+    private javax.swing.JButton botonEditarVendedor;
+    private javax.swing.JButton botonEliminarVendedor;
+    private javax.swing.JButton botonItemsMenu;
+    private javax.swing.JButton botonPedidos;
+    private javax.swing.JButton botonVendedor;
+    private javax.swing.JButton botonVolver;
+    private javax.swing.JTextField campoCoordenadaVendedor;
+    private javax.swing.JTextField campoDireccionVendedor;
+    private javax.swing.JTextField campoNombreVendedor;
+    private javax.swing.JScrollPane scrollTablaVendedores;
+    //private javax.swing.JTable tablaVendedor;
+    private javax.swing.JLabel texto1;
+    private javax.swing.JLabel texto2;
+    private javax.swing.JLabel texto3;
+    private javax.swing.JLabel texto4;    
+    
     private VendedorController vendedorController;
-    
-    //prueba tabla
-    private Object[][] vendedores;
-    DefaultTableModel model;
-    /*
-    public void setListaTablaVendedores() {
-        model = (DefaultTableModel) tablaVendedor.getModel();
-        vendedores = new Object[][] {
-            {1, "Restaurante AA", "Calle 123", "-34.6037, -58.3816"},
-            {2, "Restaurante AB", "Calle 456", "-34.6158, -58.4333"},
-            {3, "Restaurante AC", "Calle 789", "-34.6179, -58.3686"},
-            {4, "Restaurante AD", "Calle 101", "-34.6059, -58.3831"},
-            {5, "Restaurante BE", "Calle 202", "-34.6180, -58.4350"},
-            {6, "Restaurante BF", "Calle 303", "-34.6201, -58.3701"},
-            {7, "Restaurante BG", "Calle 404", "-34.6081, -58.3846"},
-            {8, "Restaurante BH", "Calle 505", "-34.6202, -58.4367"},
-            {9, "Restaurante CI", "Calle 606", "-34.6223, -58.3716"},
-            {10, "Restaurante CJ", "Calle 707", "-34.6103, -58.3861"},
-            {11, "Restaurante CK", "Calle 808", "-34.6224, -58.4384"},
-            {12, "Restaurante CL", "Calle 909", "-34.6245, -58.3731"},
-            {13, "Restaurante CM", "Calle 1010", "-34.6125, -58.3876"}
-        };
-    }*/
-    
-    private void cargarTablaVendedores() {
-        model = (DefaultTableModel) tablaVendedor.getModel();
-        model.setRowCount(0); // Limpiar tabla
-        List<Vendedor> listaVendedores = vendedorController.mostrarListaVendedor();
-        for (Vendedor vendedor : listaVendedores) {
-            String coordenadas = vendedor.getCoordenadas().getLat() + "," + vendedor.getCoordenadas().getLng();
-            model.addRow(new Object[]{vendedor.getId(), vendedor.getNombre(), vendedor.getDireccion(), coordenadas});
-        }
-    }
-    
-    public void setMenuPrincipal(MenuPrincipal menuPrincipal) {
-        this.menuPrincipal = menuPrincipal;
-    }
-    public void setMenuVendedor(MenuVendedor menuVendedor) {
-        this.menuVendedor = menuVendedor;
-    }
-    public void setMenuCliente(MenuCliente menuCliente) {
-        this.menuCliente = menuCliente;
-    }
-    public void setMenuItemsMenu(MenuItemsMenu menuItemsMenu) {
-        this.menuItemsMenu = menuItemsMenu;
-    }
-    public void setMenuPedidos(MenuPedidos menuPedidos) {
-        this.menuPedidos = menuPedidos;
-    }
+    private final DefaultTableModel model;;
+    private JTable tablaVendedor;
         
     public MenuVendedor(VendedorController vendedorController) {
-        this.vendedorController = vendedorController;
         initComponents();
-        // setListaTablaVendedores();
+        this.model = (DefaultTableModel) tablaVendedor.getModel();
+        this.vendedorController = vendedorController;
+        
         cargarTablaVendedores();
     }
     
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
-
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">
+    private void initComponents() {        
         Panel = new javax.swing.JPanel();
         botonVendedor = new javax.swing.JButton();
         botonCliente = new javax.swing.JButton();
@@ -111,7 +81,7 @@ public class MenuVendedor extends javax.swing.JFrame {
         Panel.setPreferredSize(new java.awt.Dimension(900, 600));
 
         botonVendedor.setBackground(new java.awt.Color(123, 36, 28));
-        botonVendedor.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        botonVendedor.setFont(new java.awt.Font("Times New Roman", 0, 14));
         botonVendedor.setForeground(new java.awt.Color(255, 255, 255));
         botonVendedor.setText("VENDEDORES");
         botonVendedor.setEnabled(false);
@@ -122,7 +92,7 @@ public class MenuVendedor extends javax.swing.JFrame {
         });
 
         botonCliente.setBackground(new java.awt.Color(123, 36, 28));
-        botonCliente.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        botonCliente.setFont(new java.awt.Font("Times New Roman", 0, 14));
         botonCliente.setForeground(new java.awt.Color(255, 255, 255));
         botonCliente.setText("CLIENTES");
         botonCliente.addActionListener(new java.awt.event.ActionListener() {
@@ -132,7 +102,7 @@ public class MenuVendedor extends javax.swing.JFrame {
         });
 
         botonPedidos.setBackground(new java.awt.Color(123, 36, 28));
-        botonPedidos.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        botonPedidos.setFont(new java.awt.Font("Times New Roman", 0, 14));
         botonPedidos.setForeground(new java.awt.Color(255, 255, 255));
         botonPedidos.setText("PEDIDOS");
         botonPedidos.addActionListener(new java.awt.event.ActionListener() {
@@ -142,7 +112,7 @@ public class MenuVendedor extends javax.swing.JFrame {
         });
 
         botonItemsMenu.setBackground(new java.awt.Color(123, 36, 28));
-        botonItemsMenu.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        botonItemsMenu.setFont(new java.awt.Font("Times New Roman", 0, 14));
         botonItemsMenu.setForeground(new java.awt.Color(255, 255, 255));
         botonItemsMenu.setText("ITEMS MENÚ");
         botonItemsMenu.addActionListener(new java.awt.event.ActionListener() {
@@ -156,7 +126,7 @@ public class MenuVendedor extends javax.swing.JFrame {
         texto1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         botonVolver.setBackground(new java.awt.Color(123, 36, 28));
-        botonVolver.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        botonVolver.setFont(new java.awt.Font("Times New Roman", 0, 14));
         botonVolver.setForeground(new java.awt.Color(255, 255, 255));
         botonVolver.setText("VOLVER");
         botonVolver.addActionListener(new java.awt.event.ActionListener() {
@@ -166,7 +136,7 @@ public class MenuVendedor extends javax.swing.JFrame {
         });
 
         botonBuscarVendedor.setBackground(new java.awt.Color(123, 36, 28));
-        botonBuscarVendedor.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        botonBuscarVendedor.setFont(new java.awt.Font("Times New Roman", 0, 12));
         botonBuscarVendedor.setForeground(new java.awt.Color(255, 255, 255));
         botonBuscarVendedor.setText("BUSCAR VENDEDOR");
         botonBuscarVendedor.addActionListener(new java.awt.event.ActionListener() {
@@ -176,7 +146,7 @@ public class MenuVendedor extends javax.swing.JFrame {
         });
 
         botonEditarVendedor.setBackground(new java.awt.Color(123, 36, 28));
-        botonEditarVendedor.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        botonEditarVendedor.setFont(new java.awt.Font("Times New Roman", 0, 12));
         botonEditarVendedor.setForeground(new java.awt.Color(255, 255, 255));
         botonEditarVendedor.setText("EDITAR VENDEDOR");
         botonEditarVendedor.addActionListener(new java.awt.event.ActionListener() {
@@ -186,7 +156,7 @@ public class MenuVendedor extends javax.swing.JFrame {
         });
 
         botonEliminarVendedor.setBackground(new java.awt.Color(123, 36, 28));
-        botonEliminarVendedor.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        botonEliminarVendedor.setFont(new java.awt.Font("Times New Roman", 0, 12));
         botonEliminarVendedor.setForeground(new java.awt.Color(255, 255, 255));
         botonEliminarVendedor.setText("ELIMINAR VENDEDOR");
         botonEliminarVendedor.addActionListener(new java.awt.event.ActionListener() {
@@ -196,7 +166,7 @@ public class MenuVendedor extends javax.swing.JFrame {
         });
 
         botonCrearVendedor.setBackground(new java.awt.Color(123, 36, 28));
-        botonCrearVendedor.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        botonCrearVendedor.setFont(new java.awt.Font("Times New Roman", 0, 12));
         botonCrearVendedor.setForeground(new java.awt.Color(255, 255, 255));
         botonCrearVendedor.setText("CREAR VENDEDOR");
         botonCrearVendedor.addActionListener(new java.awt.event.ActionListener() {
@@ -206,11 +176,11 @@ public class MenuVendedor extends javax.swing.JFrame {
         });
 
         campoNombreVendedor.setBackground(new java.awt.Color(123, 36, 28));
-        campoNombreVendedor.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        campoNombreVendedor.setFont(new java.awt.Font("Times New Roman", 0, 20));
         campoNombreVendedor.setForeground(new java.awt.Color(255, 255, 255));
 
         texto2.setBackground(new java.awt.Color(123, 35, 27));
-        texto2.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        texto2.setFont(new java.awt.Font("Times New Roman", 0, 20));
         texto2.setForeground(new java.awt.Color(255, 255, 255));
         texto2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         texto2.setText("Nombre");
@@ -219,11 +189,11 @@ public class MenuVendedor extends javax.swing.JFrame {
         texto2.setInheritsPopupMenu(false);
 
         campoDireccionVendedor.setBackground(new java.awt.Color(123, 36, 28));
-        campoDireccionVendedor.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        campoDireccionVendedor.setFont(new java.awt.Font("Times New Roman", 0, 20));
         campoDireccionVendedor.setForeground(new java.awt.Color(255, 255, 255));
 
         texto3.setBackground(new java.awt.Color(123, 35, 27));
-        texto3.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        texto3.setFont(new java.awt.Font("Times New Roman", 0, 20));
         texto3.setForeground(new java.awt.Color(255, 255, 255));
         texto3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         texto3.setText("Dirección");
@@ -232,11 +202,11 @@ public class MenuVendedor extends javax.swing.JFrame {
         texto3.setInheritsPopupMenu(false);
 
         campoCoordenadaVendedor.setBackground(new java.awt.Color(123, 36, 28));
-        campoCoordenadaVendedor.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        campoCoordenadaVendedor.setFont(new java.awt.Font("Times New Roman", 0, 20));
         campoCoordenadaVendedor.setForeground(new java.awt.Color(255, 255, 255));
 
         texto4.setBackground(new java.awt.Color(123, 35, 27));
-        texto4.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        texto4.setFont(new java.awt.Font("Times New Roman", 0, 20));
         texto4.setForeground(new java.awt.Color(255, 255, 255));
         texto4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         texto4.setText("Coordenada");
@@ -361,9 +331,114 @@ public class MenuVendedor extends javax.swing.JFrame {
         getContentPane().add(Panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }
+    
+    public void cargarTablaVendedores() {
+        model.setRowCount(0); // Limpiar tabla
+        List<Vendedor> listaVendedores = vendedorController.mostrarListaVendedor();
+        if (listaVendedores != null) {
+            vendedores = new Object[listaVendedores.size()][4];
+            int index = 0;
+            for (Vendedor vendedor : listaVendedores) {
+                vendedores[index][0] = vendedor.getId();
+                vendedores[index][1] = vendedor.getNombre();
+                vendedores[index][2] = vendedor.getDireccion();
+                vendedores[index][3] = vendedor.getCoordenadas().getLat() + ", " + vendedor.getCoordenadas().getLng();
+                model.addRow(vendedores[index]);
+                index++;
+            }
+        }
+    }
+    
+    String nombreBuscado = "";
+    String direccionBuscada = "";
+    String coordenadaBuscada = "";
+    
+    //prueba tabla
+    private Object[][] vendedores;
+    /*
+    public void setListaTablaVendedores() {
+    model = (DefaultTableModel) tablaVendedor.getModel();
+    vendedores = new Object[][] {
+    {1, "Restaurante AA", "Calle 123", "-34.6037, -58.3816"},
+    {2, "Restaurante AB", "Calle 456", "-34.6158, -58.4333"},
+    {3, "Restaurante AC", "Calle 789", "-34.6179, -58.3686"},
+    {4, "Restaurante AD", "Calle 101", "-34.6059, -58.3831"},
+    {5, "Restaurante BE", "Calle 202", "-34.6180, -58.4350"},
+    {6, "Restaurante BF", "Calle 303", "-34.6201, -58.3701"},
+    {7, "Restaurante BG", "Calle 404", "-34.6081, -58.3846"},
+    {8, "Restaurante BH", "Calle 505", "-34.6202, -58.4367"},
+    {9, "Restaurante CI", "Calle 606", "-34.6223, -58.3716"},
+    {10, "Restaurante CJ", "Calle 707", "-34.6103, -58.3861"},
+    {11, "Restaurante CK", "Calle 808", "-34.6224, -58.4384"},
+    {12, "Restaurante CL", "Calle 909", "-34.6245, -58.3731"},
+    {13, "Restaurante CM", "Calle 1010", "-34.6125, -58.3876"}
+    };
+    }*/
 
-    private void botonCrearVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearVendedorActionPerformed
+    public void setMenuPrincipal(MenuPrincipal menuPrincipal) {
+        this.menuPrincipal = menuPrincipal;
+    }
+    public void setMenuVendedor(MenuVendedor menuVendedor) {
+        this.menuVendedor = menuVendedor;
+    }
+    public void setMenuCliente(MenuCliente menuCliente) {
+        this.menuCliente = menuCliente;
+    }
+    public void setMenuItemsMenu(MenuItemsMenu menuItemsMenu) {
+        this.menuItemsMenu = menuItemsMenu;
+    }
+    public void setMenuPedidos(MenuPedidos menuPedidos) {
+        this.menuPedidos = menuPedidos;
+    }
+        
+    private void botonBuscarVendedorActionPerformed(java.awt.event.ActionEvent evt) {
+        String nombre = campoNombreVendedor.getText().trim().toLowerCase();
+        String direccion = campoDireccionVendedor.getText().trim().toLowerCase();
+        String coordenada = campoCoordenadaVendedor.getText().trim().toLowerCase();
+        Double latitud = null;
+        Double longitud = null;
+        
+        model.setRowCount(0); // Limpiar la tabla antes de mostrar los resultados
+
+        List<Vendedor> vendedores = vendedorController.mostrarListaVendedor();
+        boolean encontrado = false;
+        
+        if (!coordenada.isEmpty()) {
+            String[] partes = coordenada.split(",");
+            if (partes.length == 2) {
+                try {
+                    latitud = Double.parseDouble(partes[0].trim());
+                    longitud = Double.parseDouble(partes[1].trim());
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(this, "Formato de coordenadas incorrecto. Use el formato: 'Latitud, Longitud'.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Formato de coordenadas incorrecto. Use el formato: 'Latitud, Longitud'.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }        
+
+        for (Vendedor vendedor : vendedores) {
+            boolean coincide = (nombre.isEmpty() || vendedor.getNombre().toLowerCase().contains(nombre)) &&
+                           (direccion.isEmpty() || vendedor.getDireccion().toLowerCase().contains(direccion)) &&
+                           (latitud == null || vendedor.getCoordenadas().getLat() == latitud) &&
+                           (longitud == null || vendedor.getCoordenadas().getLng() == longitud);
+
+            if (coincide) {
+                String coord = vendedor.getCoordenadas().getLat() + ", " + vendedor.getCoordenadas().getLng();
+                model.addRow(new Object[]{vendedor.getId(), vendedor.getNombre(), vendedor.getDireccion(), coord});
+                encontrado = true;
+            }
+        }
+
+        if (!encontrado) {
+            JOptionPane.showMessageDialog(this, "No se encontró ningún vendedor con esos parámetros.", "Búsqueda", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    private void botonCrearVendedorActionPerformed(java.awt.event.ActionEvent evt) {
         VentanaDeCreacionEdicionVendedor nuevaVentana = new VentanaDeCreacionEdicionVendedor(vendedorController);
         nuevaVentana.setMenuVendedor(this);
         nuevaVentana.setVisible(true);
@@ -374,9 +449,9 @@ public class MenuVendedor extends javax.swing.JFrame {
                 cargarTablaVendedores(); // actualizar tabla tras creación
             }
         });
-    }//GEN-LAST:event_botonCrearVendedorActionPerformed
+    }
 
-    private void botonEliminarVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarVendedorActionPerformed
+    private void botonEliminarVendedorActionPerformed(java.awt.event.ActionEvent evt) {
         int filaSeleccionada = tablaVendedor.getSelectedRow();
         if (filaSeleccionada != -1) {
             int id = (int) model.getValueAt(filaSeleccionada, 0);
@@ -390,18 +465,14 @@ public class MenuVendedor extends javax.swing.JFrame {
         else {
             JOptionPane.showMessageDialog(this, "Por favor selecciona una fila para editar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
-    }//GEN-LAST:event_botonEliminarVendedorActionPerformed
+    }
 
-    private void botonEditarVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarVendedorActionPerformed
+    private void botonEditarVendedorActionPerformed(java.awt.event.ActionEvent evt) {
         int filaSeleccionada = tablaVendedor.getSelectedRow();
         if (filaSeleccionada != -1) {
             int id = (int) model.getValueAt(filaSeleccionada, 0);
             Vendedor vendedor = vendedorController.buscarVendedor(id);
             if (vendedor != null){
-//                String nombre = (String) model.getValueAt(filaSeleccionada, 1);
-//                String direccion = (String) model.getValueAt(filaSeleccionada, 2);
-//                String coordenada = (String) model.getValueAt(filaSeleccionada, 3);
-//                String itemsMenu = (String) model.getValueAt(filaSeleccionada, 4);
                 VentanaDeCreacionEdicionVendedor nuevaVentana = new VentanaDeCreacionEdicionVendedor(vendedorController);
                 nuevaVentana.recibirDatosEdicion(filaSeleccionada, vendedor);
                 nuevaVentana.setMenuVendedor(this);
@@ -419,80 +490,39 @@ public class MenuVendedor extends javax.swing.JFrame {
         else {
             JOptionPane.showMessageDialog(null, "Por favor selecciona una fila para editar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
-    }//GEN-LAST:event_botonEditarVendedorActionPerformed
+    }
 
-    private void botonBuscarVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarVendedorActionPerformed
-        String nombreBuscado = campoNombreVendedor.getText().trim();
-        String direccionBuscada = campoDireccionVendedor.getText().trim();
-        String coordenadaBuscada = campoCoordenadaVendedor.getText().trim();
-        model.setRowCount(0); //limpiar tabla
-//        boolean encontrado = false;
-//        if (nombreBuscado.isEmpty() && direccionBuscada.isEmpty() && coordenadaBuscada.isEmpty() && itemsMenuBuscado.isEmpty()) {
-//            for (Object[] vendedor : vendedores) {
-//                model.addRow(vendedor);
-//            }
-//            encontrado = true;
-//        }
-//        else {
-//            for (Object[] vendedor : vendedores) {
-//                String nombre = ((String) vendedor[1]).toLowerCase();
-//                String direccion = ((String) vendedor[2]).toLowerCase();
-//                String coordenada = ((String) vendedor[3]).toLowerCase();
-//                String itemsMenu = ((String) vendedor[4]).toLowerCase();
-//                
-//                if (nombre.contains(nombreBuscado) /*|| direccion.contains(direccionBuscada) || 
-//                        coordenada.contains(coordenadaBuscada) || itemMenu.contains(itemMenuBuscado)*/) {
-//                    model.addRow(vendedor);
-//                    encontrado = true;
-//                }
-//            }
-//        }
-        List<Vendedor> vendedores = vendedorController.mostrarListaVendedor();
-        boolean coincide = false;
-        for (Vendedor vendedor : vendedores) {
-            if ((nombreBuscado.isEmpty() || vendedor.getNombre().toLowerCase().contains(nombreBuscado))
-                    && (direccionBuscada.isEmpty() || vendedor.getDireccion().toLowerCase().contains(direccionBuscada))
-                    && (coordenadaBuscada.isEmpty() || vendedor.getCoordenadas().toString().toLowerCase().contains(coordenadaBuscada))) {
-                coincide = true;
-                String coordenadas = vendedor.getCoordenadas().getLat() + ", " + vendedor.getCoordenadas().getLng();
-                model.addRow(new Object[]{vendedor.getId(), vendedor.getNombre(), vendedor.getDireccion(), coordenadas});
-            }
-        }
-        if (!coincide) {
-            JOptionPane.showMessageDialog(null, "No se encontró ningún vendedor con esos parámetros.", "Búsqueda", JOptionPane.INFORMATION_MESSAGE);
-        }
-    }//GEN-LAST:event_botonBuscarVendedorActionPerformed
+    
 
-    private void botonVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonVolverActionPerformed
+    private void botonVolverActionPerformed(java.awt.event.ActionEvent evt) {
         menuPrincipal.setVisible(true);
         menuPrincipal.setLocationRelativeTo(null);
         setVisible(false);
-    }//GEN-LAST:event_botonVolverActionPerformed
+    }
 
-    private void botonItemsMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonItemsMenuActionPerformed
+    private void botonItemsMenuActionPerformed(java.awt.event.ActionEvent evt) {
         menuItemsMenu.setMenuVendedor(this);
         menuItemsMenu.setVisible(true);
         menuItemsMenu.setLocationRelativeTo(null);
         setVisible(false);
-    }//GEN-LAST:event_botonItemsMenuActionPerformed
+    }
 
-    private void botonPedidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonPedidosActionPerformed
+    private void botonPedidosActionPerformed(java.awt.event.ActionEvent evt) {
         menuPedidos.setMenuVendedor(this);
         menuPedidos.setVisible(true);
         menuPedidos.setLocationRelativeTo(null);
         setVisible(false);
-    }//GEN-LAST:event_botonPedidosActionPerformed
+    }
 
-    private void botonClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonClienteActionPerformed
+    private void botonClienteActionPerformed(java.awt.event.ActionEvent evt) {
         menuCliente.setMenuVendedor(this);
         menuCliente.setVisible(true);
         menuCliente.setLocationRelativeTo(null);
         setVisible(false);
-    }//GEN-LAST:event_botonClienteActionPerformed
+    }
 
-    private void botonVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonVendedorActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_botonVendedorActionPerformed
+    private void botonVendedorActionPerformed(java.awt.event.ActionEvent evt) {
+    }
 
     public static void main(String args[]) {
         DAOVendedor vendedorDAO = new VendedorMemory();
@@ -501,27 +531,5 @@ public class MenuVendedor extends javax.swing.JFrame {
             new MenuVendedor(vendedorController).setVisible(true);
         });
     }
-    
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel Panel;
-    private javax.swing.JButton botonBuscarVendedor;
-    private javax.swing.JButton botonCliente;
-    private javax.swing.JButton botonCrearVendedor;
-    private javax.swing.JButton botonEditarVendedor;
-    private javax.swing.JButton botonEliminarVendedor;
-    private javax.swing.JButton botonItemsMenu;
-    private javax.swing.JButton botonPedidos;
-    private javax.swing.JButton botonVendedor;
-    private javax.swing.JButton botonVolver;
-    private javax.swing.JTextField campoCoordenadaVendedor;
-    private javax.swing.JTextField campoDireccionVendedor;
-    private javax.swing.JTextField campoNombreVendedor;
-    private javax.swing.JScrollPane scrollTablaVendedores;
-    private javax.swing.JTable tablaVendedor;
-    private javax.swing.JLabel texto1;
-    private javax.swing.JLabel texto2;
-    private javax.swing.JLabel texto3;
-    private javax.swing.JLabel texto4;
-    // End of variables declaration//GEN-END:variables
 
 }
