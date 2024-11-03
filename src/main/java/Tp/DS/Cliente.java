@@ -79,7 +79,7 @@ public class Cliente implements PedidoObserver{
                '}';
     }
     
-    public static Cliente buscarClientePorId(Cliente[] clientes, int id) {
+    public static Cliente buscarClientePorId(Cliente[] clientes, double id) {
         for (Cliente cliente : clientes) {
             if (cliente.getId() == id) {
                 return cliente;
