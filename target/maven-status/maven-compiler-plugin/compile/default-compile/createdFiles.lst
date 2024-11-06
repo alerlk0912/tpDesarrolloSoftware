@@ -9,11 +9,8 @@ Tp\DS\Pantallas\MenuPedidos$10.class
 Tp\DS\Pantallas\MenuItemsMenu$9.class
 Tp\DS\Pantallas\MenuItemsMenu.class
 Tp\DS\Memory\ClienteMemory.class
-Tp\DS\Pantallas\VentanaDeCreacionEdicionCliente$ClienteListener.class
-Tp\DS\DAO\DAOException.class
 Tp\DS\Pantallas\MenuPedidos$3.class
 Tp\DS\Pantallas\VentanaAsignarEliminarVendedorDeItemMenu$3.class
-Tp\DS\Memory\ItemMenuMemory.class
 Tp\DS\EstadoPedido.class
 Tp\DS\PedidoObservable.class
 Tp\DS\Pantallas\MenuPedidos$6.class
@@ -36,7 +33,6 @@ Tp\DS\Pantallas\MenuPrincipal$4.class
 Tp\DS\Pantallas\MenuPedidos$7.class
 Tp\DS\Pantallas\MenuPedidos$8.class
 Tp\DS\Pantallas\MenuPedidos.class
-Tp\DS\Pantallas\VentanaDeCreacionEdicionPedido$2.class
 Tp\DS\Pantallas\VentanaDeCreacionEdicionItemsMenu$2.class
 Tp\DS\Memory\PedidoMemory.class
 Tp\DS\Pantallas\VentanaDeCreacionEdicionItemsMenu$1.class
@@ -48,7 +44,6 @@ Tp\DS\Pantallas\MenuVendedor$12.class
 Tp\DS\Pantallas\MenuPedidos$1.class
 Tp\DS\Pantallas\VentanaAsignarEliminarVendedorDeItemMenu$4.class
 Tp\DS\Controller\PedidoController.class
-Tp\DS\Efectivo.class
 Tp\DS\Pantallas\MenuItemsMenu$12.class
 Tp\DS\Pantallas\MenuPrincipal$3.class
 Tp\DS\Memory\ItemPedidoMemory.class
@@ -77,7 +72,6 @@ Tp\DS\Pantallas\MenuItemsMenu$2.class
 Tp\DS\Pantallas\MenuCliente$2.class
 Tp\DS\Pantallas\MenuPrincipal$5.class
 Tp\DS\Categoria.class
-Tp\DS\Pantallas\VentanaDeCreacionEdicionPedido$1.class
 Tp\DS\Pago.class
 Tp\DS\Pantallas\MenuPrincipal.class
 Tp\DS\MercadoPago.class
@@ -88,17 +82,13 @@ Tp\DS\Pantallas\MenuPedidos$4.class
 Tp\DS\Coordenada.class
 Tp\DS\Transferencia.class
 Tp\DS\ItemMenu.class
-Tp\DS\Pantallas\VentanaDeCreacionEdicionCliente$2.class
 Tp\DS\Pantallas\MenuVendedor$7.class
 Tp\DS\Pedido.class
-Tp\DS\Pantallas\VentanaDeCreacionEdicionPedido.class
 Tp\DS\Controller\ItemMenuController.class
 Tp\DS\Cliente.class
 Tp\DS\Pantallas\MenuPedidos$11.class
 Tp\DS\Pantallas\MenuItemsMenu$3.class
 Tp\DS\DAO\DAOItemsPedido.class
-Tp\DS\Pantallas\VentanaDeCreacionEdicionCliente.class
-Tp\DS\Pantallas\VentanaDeCreacionEdicionCliente$1.class
 Tp\DS\Pantallas\MenuCliente$7.class
 Tp\DS\TpDS.class
 Tp\DS\Pantallas\VentanaDeCreacionEdicionItemsMenu$4.class

@@ -34,7 +34,7 @@ public class ClienteMemory implements DAOCliente{
     }
 
     @Override
-    public Cliente buscarClientePorId(double id) {
+    public Cliente buscarClientePorId(int id) {
         return clientes.stream().filter(c -> c.getId() == id).findFirst().orElse(null);
     }
 }

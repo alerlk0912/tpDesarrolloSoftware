@@ -37,7 +37,7 @@ public class ClienteController {
         clienteDAO.eliminarCliente(id);
     }
 
-    public Cliente buscarCliente(double id) {
+    public Cliente buscarCliente(int id) {
         return clienteDAO.buscarClientePorId(id);
     }
 }
