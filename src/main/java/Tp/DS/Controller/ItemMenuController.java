@@ -3,8 +3,11 @@ package Tp.DS.Controller;
 import Tp.DS.DAO.DAOItemMenu;
 import Tp.DS.Bebida;
 import Tp.DS.Categoria;
+import Tp.DS.DAO.DAOException;
 import Tp.DS.ItemMenu;
+import Tp.DS.ItemMenuFactory;
 import Tp.DS.Plato;
+import Tp.DS.Vendedor;
 import java.util.List;
 
 public class ItemMenuController {
@@ -14,32 +17,33 @@ public class ItemMenuController {
         this.itemMenuDAO = itemMenuDAO;
     }
 
-    public List<ItemMenu> mostrarListaItemsMenu() {
+    public List<ItemMenu> mostrarListaItemsMenu() throws DAOException {
         return itemMenuDAO.listarItemsMenu();
     }
 
-    public void crearNuevoPlato(String nombre, String descripcion, double precio, Categoria categoria, double peso, double calorias, boolean aptoVegano) {
-        Plato nuevoPlato = new Plato(nombre, descripcion, precio, categoria, peso, calorias, aptoVegano);
-        itemMenuDAO.crearItemMenu(nuevoPlato);
+    public void crearNuevoItemMenu(String tipoItem, String nombre, String descripcion, double precio,
+                                  Categoria categoria, Vendedor vendedor,
+                                  Double tamanio, Boolean graduacionAlcoholica,
+                                  Double peso, Double calorias, Boolean aptoVegano) throws DAOException {
+        ItemMenu nuevoItem = ItemMenuFactory.createItemMenu(tipoItem, nombre, descripcion, precio,
+                                                            categoria, vendedor,
+                                                            tamanio, graduacionAlcoholica,
+                                                            peso, calorias, aptoVegano);
+        itemMenuDAO.crearItemMenu(nuevoItem);
     }
 
-    public void crearNuevaBebida(String nombre, String descripcion, double precio, Categoria categoria, double tamanio, boolean alcoholica)  {
-        Bebida nuevaBebida = new Bebida(nombre, descripcion, precio, categoria, tamanio, alcoholica);
-        itemMenuDAO.crearItemMenu(nuevaBebida);
-    }
-
-    public void modificarItemMenu(int id, ItemMenu itemActualizado) {
+    public void modificarItemMenu(int id, ItemMenu itemActualizado) throws DAOException {
         ItemMenu item = itemMenuDAO.buscarItemMenuPorId(id);
         if (item != null) {
             itemMenuDAO.actualizarItemMenu(itemActualizado);
         }
     }
 
-    public void eliminarItemMenu(int id) {
+    public void eliminarItemMenu(int id) throws DAOException {
         itemMenuDAO.eliminarItemMenu(id);
     }
 
-    public ItemMenu buscarItemMenu(int id) {
+    public ItemMenu buscarItemMenu(int id) throws DAOException {
         return itemMenuDAO.buscarItemMenuPorId(id);
     }
 }

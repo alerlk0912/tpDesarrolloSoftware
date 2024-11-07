@@ -11,15 +11,17 @@ import java.sql.SQLException;
 /**
  *
  * @author franco
- */
+*/
+// SINGLETON
 public class DatabaseConnection {
     private static Connection connection;
 
-    private DatabaseConnection() { }
+    private DatabaseConnection() { 
+    }
 
     public static Connection getInstance() throws SQLException {
         if (connection == null || connection.isClosed()) {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tu_base_datos", "usuario", "contraseña");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tpds", "usuario", "contraseña");
         }
         return connection;
     }

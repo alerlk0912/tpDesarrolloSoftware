@@ -1,6 +1,7 @@
 package Tp.DS;
 
 public class Coordenada {
+    int id;
     private double lat;
     private double lng;
 
@@ -8,6 +9,15 @@ public class Coordenada {
         this.lat = lat;
         this.lng = lng;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
 
     public double getLat() {
         return lat;
@@ -27,4 +37,6 @@ public class Coordenada {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return RADIO_TIERRA * c;
     }
+
+    
 }

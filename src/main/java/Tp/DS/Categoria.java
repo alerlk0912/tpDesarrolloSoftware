@@ -25,14 +25,15 @@ public class Categoria {
         return tipo_item;
     }
 
-    public void setTipo_item(String tipo_item) {
+    public void setTipoItem(String tipo_item) {
         if (tipo_item.equals("plato") || tipo_item.equals("bebida")) {
             this.tipo_item = tipo_item;
         } else {
             throw new IllegalArgumentException("tipo_item debe ser 'plato' o 'bebida'");
         }
     }
-    public Categoria(String tipo) {
+    public Categoria( String descripcion, String tipo) {
+        this.descripcion = descripcion;
         this.tipo_item = tipo;
     }
     @Override

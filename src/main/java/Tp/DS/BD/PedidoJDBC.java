@@ -23,7 +23,11 @@ public class PedidoJDBC implements DAOPedido {
     private DAOMetodoPago daoPago;
 
     public PedidoJDBC(Connection connection, DAOCliente daoCliente, DAOMetodoPago daoPago) {
-        this.connection = connection;
+        try {
+            this.connection = DatabaseConnection.getInstance();
+        } catch (SQLException e) {
+            System.err.println("Error al conectar la base de datos: " + e.getMessage());
+        }
         this.clienteDAO = daoCliente;
         this.daoPago = daoPago;
     }

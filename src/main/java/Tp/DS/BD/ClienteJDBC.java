@@ -18,9 +18,9 @@ import java.util.List;
 public class ClienteJDBC implements DAOCliente {
     private Connection connection;
     
-    public ClienteJDBC() {
+    private ClienteJDBC() {
         try {
-            this.connection = DatabaseConnection.getInstance();
+            connection = DatabaseConnection.getInstance();
         } catch (SQLException e) {
             System.err.println("Error al conectar la base de datos: " + e.getMessage());
         }
