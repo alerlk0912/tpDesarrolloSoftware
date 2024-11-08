@@ -1,8 +1,16 @@
 package Tp.DS;
 
-import Tp.DS.Memory.ItemPedidoMemory;
-import TP.DS.Pantallas.MenuPrincipal;
-import java.util.*;
+import Tp.DS.Categoria.Categoria;
+import Tp.DS.Cliente.Cliente;
+import Tp.DS.Coordenada.Coordenada;
+import Tp.DS.Exceptions.PedidoInvalidoException;
+import Tp.DS.Exceptions.VendedorNoCoincideException;
+import Tp.DS.ItemPedido.ItemPedidoMemory;
+import Tp.DS.MenuPrincipal.MenuPrincipal;
+import Tp.DS.MetodoPago.MercadoPago;
+import Tp.DS.MetodoPago.Pago;
+import Tp.DS.MetodoPago.Transferencia;
+import Tp.DS.Vendedor.Vendedor;
 
 public class TpDS {
     
@@ -49,8 +57,8 @@ public class TpDS {
         Cliente c13 = new Cliente("20-67676767-9", "Cliente 13", "cliente13@mail.com", "Avenida 2829", new Coordenada(-34.6279, -58.3651));
 
         // Crear categorías
-        Categoria catBebidas = new Categoria( "Bebida");
-        Categoria catComidas = new Categoria( "Plato");
+        Categoria catBebidas = new Categoria("Descripcion","Bebida");
+        Categoria catComidas = new Categoria("Descripcion", "Plato");
 
 
         // Crear ítems de menú

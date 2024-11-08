@@ -1,5 +1,9 @@
 package Tp.DS;
 
+import Tp.DS.Categoria.Categoria;
+import Tp.DS.ItemMenu.ItemMenu;
+import Tp.DS.Vendedor.Vendedor;
+
 public class Bebida extends ItemMenu {
     private final double tamanio; // Volumen en ml
     private final boolean graduacionAlcoholica;

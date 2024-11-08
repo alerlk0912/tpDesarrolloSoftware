@@ -1,5 +1,9 @@
 package Tp.DS;
 
+import Tp.DS.Categoria.Categoria;
+import Tp.DS.ItemMenu.ItemMenu;
+import Tp.DS.Vendedor.Vendedor;
+
 public class Plato extends ItemMenu {
     private final double peso; 
     private final double calorias;
