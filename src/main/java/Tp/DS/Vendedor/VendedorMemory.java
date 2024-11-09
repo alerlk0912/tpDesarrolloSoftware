@@ -7,7 +7,14 @@ import java.util.List;
 
 public class VendedorMemory implements DAOVendedor {
     private List<Vendedor> vendedores = new ArrayList<>();
+    private static VendedorMemory instance = new VendedorMemory();
     private int nextId = 1;
+    
+    private VendedorMemory() {}
+
+    public static VendedorMemory getInstance() {
+        return instance;
+    }
     
     public List<Vendedor> listarVendedores() {
         return vendedores;

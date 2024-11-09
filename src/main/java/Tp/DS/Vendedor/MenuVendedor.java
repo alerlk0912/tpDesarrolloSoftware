@@ -528,7 +528,7 @@ public class MenuVendedor extends javax.swing.JFrame {
     }
 
     public static void main(String args[]) {
-        DAOVendedor vendedorDAO = new VendedorMemory();
+        DAOVendedor vendedorDAO = VendedorMemory.getInstance();
         VendedorController vendedorController = new VendedorController(vendedorDAO);
         java.awt.EventQueue.invokeLater(() -> {
             new MenuVendedor(vendedorController).setVisible(true);

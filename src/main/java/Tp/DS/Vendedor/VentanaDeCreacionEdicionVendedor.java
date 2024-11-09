@@ -271,7 +271,7 @@ public class VentanaDeCreacionEdicionVendedor extends javax.swing.JFrame {
     }//GEN-LAST:event_botonCancelarActionPerformed
 
     public static void main(String args[]) {
-        DAOVendedor vendedorDAO = new VendedorMemory();
+        DAOVendedor vendedorDAO = VendedorMemory.getInstance();
         VendedorController vendedorController = new VendedorController(vendedorDAO);
         java.awt.EventQueue.invokeLater(() -> {
             new VentanaDeCreacionEdicionVendedor(vendedorController).setVisible(true);

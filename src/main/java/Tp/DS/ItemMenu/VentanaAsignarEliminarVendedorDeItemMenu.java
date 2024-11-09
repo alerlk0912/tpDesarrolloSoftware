@@ -5,57 +5,55 @@ import Tp.DS.Vendedor.DAOVendedor;
 import Tp.DS.Vendedor.VendedorMemory;
 import Tp.DS.Vendedor.VentanaDeCreacionEdicionVendedor;
 import Tp.DS.Vendedor.Vendedor;
+import Tp.DS.ItemMenu.VentanaDeCreacionEdicionItemsMenu;
+import Tp.DS.Vendedor.DAOVendedor;
 
 import java.util.List;
 import javax.swing.*;
 import javax.swing.table.*;
 
 public class VentanaAsignarEliminarVendedorDeItemMenu extends javax.swing.JFrame {
-    private VentanaDeCreacionEdicionItemsMenu ventana;
+    //private VentanaDeCreacionEdicionItemsMenu ventana;
     private VendedorController vendedorController;
     private List<Vendedor> listaVendedores; 
-    private ItemMenu itemActual;
+    private ItemMenu itemMenuSeleccionado;
     private DefaultTableModel modelVendedor;
-
-    
+    private Vendedor vendedorSeleccionado;
+    private VentanaDeCreacionEdicionItemsMenu ventanaCreacion;
+    private DAOVendedor vendedorDAO;
+    private ItemMenuController itemMenuController;
+  
     private Object[][] vendedores;
     DefaultTableModel model;
     
-    public VentanaAsignarEliminarVendedorDeItemMenu(VendedorController vendedorController) {
-        this.vendedorController = vendedorController;
-        this.listaVendedores = listaVendedores; // Asigna la lista pasada al constructor
+    public VentanaAsignarEliminarVendedorDeItemMenu(ItemMenuController itemMenuController, VentanaDeCreacionEdicionItemsMenu ventanaCreacion, DAOVendedor vendedorDAO, VendedorController vendedorController) {
+        this.itemMenuController = itemMenuController;
+        this.vendedorDAO = vendedorDAO;
+        this.vendedorController = new VendedorController(vendedorDAO);
+        this.ventanaCreacion = ventanaCreacion;
+        
+        
         initComponents();
-        cargarTablaVendedores(); // Cargar los vendedores en la tabla al iniciar la ventana
-    }
-
-    private VentanaAsignarEliminarVendedorDeItemMenu() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        cargarVendedoresEnTabla(); // Cargar los vendedores en la tabla al iniciar la ventana
     }
     
-    private void cargarTablaVendedores() {
-        model = (DefaultTableModel) tablaVendedor.getModel();
-        model.setRowCount(0); // Limpiar la tabla
-
+    private void cargarVendedoresEnTabla() {
+        DefaultTableModel model = (DefaultTableModel) tablaVendedor.getModel();
+        model.setRowCount(0); // Limpia cualquier fila existente
 
         List<Vendedor> listaVendedores = vendedorController.mostrarListaVendedor();
-
-        // Agregar una verificación para asegurarse de que hay vendedores cargados
-        System.out.println("Número de vendedores cargados: " + listaVendedores.size());
-
         for (Vendedor vendedor : listaVendedores) {
-            String coordenadas = vendedor.getCoordenadas().getLat() + ", " + vendedor.getCoordenadas().getLng();
             model.addRow(new Object[]{
                 vendedor.getId(),
                 vendedor.getNombre(),
                 vendedor.getDireccion(),
-                coordenadas
+                vendedor.getCoordenadas().getLat() + ", " + vendedor.getCoordenadas().getLng()
             });
         }
-    
     }
     
-    public void setPantallaAgregarDesagregarVendedor(VentanaDeCreacionEdicionItemsMenu ventana) {
-        this.ventana = ventana;
+    public void setPantallaAgregarDesagregarVendedor(VentanaDeCreacionEdicionItemsMenu ventanaCreacion) {
+        this.ventanaCreacion = ventanaCreacion;
     }
     
     @SuppressWarnings("unchecked")
@@ -331,8 +329,8 @@ public class VentanaAsignarEliminarVendedorDeItemMenu extends javax.swing.JFrame
     }// </editor-fold>
 
     private void botonDesasignarVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonDesasignarVendedorActionPerformed
-        if (itemActual != null) {
-            itemActual.setVendedor(null); // Desasignar el vendedor
+        if (itemMenuSeleccionado != null) {
+            itemMenuSeleccionado.setVendedor(null); // Desasignar el vendedor
             JOptionPane.showMessageDialog(this, "Vendedor desasignado correctamente.");
             // Actualizar tabla o interfaz si es necesario
         } else {
@@ -341,19 +339,23 @@ public class VentanaAsignarEliminarVendedorDeItemMenu extends javax.swing.JFrame
     }//GEN-LAST:event_botonDesasignarVendedorActionPerformed
 
     private void botonVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonVolverActionPerformed
+    System.out.println("VentanaCreacion es: " + ventanaCreacion);
+    System.out.println("Vendedor seleccionado es: " + vendedorSeleccionado);
         dispose();
     }//GEN-LAST:event_botonVolverActionPerformed
 
     private void botonAsignarVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAsignarVendedorActionPerformed
-        int filaSeleccionada = tablaVendedor.getSelectedRow();
-        if (filaSeleccionada != -1 && itemActual != null) {
-            int idVendedor = (int) modelVendedor.getValueAt(filaSeleccionada, 0);
-            Vendedor vendedor = vendedorController.buscarVendedor(idVendedor);
-            itemActual.setVendedor(vendedor);
-            JOptionPane.showMessageDialog(this, "Vendedor asignado correctamente.");
-        } else {
-            JOptionPane.showMessageDialog(this, "Seleccione un vendedor y un item del menú.");
+        int filaVendedorSeleccionada = tablaVendedor.getSelectedRow();
+
+        if (filaVendedorSeleccionada == -1 && ventanaCreacion != null) {
+            Vendedor vendedor = (Vendedor) tablaVendedor.getValueAt(filaVendedorSeleccionada, 0);
+            ventanaCreacion.setVendedorSeleccionado(vendedor);
+            ventanaCreacion.asignarVendedor(vendedor);
+            ventanaCreacion.setVisible(true);
+            System.out.println("Vendedor seleccionado: " + vendedor.getNombre());
         }
+        //ventanaCreacion.setVendedorSeleccionado(vendedorSeleccionado);
+        JOptionPane.showMessageDialog(this, "Vendedor asignado temporalmente al nuevo ítem del menú.");
     }//GEN-LAST:event_botonAsignarVendedorActionPerformed
 
     private void botonBuscarVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarVendedorActionPerformed
@@ -396,9 +398,6 @@ public class VentanaAsignarEliminarVendedorDeItemMenu extends javax.swing.JFrame
     }//GEN-LAST:event_botonBuscarVendedorActionPerformed
 
     public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(() -> {
-            new VentanaAsignarEliminarVendedorDeItemMenu().setVisible(true);
-        });
     }
     
     // Variables declaration - do not modify

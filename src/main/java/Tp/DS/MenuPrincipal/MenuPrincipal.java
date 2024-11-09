@@ -6,7 +6,7 @@ import Tp.DS.Pedido.*;
 import Tp.DS.Vendedor.*;
 
 public class MenuPrincipal extends javax.swing.JFrame {
-    DAOVendedor vendedorDAO = new VendedorMemory(); // Crear instancia del DAO
+    DAOVendedor vendedorDAO = VendedorMemory.getInstance(); // Crear instancia del DAO
     VendedorController vendedorController = new VendedorController(vendedorDAO);
     MenuVendedor menuVendedor = new MenuVendedor(vendedorController);
     

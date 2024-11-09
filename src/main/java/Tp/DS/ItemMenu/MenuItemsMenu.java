@@ -112,7 +112,9 @@ public class MenuItemsMenu extends javax.swing.JFrame {
         tit2 = new javax.swing.JLabel();
         tit3 = new javax.swing.JLabel();
         scrollTablaItemsMenu = new javax.swing.JScrollPane();
-        tablaItemsMenu = new javax.swing.JTable();
+        tablaItemsMenu = new JTable(new DefaultTableModel(new Object[]{"ID", "Nombre", "Descripción", "Precio", "Categoría"}, 0));
+        JScrollPane scrollPane = new JScrollPane(tablaItemsMenu);
+        add(scrollPane);
         campoPrecio = new javax.swing.JTextField();
         tit5 = new javax.swing.JLabel();
         tit4 = new javax.swing.JLabel();
@@ -447,7 +449,7 @@ public class MenuItemsMenu extends javax.swing.JFrame {
     }
 
     private void botonCrearItemsMenuActionPerformed(java.awt.event.ActionEvent evt) {
-        VentanaDeCreacionEdicionItemsMenu nuevaVentana = new VentanaDeCreacionEdicionItemsMenu(vendedorController);
+        VentanaDeCreacionEdicionItemsMenu nuevaVentana = new VentanaDeCreacionEdicionItemsMenu();
         nuevaVentana.setItemsMenu(this);
         nuevaVentana.setVisible(true);
         nuevaVentana.setLocationRelativeTo(null);
@@ -484,7 +486,7 @@ public class MenuItemsMenu extends javax.swing.JFrame {
             try {
                 int id = (int) model.getValueAt(filaSeleccionada, 0);
                 ItemMenu item = itemMenuController.buscarItemMenu(id);
-                VentanaDeCreacionEdicionItemsMenu nuevaVentana = new VentanaDeCreacionEdicionItemsMenu(vendedorController);
+                VentanaDeCreacionEdicionItemsMenu nuevaVentana = new VentanaDeCreacionEdicionItemsMenu();
                 nuevaVentana.setItemsMenu(this);
                 nuevaVentana.setVisible(true);
                 nuevaVentana.setLocationRelativeTo(null);
