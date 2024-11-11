@@ -5,11 +5,24 @@ import Tp.DS.Vendedor.DAOVendedor;
 import java.util.List;
 
 public class VendedorController {
+    private static VendedorController instance;
     private DAOVendedor vendedorDAO;
 
-    public VendedorController(DAOVendedor vendedorDAO) {
+    private VendedorController(DAOVendedor vendedorDAO) {
         this.vendedorDAO = vendedorDAO;
     }
+
+    public static VendedorController getInstance(DAOVendedor vendedorDAO) {
+        if (instance == null) {
+            instance = new VendedorController(vendedorDAO);
+        }
+        return instance;
+    }
+
+    public DAOVendedor getVendedorDAO() {
+        return vendedorDAO;
+    }
+    
 
     public List<Vendedor> mostrarListaVendedor() {
         List<Vendedor> vendedores = vendedorDAO.listarVendedores(); // Método en DAO
@@ -38,5 +51,16 @@ public class VendedorController {
 
     public Vendedor buscarVendedor(int id) {
         return vendedorDAO.buscarVendedorPorId(id);
+    }
+    public void cargarVendedores() {
+        // Crear vendedores (restaurantes)
+        crearNuevoVendedor("Restaurante A", "Calle 123", new Coordenada(-34.6037, -58.3816));
+        crearNuevoVendedor("Restaurante B", "Calle 456", new Coordenada(-34.6158, -58.4333));
+        crearNuevoVendedor("Restaurante C", "Calle 789", new Coordenada(-34.6179, -58.3686));
+	crearNuevoVendedor("Restaurante D", "Calle 101", new Coordenada(-34.6059, -58.3831));
+        crearNuevoVendedor("Restaurante E", "Calle 202", new Coordenada(-34.6180, -58.4350));
+        crearNuevoVendedor("Restaurante F", "Calle 303", new Coordenada(-34.6201, -58.3701));
+        crearNuevoVendedor("Restaurante G", "Calle 404", new Coordenada(-34.6081, -58.3846));
+        
     }
 }

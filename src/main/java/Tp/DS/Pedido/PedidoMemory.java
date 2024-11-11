@@ -8,6 +8,17 @@ import java.util.List;
 public class PedidoMemory implements DAOPedido {
     private List<Pedido> pedidos = new ArrayList<>();
     private int nextId = 1;
+    private static PedidoMemory instance;
+    
+    private PedidoMemory(){
+    }
+    
+    public static PedidoMemory getInstance() {
+        if (instance == null) {
+            instance = new PedidoMemory();
+        }
+        return instance;
+    }
 
     @Override
     public List<Pedido> listarPedidos() {

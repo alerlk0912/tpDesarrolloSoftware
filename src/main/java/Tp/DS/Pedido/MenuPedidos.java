@@ -47,7 +47,7 @@ public class MenuPedidos extends javax.swing.JFrame {
         model.setRowCount(0); // ñimpiar tabla
         List<Pedido> listaPedidos = pedidoController.mostrarListaPedidos();
         for (Pedido pedido : listaPedidos) {
-            String nombresItems = pedido.obtenerNombresItems();
+            String nombresItems = pedidoController.obtenerNombresItems(pedido);
             String fechaPagoFormateada = pedido.getFechaPago() != null ? dateFormat.format(pedido.getFechaPago()) : "";
             model.addRow(new Object[]{pedido.getId(), pedido.getCliente().getNombre(), nombresItems, 
                 pedido.getMetodoPago().getClass().getSimpleName(), pedido.getEstado(), 
@@ -529,7 +529,7 @@ public class MenuPedidos extends javax.swing.JFrame {
         List<Pedido> listaPedidos = pedidoController.mostrarListaPedidos();
         for (Pedido pedido : listaPedidos) {
             
-            String nombresItems = pedido.obtenerNombresItems();
+            String nombresItems = pedidoController.obtenerNombresItems(pedido);
             String fechaPagoFormateada = pedido.getFechaPago() != null ? dateFormat.format(pedido.getFechaPago()) : "";
 
             if ((clienteBuscado.isEmpty() || pedido.getCliente().getNombre().contains(clienteBuscado.toLowerCase())) 
@@ -614,8 +614,8 @@ public class MenuPedidos extends javax.swing.JFrame {
     }//GEN-LAST:event_botonCrearPedidoActionPerformed
     
     public static void main(String args[]) {
-        DAOPedido pedidoDAO = new PedidoMemory();
-        PedidoController pedidoController = new PedidoController(pedidoDAO);
+        DAOPedido pedidoDAO = PedidoMemory.getInstance();
+        PedidoController pedidoController = PedidoController.getInstance(pedidoDAO);
         java.awt.EventQueue.invokeLater(() -> {
             new MenuPedidos(pedidoController).setVisible(true);
         });

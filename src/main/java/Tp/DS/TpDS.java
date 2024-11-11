@@ -1,20 +1,22 @@
 package Tp.DS;
 
 import Tp.DS.Categoria.Categoria;
-import Tp.DS.Cliente.Cliente;
+import Tp.DS.Cliente.*;
 import Tp.DS.Coordenada.Coordenada;
+import Tp.DS.Exceptions.DAOException;
 import Tp.DS.Exceptions.PedidoInvalidoException;
 import Tp.DS.Exceptions.VendedorNoCoincideException;
-import Tp.DS.ItemPedido.ItemPedidoMemory;
+import Tp.DS.ItemMenu.*;
+import Tp.DS.ItemPedido.*;
+import Tp.DS.Pedido.*;
 import Tp.DS.MenuPrincipal.MenuPrincipal;
-import Tp.DS.MetodoPago.MercadoPago;
-import Tp.DS.MetodoPago.Pago;
-import Tp.DS.MetodoPago.Transferencia;
-import Tp.DS.Vendedor.Vendedor;
+import Tp.DS.MetodoPago.*;
+import Tp.DS.Vendedor.*;
 
 public class TpDS {
     
-    public static void main(String[] args) throws VendedorNoCoincideException, PedidoInvalidoException {
+    public static void main(String[] args) throws VendedorNoCoincideException, PedidoInvalidoException, DAOException {
+        prueba();
         pantallas();
         //casoPruebaParte5();
     }
@@ -24,56 +26,22 @@ public class TpDS {
         menuPrincipal.setVisible(true);
         menuPrincipal.setLocationRelativeTo(null);
     }
+    public static void prueba () throws VendedorNoCoincideException, DAOException{
+        DAOItemMenu itemMenuDAO = ItemMenuMemory.getInstance();
+        DAOVendedor vendedorDAO = VendedorMemory.getInstance();
+        DAOCliente clienteDAO = ClienteMemory.getInstance();
+
+        ItemMenuController itemMenuController = ItemMenuController.getInstance(itemMenuDAO);
+        VendedorController vendedorController = VendedorController.getInstance(vendedorDAO);
+        ClienteController clienteController = ClienteController.getInstance(clienteDAO);
+        vendedorController.cargarVendedores();
+        clienteController.cargarClientes();
+        itemMenuController.cargarItemsMenu();
+    }
     
     public static void casoPruebaParte5() throws VendedorNoCoincideException, PedidoInvalidoException {
-        // Crear vendedores (restaurantes)
-        Vendedor v1 = new Vendedor("Restaurante A", "Calle 123", new Coordenada(-34.6037, -58.3816));
-        Vendedor v2 = new Vendedor("Restaurante B", "Calle 456", new Coordenada(-34.6158, -58.4333));
-        Vendedor v3 = new Vendedor("Restaurante C", "Calle 789", new Coordenada(-34.6179, -58.3686));
-	Vendedor v4 = new Vendedor("Restaurante D", "Calle 101", new Coordenada(-34.6059, -58.3831));
-        Vendedor v5 = new Vendedor("Restaurante E", "Calle 202", new Coordenada(-34.6180, -58.4350));
-        Vendedor v6 = new Vendedor("Restaurante F", "Calle 303", new Coordenada(-34.6201, -58.3701));
-        Vendedor v7 = new Vendedor("Restaurante G", "Calle 404", new Coordenada(-34.6081, -58.3846));
-        Vendedor v8 = new Vendedor("Restaurante H", "Calle 505", new Coordenada(-34.6202, -58.4367));
-        Vendedor v9 = new Vendedor("Restaurante I", "Calle 606", new Coordenada(-34.6223, -58.3716));
-        Vendedor v10 = new Vendedor("Restaurante J", "Calle 707", new Coordenada(-34.6103, -58.3861));
-        Vendedor v11 = new Vendedor("Restaurante K", "Calle 808", new Coordenada(-34.6224, -58.4384));
-        Vendedor v12 = new Vendedor("Restaurante L", "Calle 909", new Coordenada(-34.6245, -58.3731));
-        Vendedor v13 = new Vendedor("Restaurante M", "Calle 1010", new Coordenada(-34.6125, -58.3876));
-
-        // Crear clientes
-        Cliente c1 = new Cliente("20-12345678-9", "Cliente 1", "cliente1@mail.com", "Avenida 123", new Coordenada(-34.6083, -58.3712));
-	Cliente c2 = new Cliente("20-87654321-9", "Cliente 2", "cliente2@mail.com", "Avenida 456", new Coordenada(-34.6092, -58.3772));
-	Cliente c3 = new Cliente("20-11112222-9", "Cliente 3", "cliente3@mail.com", "Avenida 789", new Coordenada(-34.6109, -58.3761));
-        Cliente c4 = new Cliente("20-33334444-9", "Cliente 4", "cliente4@mail.com", "Avenida 1011", new Coordenada(-34.6126, -58.3750));
-        Cliente c5 = new Cliente("20-55556666-9", "Cliente 5", "cliente5@mail.com", "Avenida 1213", new Coordenada(-34.6143, -58.3739));
-        Cliente c6 = new Cliente("20-77778888-9", "Cliente 6", "cliente6@mail.com", "Avenida 1415", new Coordenada(-34.6160, -58.3728));
-        Cliente c7 = new Cliente("20-99990000-9", "Cliente 7", "cliente7@mail.com", "Avenida 1617", new Coordenada(-34.6177, -58.3717));
-        Cliente c8 = new Cliente("20-12121212-9", "Cliente 8", "cliente8@mail.com", "Avenida 1819", new Coordenada(-34.6194, -58.3706));
-        Cliente c9 = new Cliente("20-23232323-9", "Cliente 9", "cliente9@mail.com", "Avenida 2021", new Coordenada(-34.6211, -58.3695));
-        Cliente c10 = new Cliente("20-34343434-9", "Cliente 10", "cliente10@mail.com", "Avenida 2223", new Coordenada(-34.6228, -58.3684));
-        Cliente c11 = new Cliente("20-45454545-9", "Cliente 11", "cliente11@mail.com", "Avenida 2425", new Coordenada(-34.6245, -58.3673));
-        Cliente c12 = new Cliente("20-56565656-9", "Cliente 12", "cliente12@mail.com", "Avenida 2627", new Coordenada(-34.6262, -58.3662));
-        Cliente c13 = new Cliente("20-67676767-9", "Cliente 13", "cliente13@mail.com", "Avenida 2829", new Coordenada(-34.6279, -58.3651));
-
-        // Crear categorías
-        Categoria catBebidas = new Categoria("Descripcion","Bebida");
-        Categoria catComidas = new Categoria("Descripcion", "Plato");
-
-
-        // Crear ítems de menú
-        Bebida gaseosa = new Bebida("Gaseosa", "Refresco de cola", 2500, catBebidas, v1, 500, false);
-        Plato bife = new Plato("Bife", "Bife de chorizo", 10000, catComidas, v1, 300, 800, false);
-        Bebida vino = new Bebida("Vino", "Vino tinto Malbec", 7000, catBebidas, v2, 750, true);
-        Plato postre = new Plato("Postre", "Flan con dulce de leche", 2500, catComidas, v2, 200, 400, true);
-        Plato ensalada = new Plato("Ensalada", "Ensalada mixta", 3000, catComidas, v3, 250, 150, true);
-        Bebida aguaMineral = new Bebida("Agua Mineral", "Agua sin gas", 1500, catBebidas, v3, 500, false);
-        Plato pizza = new Plato("Pizza", "Pizza Margherita", 8000, catComidas, v1, 800, 1200, false);
-        Bebida cerveza = new Bebida("Cerveza", "Cerveza rubia", 3500, catBebidas, v2, 330, true);
-	Plato hamburguesa = new Plato("Hamburguesa", "Hamburguesa completa", 6000, catComidas, v4, 350, 700, false);
-        Bebida jugo = new Bebida("Jugo", "Jugo de naranja", 2000, catBebidas, v5, 400, false);
-        Plato pasta = new Plato("Pasta", "Spaghetti a la bolognesa", 5500, catComidas, v6, 400, 600, false);
-        Bebida te = new Bebida("Te", "Te verde", 1800, catBebidas, v7, 300, false);
+       
+        
         
         // Crear métodos de pago
         Pago pago1 = new MercadoPago("cliente1.alias.mercado");
@@ -86,7 +54,7 @@ public class TpDS {
         Pago pago8 = new Transferencia("22334455667788990011", "20-99990000-9");
         
         
-        ItemPedidoMemory itemPedidoMemory = new ItemPedidoMemory();
+        //ItemPedidoMemory itemPedidoMemory = new ItemPedidoMemory();
         
         System.out.println("Pedido 1:");
 	// Pedido p1 para Cliente 1 en Restaurante A con MercadoPago

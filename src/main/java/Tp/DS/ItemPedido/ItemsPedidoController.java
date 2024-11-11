@@ -8,14 +8,22 @@ import Tp.DS.Pedido.PedidoController;
 import java.util.List;
 
 public class ItemsPedidoController {
+    private static ItemsPedidoController instance;
     private DAOItemsPedido itemPedidoDAO;
     private PedidoController pedidoController;
     private ItemMenuController itemMenuController;
 
-    public ItemsPedidoController(DAOItemsPedido itemPedidoDAO, PedidoController pedidoController, ItemMenuController itemMenuController) {
+    private ItemsPedidoController(DAOItemsPedido itemPedidoDAO, PedidoController pedidoController, ItemMenuController itemMenuController) {
         this.itemPedidoDAO = itemPedidoDAO;
         this.pedidoController = pedidoController;
         this.itemMenuController = itemMenuController;
+    }
+
+    public static ItemsPedidoController getInstance(DAOItemsPedido itemPedidoDAO, PedidoController pedidoController, ItemMenuController itemMenuController) {
+        if (instance == null) {
+            instance = new ItemsPedidoController(itemPedidoDAO, pedidoController, itemMenuController);
+        }
+        return instance;
     }
 
     public List<ItemsPedido> mostrarListaItemsPedido() throws DAOException {

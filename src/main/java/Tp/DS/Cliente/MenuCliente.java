@@ -579,8 +579,8 @@ public class MenuCliente extends javax.swing.JFrame {
     }
     
     public static void main(String args[]) {
-        DAOCliente clienteDAO = new ClienteMemory();
-        ClienteController clienteController = new ClienteController(clienteDAO);
+        DAOCliente clienteDAO = ClienteMemory.getInstance();
+        ClienteController clienteController = ClienteController.getInstance(clienteDAO);
         java.awt.EventQueue.invokeLater(() -> {
             new MenuCliente(clienteController).setVisible(true);
         });

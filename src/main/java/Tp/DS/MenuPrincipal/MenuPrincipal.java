@@ -2,26 +2,31 @@ package Tp.DS.MenuPrincipal;
 
 import Tp.DS.Cliente.*;
 import Tp.DS.ItemMenu.*;
+import Tp.DS.ItemPedido.*;
 import Tp.DS.Pedido.*;
 import Tp.DS.Vendedor.*;
 
 public class MenuPrincipal extends javax.swing.JFrame {
-    DAOVendedor vendedorDAO = VendedorMemory.getInstance(); // Crear instancia del DAO
-    VendedorController vendedorController = new VendedorController(vendedorDAO);
+    DAOItemsPedido itemsPedidoDAO = ItemPedidoMemory.getInstance();
+    DAOPedido pedidoDAO = PedidoMemory.getInstance();  
+    DAOItemMenu itemMenuDAO = ItemMenuMemory.getInstance();
+    DAOVendedor vendedorDAO = VendedorMemory.getInstance();
+    DAOCliente clienteDAO = ClienteMemory.getInstance();
+
+    PedidoController pedidoController = PedidoController.getInstance(pedidoDAO);
+    ItemMenuController itemMenuController = ItemMenuController.getInstance(itemMenuDAO);
+    ItemsPedidoController itemsPedidoController = ItemsPedidoController.getInstance(itemsPedidoDAO, pedidoController, itemMenuController);
+    VendedorController vendedorController = VendedorController.getInstance(vendedorDAO);
+    ClienteController clienteController = ClienteController.getInstance(clienteDAO);
+
     MenuVendedor menuVendedor = new MenuVendedor(vendedorController);
     
-    DAOItemMenu itemMenuDAO = new ItemMenuMemory();
-    ItemMenuController itemMenuController = new ItemMenuController(itemMenuDAO);
     MenuItemsMenu menuItemsMenu = new MenuItemsMenu(itemMenuController, vendedorController);
     
-    DAOPedido pedidoDAO = new PedidoMemory(); // Crear instancia del DAO
-    PedidoController pedidoController = new PedidoController(pedidoDAO);
     MenuPedidos menuPedidos = new MenuPedidos(pedidoController);
     
-    DAOCliente clienteDAO = new ClienteMemory(); // Crear instancia del DAO
-    ClienteController clienteController = new ClienteController(clienteDAO);
-    MenuCliente menuCliente = new MenuCliente(clienteController); // Pasa el clienteController al constructor
-
+    MenuCliente menuCliente = new MenuCliente(clienteController); 
+    
     public MenuPrincipal() {
         initComponents();   
         
@@ -48,6 +53,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
         menuItemsMenu.setMenuCliente(menuCliente);
         menuItemsMenu.setMenuItemsMenu(menuItemsMenu);
         menuItemsMenu.setMenuPedidos(menuPedidos);
+        
+        
     }
     
     @SuppressWarnings("unchecked")
@@ -210,6 +217,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_botonItemsMenuActionPerformed
 
     public static void main(String args[]) {
+        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MenuPrincipal().setVisible(true);

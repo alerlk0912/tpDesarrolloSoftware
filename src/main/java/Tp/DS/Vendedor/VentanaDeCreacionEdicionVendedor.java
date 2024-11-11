@@ -272,7 +272,7 @@ public class VentanaDeCreacionEdicionVendedor extends javax.swing.JFrame {
 
     public static void main(String args[]) {
         DAOVendedor vendedorDAO = VendedorMemory.getInstance();
-        VendedorController vendedorController = new VendedorController(vendedorDAO);
+        VendedorController vendedorController = VendedorController.getInstance(vendedorDAO);
         java.awt.EventQueue.invokeLater(() -> {
             new VentanaDeCreacionEdicionVendedor(vendedorController).setVisible(true);
         });

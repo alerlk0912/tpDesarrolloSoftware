@@ -28,11 +28,17 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
     private DAOVendedor vendedorDAO;
     private VentanaDeCreacionEdicionItemsMenu ventanaCreacion;
 
-    public void setItemsMenu(MenuItemsMenu menuItemsMenu) {
-        this.menuItemsMenu = menuItemsMenu;
+    public VentanaDeCreacionEdicionItemsMenu(ItemMenuController itemMenuController, VendedorController vendedorController) {
+        this.itemMenuController = itemMenuController;
+        this.vendedorController = vendedorController;
+        this.vendedorDAO = vendedorController.getVendedorDAO();
+        initComponents();
     }
     public void setTitulo() {
         tituloPrincipal.setText("Editar Items Menú");
+    }
+    public void setItemsMenu(MenuItemsMenu menuItemsMenu) {
+        this.menuItemsMenu = menuItemsMenu;
     }
     public void recibirDatosEdicion(int filaSeleccionada, ItemMenu item) {
         this.filaSeleccionada = filaSeleccionada;
@@ -53,43 +59,12 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
         }      
     }
     
-    private void cargarTablaItems() {
-        if (tablaItemsMenu != null) {
-            DefaultTableModel model = (DefaultTableModel) tablaItemsMenu.getModel();
-            model.setRowCount(0); // Limpia la tabla
-            try {
-                List<ItemMenu> listaItems = itemMenuController.mostrarListaItemsMenu();
-                for (ItemMenu item : listaItems) {
-                    model.addRow(new Object[]{
-                        item.getId(),
-                        item.getNombre(),
-                        item.getDescripcion(),
-                        item.getPrecio(),
-                        item.getCategoria().getTipo_item()
-                    });
-                }
-            } catch (DAOException ex) {
-                Logger.getLogger(MenuItemsMenu.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-            System.err.println("Error: tablaItemsMenu no está inicializada.");
-        }
+
+    public void setVendedorSeleccionado(Vendedor vendedorSeleccionado) {
+        this.vendedorSeleccionado = vendedorSeleccionado;
     }
     
-    public void setVendedorSeleccionado(Vendedor vendedor) {
-        this.vendedorSeleccionado = vendedor;
-    }
     
-    public VentanaDeCreacionEdicionItemsMenu(/*ItemMenuController itemMenuController*/) {
-        initComponents();
-        cargarTablaItems(); // Esta llamada debe venir después de initComponents()
-        //this.itemMenuController = itemMenuController;
-        //comboBoxCategoriaActionPerformed(evt);
-    }
-    
-    public void asignarVendedor(Vendedor vendedor) {
-        this.itemActual.setVendedor(vendedor);
-    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -120,6 +95,7 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
         campoCalorias = new javax.swing.JTextField();
         tit9 = new javax.swing.JLabel();
         botonAgregarDesagregarVendedor = new javax.swing.JButton();
+        campoVendedorSeleccionado = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(400, 400));
@@ -271,27 +247,31 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(tit4, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(campoTamanio, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(campoTamanio, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(tit4, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(tit6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(comboBoxAlcohol, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(15, 15, 15))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(comboBoxAlcohol, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tit6, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(tit6)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(tit6)
+                            .addComponent(tit4))
                         .addGap(36, 36, 36))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(tit4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(campoTamanio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(comboBoxAlcohol, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -340,6 +320,17 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
         tit9.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         tit9.setInheritsPopupMenu(false);
 
+  	tit4.setVisible(false);
+        tit6.setVisible(false);
+        tit7.setVisible(false);
+        tit8.setVisible(false);
+        tit9.setVisible(false);
+        campoTamanio.setVisible(false);
+        comboBoxAlcohol.setVisible(false);
+        campoPeso.setVisible(false);
+        campoCalorias.setVisible(false);
+        comboBoxAptoVegano.setVisible(false);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -357,7 +348,7 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(tit8, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(comboBoxAptoVegano, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -392,48 +383,57 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
             }
         });
 
+        campoVendedorSeleccionado.setBackground(new java.awt.Color(123, 36, 28));
+        campoVendedorSeleccionado.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        campoVendedorSeleccionado.setForeground(new java.awt.Color(255, 255, 255));
+        campoVendedorSeleccionado.setAction(botonAgregarDesagregarVendedor.getAction());
+        campoVendedorSeleccionado.setActionCommand(getName());
+
         javax.swing.GroupLayout panelEditableLayout = new javax.swing.GroupLayout(panelEditable);
         panelEditable.setLayout(panelEditableLayout);
         panelEditableLayout.setHorizontalGroup(
             panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEditableLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(tit3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(comboBoxCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(panelEditableLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(tituloPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEditableLayout.createSequentialGroup()
+                .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelEditableLayout.createSequentialGroup()
+                        .addGap(25, 25, 25)
                         .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(panelEditableLayout.createSequentialGroup()
+                            .addComponent(tituloPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEditableLayout.createSequentialGroup()
                                 .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(titFechaDePago, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(campoPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(botonAgregarDesagregarVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(tit5, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(panelEditableLayout.createSequentialGroup()
-                                .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(tit1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(campoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(campoDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(tit2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(12, 12, 12))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(panelEditableLayout.createSequentialGroup()
+                                        .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(tit1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(campoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(campoDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(tit2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(panelEditableLayout.createSequentialGroup()
+                                        .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(titFechaDePago, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(campoPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(panelEditableLayout.createSequentialGroup()
+                                                .addGap(14, 14, 14)
+                                                .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(comboBoxCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(tit3, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(botonAgregarDesagregarVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(tit5, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEditableLayout.createSequentialGroup()
+                                                .addComponent(campoVendedorSeleccionado, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(59, 59, 59)))))
+                                .addGap(12, 12, 12))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(panelEditableLayout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addComponent(botonAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
+                        .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(panelEditableLayout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addComponent(botonAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(40, Short.MAX_VALUE))
         );
         panelEditableLayout.setVerticalGroup(
             panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -455,10 +455,12 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
                     .addComponent(tit5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(botonAgregarDesagregarVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(campoPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(tit3)
+                    .addComponent(campoPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(campoVendedorSeleccionado, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(tit3)
+                    .addComponent(botonAgregarDesagregarVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(comboBoxCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -494,7 +496,7 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
 //        } else {
 //            JOptionPane.showMessageDialog(null, "Formato Inválido", "Advertencia", JOptionPane.WARNING_MESSAGE);
 //        } 
-        String regex = "^\\d*(\\.\\d+)?$"; // Validación de precio
+        String regex = "^\\d*(\\.\\d+)?$"; // validación de precio
         System.out.println(filaSeleccionada);
         if (vendedorSeleccionado == null) {
             JOptionPane.showMessageDialog(this, "Seleccione un vendedor antes de continuar");
@@ -520,22 +522,29 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
             try {
                 if (filaSeleccionada == 100) { // Creación de nuevo ItemMenu
                     if (comboBoxCategoria.getSelectedItem().equals("BEBIDA")) {
-                        itemMenuController.crearNuevaBebida(
+                        itemMenuController.crearNuevoItemMenu((String)comboBoxCategoria.getSelectedItem(),
                                 campoNombre.getText(),
                                 campoDescripcion.getText(),
                                 precio,
                                 categoriaItem,
-                                Double.parseDouble(campoTamanio.getText()),
-                                comboBoxAlcohol.getSelectedItem().equals("SI")
+                                vendedorSeleccionado,
+                                Double.valueOf(campoTamanio.getText()),
+                                comboBoxAlcohol.getSelectedItem().equals("SI"),
+                                null,
+                                null,
+                                null
                         );
                     } else { // Creación de un plato
-                        itemMenuController.crearNuevoPlato(
+                        itemMenuController.crearNuevoItemMenu((String)comboBoxCategoria.getSelectedItem(),
                                 campoNombre.getText(),
                                 campoDescripcion.getText(),
                                 precio,
                                 categoriaItem,
-                                Double.parseDouble(campoPeso.getText()),
-                                Double.parseDouble(campoCalorias.getText()),
+                                vendedorSeleccionado,
+                                null,
+                                null,
+                                Double.valueOf(campoPeso.getText()),                                
+                                Double.valueOf(campoCalorias.getText()),
                                 comboBoxAptoVegano.getSelectedItem().equals("SI")
                         );
                     }
@@ -566,8 +575,7 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_botonCancelarActionPerformed
 
     private void botonAgregarDesagregarVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarDesagregarVendedorActionPerformed
-        DAOVendedor vendedorDAO = VendedorMemory.getInstance();
-        VendedorController vendedorController = new VendedorController(vendedorDAO);
+        
         VentanaAsignarEliminarVendedorDeItemMenu nuevaVentana = new VentanaAsignarEliminarVendedorDeItemMenu(itemMenuController, this, vendedorDAO, vendedorController);
         nuevaVentana.setPantallaAgregarDesagregarVendedor(this);
         nuevaVentana.setVisible(true);
@@ -575,29 +583,54 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
         nuevaVentana.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosed(java.awt.event.WindowEvent windowEvent) {
-                cargarTablaItems(); // actualizar tabla tras creación
+                Vendedor vendedorSeleccionado = nuevaVentana.getVendedorSeleccionado(); 
+                if (vendedorSeleccionado != null) {
+                    campoVendedorSeleccionado.setText(vendedorSeleccionado.getNombre()); 
+                }
             }
         });
     }//GEN-LAST:event_botonAgregarDesagregarVendedorActionPerformed
 
     private void comboBoxCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxCategoriaActionPerformed
-        if(comboBoxCategoria.getSelectedItem().equals("BEBIDA")) {
-            campoTamanio.enable(true);
-            comboBoxAlcohol.enable(true);
-            campoPeso.enable(false);
-            campoCalorias.enable(false);
-            comboBoxAptoVegano.enable(false);
-            campoPeso.setText("");
-            campoCalorias.setText("");
-        } else {
-            campoTamanio.enable(false);
-            comboBoxAlcohol.enable(false);
-            campoPeso.enable(true);
-            campoCalorias.enable(true);
-            comboBoxAptoVegano.enable(true);
-            campoTamanio.setText("");
+        String categoriaSeleccionada = (String) comboBoxCategoria.getSelectedItem();
+        
+        tit4.setVisible(false);
+        tit6.setVisible(false);
+        tit7.setVisible(false);
+        tit8.setVisible(false);
+        tit9.setVisible(false);
+        campoTamanio.setVisible(false);
+        comboBoxAlcohol.setVisible(false);
+        campoPeso.setVisible(false);
+        campoCalorias.setVisible(false);
+        comboBoxAptoVegano.setVisible(false);
+
+       
+        if ("BEBIDA".equals(categoriaSeleccionada)) {
+            // mostrar campos para BEBIDA
+            tit4.setVisible(true);
+            tit6.setVisible(true);
+            campoTamanio.setVisible(true);
+            comboBoxAlcohol.setVisible(true);
+        } else if ("PLATO".equals(categoriaSeleccionada)) {
+            // mostrar campos para PLATO
+            tit7.setVisible(true);
+            tit8.setVisible(true);
+            tit9.setVisible(true);
+            campoPeso.setVisible(true);
+            campoCalorias.setVisible(true);
+            comboBoxAptoVegano.setVisible(true);
         }
+
+        // refrescar la ventana para aplicar los cambios de visibilidad
+        this.revalidate();
+        this.repaint();
     }//GEN-LAST:event_comboBoxCategoriaActionPerformed
+
+    private void campoTamanioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoTamanioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_campoTamanioActionPerformed
+
 
     private void abrirVentanaAsignarEliminarVendedor() {
         // Obtener la lista de vendedores desde el controlador
@@ -606,16 +639,17 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
         VentanaAsignarEliminarVendedorDeItemMenu ventanaAsignarEliminarVendedor = new VentanaAsignarEliminarVendedorDeItemMenu(itemMenuController,this, vendedorDAO, vendedorController);
         ventanaAsignarEliminarVendedor.setVisible(true);
     }
-    
+
     public static void main(String args[]) {
-        DAOItemMenu itemsMenuDAO = new ItemMenuMemory();
+        DAOItemMenu itemMenuDAO = ItemMenuMemory.getInstance();
         DAOVendedor vendedorDAO = VendedorMemory.getInstance();
-        VendedorController vendedorController = new VendedorController(vendedorDAO);
-        ItemMenuController itemMenuController = new ItemMenuController(itemsMenuDAO);
+        ItemMenuController itemMenuController = ItemMenuController.getInstance(itemMenuDAO);
+        VendedorController vendedorController = VendedorController.getInstance(vendedorDAO);
+        
         java.awt.EventQueue.invokeLater(() -> {
-        VentanaDeCreacionEdicionItemsMenu ventanaPrincipal = new VentanaDeCreacionEdicionItemsMenu();
-        ventanaPrincipal.abrirVentanaAsignarEliminarVendedor();
-    });
+            VentanaDeCreacionEdicionItemsMenu ventanaPrincipal = new VentanaDeCreacionEdicionItemsMenu(itemMenuController, vendedorController);
+            ventanaPrincipal.setVisible(true);
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -628,6 +662,7 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
     private javax.swing.JTextField campoPeso;
     private javax.swing.JTextField campoPrecio;
     private javax.swing.JTextField campoTamanio;
+    private javax.swing.JTextField campoVendedorSeleccionado;
     private javax.swing.JComboBox<String> comboBoxAlcohol;
     private javax.swing.JComboBox<String> comboBoxAptoVegano;
     private javax.swing.JComboBox<String> comboBoxCategoria;

@@ -9,12 +9,24 @@ import java.util.List;
 public class ItemMenuMemory implements DAOItemMenu {
     private List<ItemMenu> itemsMenu = new ArrayList<>();
     private int nextId = 1;
+    private static ItemMenuMemory instance;
+    
+    private ItemMenuMemory(){
+    }
+    
+    public static ItemMenuMemory getInstance() {
+        if (instance == null) {
+            instance = new ItemMenuMemory();
+        }
+        return instance;
+    }
 
     @Override
     public List<ItemMenu> listarItemsMenu() {
         return itemsMenu;
     }
 
+    
     @Override
     public void crearItemMenu(ItemMenu item) {
         item.setId(nextId++);

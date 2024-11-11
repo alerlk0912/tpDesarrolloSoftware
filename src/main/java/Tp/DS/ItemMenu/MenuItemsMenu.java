@@ -2,16 +2,11 @@ package Tp.DS.ItemMenu;
 
 import Tp.DS.MenuPrincipal.MenuPrincipal;
 import Tp.DS.Cliente.MenuCliente;
-import Tp.DS.ItemMenu.ItemMenuController;
-import Tp.DS.Vendedor.VendedorController;
 import Tp.DS.Exceptions.DAOException;
-import Tp.DS.ItemMenu.DAOItemMenu;
-import Tp.DS.ItemMenu.ItemMenuMemory;
 import javax.swing.*;
 import javax.swing.table.*;
-import Tp.DS.ItemMenu.VentanaDeCreacionEdicionItemsMenu;
 import Tp.DS.Pedido.MenuPedidos;
-import Tp.DS.Vendedor.MenuVendedor;
+import Tp.DS.Vendedor.*;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,8 +23,11 @@ public class MenuItemsMenu extends javax.swing.JFrame {
     private Object[][] itemsMenu;
     DefaultTableModel model;
 
-    private MenuItemsMenu(ItemMenuController itemMenuController) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public MenuItemsMenu(ItemMenuController itemMenuController, VendedorController vendedorController) {
+        this.itemMenuController = itemMenuController;
+        this.vendedorController = vendedorController;
+        initComponents();
+        cargarTablaItems();
     }
     
 //    public void setListaTablaItemsMenu() {
@@ -91,12 +89,7 @@ public class MenuItemsMenu extends javax.swing.JFrame {
 //        model.setValueAt(vendedor, filaSeleccionada, 5);
 //    }
     
-    public MenuItemsMenu(ItemMenuController itemMenuController, VendedorController vendedorController) {
-        this.itemMenuController = itemMenuController;
-        initComponents();
-        cargarTablaItems();
-        this.vendedorController = vendedorController;
-        }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">
     private void initComponents() {
@@ -449,7 +442,7 @@ public class MenuItemsMenu extends javax.swing.JFrame {
     }
 
     private void botonCrearItemsMenuActionPerformed(java.awt.event.ActionEvent evt) {
-        VentanaDeCreacionEdicionItemsMenu nuevaVentana = new VentanaDeCreacionEdicionItemsMenu();
+        VentanaDeCreacionEdicionItemsMenu nuevaVentana = new VentanaDeCreacionEdicionItemsMenu(itemMenuController, vendedorController);
         nuevaVentana.setItemsMenu(this);
         nuevaVentana.setVisible(true);
         nuevaVentana.setLocationRelativeTo(null);
@@ -486,7 +479,7 @@ public class MenuItemsMenu extends javax.swing.JFrame {
             try {
                 int id = (int) model.getValueAt(filaSeleccionada, 0);
                 ItemMenu item = itemMenuController.buscarItemMenu(id);
-                VentanaDeCreacionEdicionItemsMenu nuevaVentana = new VentanaDeCreacionEdicionItemsMenu();
+                VentanaDeCreacionEdicionItemsMenu nuevaVentana = new VentanaDeCreacionEdicionItemsMenu(itemMenuController, vendedorController);
                 nuevaVentana.setItemsMenu(this);
                 nuevaVentana.setVisible(true);
                 nuevaVentana.setLocationRelativeTo(null);
@@ -539,13 +532,19 @@ public class MenuItemsMenu extends javax.swing.JFrame {
             Logger.getLogger(MenuItemsMenu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    
 
 
     public static void main(String args[]) {
-        DAOItemMenu itemMenuDAO = new ItemMenuMemory();
-        ItemMenuController itemMenuController = new ItemMenuController(itemMenuDAO);
+        DAOItemMenu itemMenuDAO = ItemMenuMemory.getInstance();
+        DAOVendedor vendedorDAO = VendedorMemory.getInstance();
+        ItemMenuController itemMenuController = ItemMenuController.getInstance(itemMenuDAO);
+        VendedorController vendedorController = VendedorController.getInstance(vendedorDAO);
+        
+
         java.awt.EventQueue.invokeLater(() -> {
-            new MenuItemsMenu(itemMenuController).setVisible(true);
+            new MenuItemsMenu(itemMenuController, vendedorController).setVisible(true);
         });
     }
 

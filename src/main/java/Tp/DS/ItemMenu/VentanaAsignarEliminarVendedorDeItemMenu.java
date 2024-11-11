@@ -29,7 +29,7 @@ public class VentanaAsignarEliminarVendedorDeItemMenu extends javax.swing.JFrame
     public VentanaAsignarEliminarVendedorDeItemMenu(ItemMenuController itemMenuController, VentanaDeCreacionEdicionItemsMenu ventanaCreacion, DAOVendedor vendedorDAO, VendedorController vendedorController) {
         this.itemMenuController = itemMenuController;
         this.vendedorDAO = vendedorDAO;
-        this.vendedorController = new VendedorController(vendedorDAO);
+        this.vendedorController = vendedorController;
         this.ventanaCreacion = ventanaCreacion;
         
         
@@ -339,27 +339,25 @@ public class VentanaAsignarEliminarVendedorDeItemMenu extends javax.swing.JFrame
     }//GEN-LAST:event_botonDesasignarVendedorActionPerformed
 
     private void botonVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonVolverActionPerformed
-    System.out.println("VentanaCreacion es: " + ventanaCreacion);
-    System.out.println("Vendedor seleccionado es: " + vendedorSeleccionado);
         dispose();
     }//GEN-LAST:event_botonVolverActionPerformed
 
     private void botonAsignarVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAsignarVendedorActionPerformed
         int filaVendedorSeleccionada = tablaVendedor.getSelectedRow();
 
-        if (filaVendedorSeleccionada == -1 && ventanaCreacion != null) {
-            Vendedor vendedor = (Vendedor) tablaVendedor.getValueAt(filaVendedorSeleccionada, 0);
-            ventanaCreacion.setVendedorSeleccionado(vendedor);
-            ventanaCreacion.asignarVendedor(vendedor);
-            ventanaCreacion.setVisible(true);
-            System.out.println("Vendedor seleccionado: " + vendedor.getNombre());
+        if (filaVendedorSeleccionada != -1) { 
+            int idvendedor = (int) tablaVendedor.getValueAt(filaVendedorSeleccionada, 0);
+            Vendedor vendedorSeleccionado = vendedorController.buscarVendedor(idvendedor);
+            ventanaCreacion.setVendedorSeleccionado(vendedorSeleccionado); // asignar vendedor 
+            JOptionPane.showMessageDialog(this, "Vendedor asignado temporalmente al nuevo ítem del menú.");
+            dispose(); // cerrar ventana
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione un vendedor.");
         }
-        //ventanaCreacion.setVendedorSeleccionado(vendedorSeleccionado);
-        JOptionPane.showMessageDialog(this, "Vendedor asignado temporalmente al nuevo ítem del menú.");
     }//GEN-LAST:event_botonAsignarVendedorActionPerformed
 
     private void botonBuscarVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarVendedorActionPerformed
-         String nombreBuscado = campoNombreVendedor.getText().trim().toLowerCase();
+        String nombreBuscado = campoNombreVendedor.getText().trim().toLowerCase();
         String direccionBuscada = campoDireccionVendedor.getText().trim().toLowerCase();
         String coordenadaBuscada = campoCoordenadaVendedor.getText().trim().toLowerCase();
 
@@ -396,7 +394,11 @@ public class VentanaAsignarEliminarVendedorDeItemMenu extends javax.swing.JFrame
             JOptionPane.showMessageDialog(this, "No se encontró ningún vendedor con los parámetros especificados.");
         }
     }//GEN-LAST:event_botonBuscarVendedorActionPerformed
-
+    
+    public Vendedor getVendedorSeleccionado() {
+        return vendedorSeleccionado;
+    }   
+    
     public static void main(String args[]) {
     }
     

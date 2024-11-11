@@ -8,7 +8,17 @@ import java.util.List;
 public class ClienteMemory implements DAOCliente {
     private List<Cliente> clientes = new ArrayList<>();
     private int nextId = 1;
+    private static ClienteMemory instance;
     
+    private ClienteMemory(){
+    }
+    
+    public static ClienteMemory getInstance() {
+        if (instance == null) {
+            instance = new ClienteMemory();
+        }
+        return instance;
+    }
     public List<Cliente> listarClientes() {
         return clientes;
     }

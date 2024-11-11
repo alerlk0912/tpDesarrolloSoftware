@@ -1,5 +1,6 @@
 package Tp.DS.Vendedor;
 
+import Tp.DS.Coordenada.Coordenada;
 import Tp.DS.Vendedor.DAOVendedor;
 
 import java.util.ArrayList;
@@ -7,12 +8,16 @@ import java.util.List;
 
 public class VendedorMemory implements DAOVendedor {
     private List<Vendedor> vendedores = new ArrayList<>();
-    private static VendedorMemory instance = new VendedorMemory();
     private int nextId = 1;
+    private static VendedorMemory instance;
     
-    private VendedorMemory() {}
-
+    private VendedorMemory(){
+    }
+    
     public static VendedorMemory getInstance() {
+        if (instance == null) {
+            instance = new VendedorMemory();
+        }
         return instance;
     }
     
@@ -45,5 +50,6 @@ public class VendedorMemory implements DAOVendedor {
     public Vendedor buscarVendedorPorId(int id) {
         return vendedores.stream().filter(v -> v.getId() == id).findFirst().orElse(null);
     }
+    
 }
 

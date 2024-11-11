@@ -192,12 +192,7 @@ public class Pedido implements PedidoObservable {
         return pedido;
     }
     
-    public String obtenerNombresItems() {
-        List<ItemsPedido> itemsPedido = this.getItemsPedido();
-        return itemsPedido.stream()
-                .map(item -> item.getItemMenu().getNombre())
-                .collect(Collectors.joining(", "));
-    }
+    
 
     @Override
     public void agregarObservador(PedidoObserver observer) {

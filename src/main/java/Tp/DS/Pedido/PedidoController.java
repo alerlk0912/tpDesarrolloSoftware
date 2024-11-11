@@ -2,16 +2,26 @@ package Tp.DS.Pedido;
 
 import Tp.DS.Pedido.DAOPedido;
 import Tp.DS.Cliente.Cliente;
+import Tp.DS.ItemPedido.ItemsPedido;
 import Tp.DS.MetodoPago.Pago;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class PedidoController {
+    private static PedidoController instance;
     private DAOPedido pedidoDAO;
 
-    public PedidoController(DAOPedido pedidoDAO) {
+    private PedidoController(DAOPedido pedidoDAO) {
         this.pedidoDAO = pedidoDAO;
+    }
+    
+    public static PedidoController getInstance(DAOPedido pedidoDAO) {
+        if (instance == null) {
+            instance = new PedidoController(pedidoDAO);
+        }
+        return instance;
     }
 
     public List<Pedido> mostrarListaPedidos() {
@@ -43,5 +53,11 @@ public class PedidoController {
     
     public Pedido buscarPedido(int id) {
         return pedidoDAO.buscarPedidoPorId(id);
+    }
+    public String obtenerNombresItems(Pedido pedido){
+        List<ItemsPedido> itemsPedido = pedido.getItemsPedido();
+        return itemsPedido.stream()
+                .map(item -> item.getItemMenu().getNombre())
+                .collect(Collectors.joining(", "));
     }
 }

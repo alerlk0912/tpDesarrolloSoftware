@@ -6,10 +6,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ItemPedidoMemory implements DAOItemsPedido {
-    private List<ItemsPedido> itemsPedidos;
-
-    public ItemPedidoMemory() {
-        this.itemsPedidos = new ArrayList<>();
+    private List<ItemsPedido> itemsPedidos = new ArrayList<>();
+    private static ItemPedidoMemory instance;
+    
+    private ItemPedidoMemory(){
+    }
+    
+    public static ItemPedidoMemory getInstance() {
+        if (instance == null) {
+            instance = new ItemPedidoMemory();
+        }
+        return instance;
     }
 
     public void agregarItemPedido(ItemsPedido item) {

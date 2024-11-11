@@ -10,9 +10,9 @@ public class ItemMenuFactory {
                                           Categoria categoria, Vendedor vendedor,
                                           Double tamanio, Boolean graduacionAlcoholica,
                                           Double peso, Double calorias, Boolean aptoVegano) {
-        if ("Plato".equals(tipoItem)) {
+        if ("PLATO".equalsIgnoreCase(tipoItem)) {
             return createPlato(nombre, descripcion, precio, categoria, vendedor, peso, calorias, aptoVegano);
-        } else if ("Bebida".equals(tipoItem)) {
+        } else if ("BEBIDA".equalsIgnoreCase(tipoItem)) {
             return createBebida(nombre, descripcion, precio, categoria, vendedor, tamanio, graduacionAlcoholica);
         } else {
             throw new IllegalArgumentException("Tipo de ItemMenu no válido: " + tipoItem);

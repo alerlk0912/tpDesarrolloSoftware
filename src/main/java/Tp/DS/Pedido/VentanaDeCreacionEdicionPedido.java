@@ -33,7 +33,7 @@ public class VentanaDeCreacionEdicionPedido extends javax.swing.JFrame {
         this.filaSeleccionada = filaSeleccionada;
         this.pedidoActual = pedido;
         campoCliente.setText(pedido.getCliente().getNombre());
-        campoItemsPedido.setText(pedido.obtenerNombresItems());
+        campoItemsPedido.setText(pedidoController.obtenerNombresItems(pedido));
         comboBoxMetodoDePago.setSelectedItem(pedido.getMetodoPago().getClass().getSimpleName());
         comboBoxEstadoPedido.setSelectedItem(pedido.getEstado().toString());
         campoMontoBase.setText(Double.toString(pedido.getMontoBase()));
@@ -370,8 +370,8 @@ public class VentanaDeCreacionEdicionPedido extends javax.swing.JFrame {
     }//GEN-LAST:event_botonCancelarActionPerformed
 
     public static void main(String args[]) {
-        DAOPedido pedidoDAO = new PedidoMemory();
-        PedidoController pedidoController = new PedidoController(pedidoDAO);
+        DAOPedido pedidoDAO = PedidoMemory.getInstance();
+        PedidoController pedidoController = PedidoController.getInstance(pedidoDAO);
         java.awt.EventQueue.invokeLater(() -> {
             new VentanaDeCreacionEdicionPedido(pedidoController).setVisible(true);
         });
