@@ -87,7 +87,7 @@ public class Vendedor {
         for (int i = 0; i < vendedores.length; i++) {
             if (vendedores[i].getNombre().equals(nombre)) {
                 index = i;
-                System.out.println("Vendedor encontrado: " + vendedores[i].getNombre() + ". Eliminando...");
+                //System.out.println("Vendedor encontrado: " + vendedores[i].getNombre() + ". Eliminando...");
                 break;
             }
         }
@@ -101,7 +101,7 @@ public class Vendedor {
             }
             return nuevoArray;
         } else {
-            System.out.println("Vendedor no encontrado.");
+            //System.out.println("Vendedor no encontrado.");
             return vendedores;
         }
     }
@@ -156,7 +156,7 @@ public class Vendedor {
     }
     
     public void actualizarEstadoPedido(Pedido pedido, EstadoPedido nuevoEstado) {
-        System.out.println("Vendedor " + nombre + ": actualizando estado del pedido a " + nuevoEstado);
+        //System.out.println("Vendedor " + nombre + ": actualizando estado del pedido a " + nuevoEstado);
         pedido.cambiarEstado(nuevoEstado);
     }
 

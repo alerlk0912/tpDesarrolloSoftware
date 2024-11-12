@@ -177,15 +177,15 @@ public class Pedido implements PedidoObservable {
 
         // mostrar la información del pedido
         try {
-            System.out.println("Pedido creado para el cliente: " + cliente.getNombre());
-            System.out.println("Vendedor: " + vendedorPrincipal.getNombre());
-            System.out.println("Metodo de pago: " + pedido.metodoPago.getClass().getSimpleName());
-            System.out.println("Items seleccionados:");
-            for (ItemsPedido item : pedido.getItemsPedido()) {
-                System.out.println(item.getItemMenu().getNombre() + " - Cantidad: " + item.getCantidad());
-            }
+            //System.out.println("Pedido creado para el cliente: " + cliente.getNombre());
+            //System.out.println("Vendedor: " + vendedorPrincipal.getNombre());
+            //System.out.println("Metodo de pago: " + pedido.metodoPago.getClass().getSimpleName());
+            //System.out.println("Items seleccionados:");
+            //for (ItemsPedido item : pedido.getItemsPedido()) {
+            //    System.out.println(item.getItemMenu().getNombre() + " - Cantidad: " + item.getCantidad());
+            //}
         } catch (Exception e) {
-            System.err.println("Error al mostrar el pedido: " + e.getMessage());
+            //System.err.println("Error al mostrar el pedido: " + e.getMessage());
             throw new PedidoInvalidoException("Error al mostrar el pedido.");
         }
 

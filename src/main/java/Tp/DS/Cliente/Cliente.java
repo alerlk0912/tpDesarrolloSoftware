@@ -118,7 +118,7 @@ public class Cliente implements PedidoObserver {
 	
     @Override
     public void actualizarEstado(Pedido pedido, Pago metodoPago) {
-        System.out.println("Cliente " + nombre + ": El estado del pedido ha cambiado a " + pedido.getEstado());
+        //System.out.println("Cliente " + nombre + ": El estado del pedido ha cambiado a " + pedido.getEstado());
 
         // si el estado es EN_ENVIO, generar el pago
         if (pedido.getEstado() == EstadoPedido.EN_ENVIO) {
@@ -130,7 +130,8 @@ public class Cliente implements PedidoObserver {
     public void generarPago(Pedido pedido, Pago metodoPago) {
         double montoBase = pedido.getMontoBase();
         pedido.setMetodoPago(metodoPago);
-        System.out.println("Pago generado para " + nombre + " - Monto: " + pedido.getMontoTotal());
+        pedido.calcularTotalPedido();
+        //System.out.println("Pago generado para " + nombre + " - Monto: " + pedido.getMontoTotal());
     }
     
     
