@@ -67,6 +67,7 @@ Tp\DS\MetodoPago\Pago.class
 Tp\DS\Cliente\Cliente.class
 Tp\DS\ItemMenu\MenuItemsMenu$1.class
 Tp\DS\ItemMenu\VentanaDeCreacionEdicionItemsMenu$4.class
+Tp\DS\MetodoPago\PagoMemory.class
 Tp\DS\MenuPrincipal\MenuPrincipal$3.class
 Tp\DS\ItemMenu\VentanaAsignarEliminarVendedorDeItemMenu$2.class
 Tp\DS\MetodoPago\MercadoPago.class
@@ -92,6 +93,7 @@ Tp\DS\Vendedor\MenuVendedor$7.class
 Tp\DS\Categoria\CategoriaJDBC.class
 Tp\DS\ItemMenu\DAOItemMenu.class
 Tp\DS\ItemPedido\ItemPedidoMemory.class
+Tp\DS\MetodoPago\FactoryPago.class
 Tp\DS\Exceptions\VendedorNoCoincideException.class
 Tp\DS\Vendedor\MenuVendedor$4.class
 Tp\DS\Vendedor\MenuVendedor$1.class

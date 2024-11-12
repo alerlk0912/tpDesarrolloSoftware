@@ -1,9 +1,11 @@
 package Tp.DS.MetodoPago;
 
-public class DAOMetodoPago {
+import java.util.List;
 
-    public Pago buscarPagoPorId(String metodoPagoId) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    
+public interface DAOMetodoPago {
+
+    Pago buscarPagoPorId(int id);
+    List<Pago> buscarPagoPorMetodo(String metodoPago);
+    void guardarPago(Pago pago);
+    void eliminarPago(int id);
 }

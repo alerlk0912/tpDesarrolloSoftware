@@ -33,7 +33,7 @@ public class PedidoJDBC implements DAOPedido {
         try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery(sql)) {
             while (result.next()) {
                 int clienteId = result.getInt("cliente_id");
-                String metodoPagoId = result.getString("metodoPago");
+                int metodoPagoId = result.getInt("pago_id");
 
                 Cliente cliente = clienteDAO.buscarClientePorId(clienteId);
                 
@@ -113,7 +113,7 @@ public class PedidoJDBC implements DAOPedido {
             ResultSet result = pstmt.executeQuery();
             if (result.next()) {
                 int clienteId = result.getInt("cliente_id");
-                String metodoPagoId = result.getString("metodoPago");
+                int metodoPagoId = result.getInt("pago_id");
 
                 Cliente cliente = clienteDAO.buscarClientePorId(clienteId);
                 Pago metodoPago = daoPago.buscarPagoPorId(metodoPagoId);

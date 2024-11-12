@@ -1,12 +1,15 @@
 package Tp.DS.ItemPedido;
 
+import Tp.DS.Exceptions.DAOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class ItemPedidoMemory implements DAOItemsPedido {
     private List<ItemsPedido> itemsPedidos = new ArrayList<>();
+    private int nextId = 1;
     private static ItemPedidoMemory instance;
     
     private ItemPedidoMemory(){
@@ -19,7 +22,7 @@ public class ItemPedidoMemory implements DAOItemsPedido {
         return instance;
     }
 
-    public void agregarItemPedido(ItemsPedido item) {
+    public void agregarItemPedido(ItemsPedido item) throws DAOException{
         itemsPedidos.add(item);
     }
 
@@ -82,26 +85,37 @@ public class ItemPedidoMemory implements DAOItemsPedido {
 
     @Override
     public List<ItemsPedido> listarItemsPedido() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return itemsPedidos;
     }
 
     @Override
     public void crearItemPedido(ItemsPedido itemPedido) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        itemPedido.setId(nextId++); 
+        itemsPedidos.add(itemPedido);
     }
 
     @Override
-    public void actualizarItemPedido(ItemsPedido itemPedido) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void actualizarItemPedido(ItemsPedido itemPedido) throws DAOException{
+        ItemsPedido actualizadoItem = buscarItemPedidoPorId(itemPedido.getId());
+        
+        if (actualizadoItem != null) {
+            actualizadoItem.setCantidad(itemPedido.getCantidad());
+            actualizadoItem.setItemMenu(itemPedido.getItemMenu());
+        } else {
+            throw new DAOException("ItemPedido no encontrado con el ID: " + itemPedido.getId());
+        }
     }
 
     @Override
     public void eliminarItemPedido(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        itemsPedidos.removeIf(i -> i.getId() == id); 
     }
 
     @Override
-    public ItemsPedido buscarItemPedidoPorId(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public ItemsPedido buscarItemPedidoPorId(int id){
+        return itemsPedidos.stream()
+                .filter(i -> i.getId() == id)
+                .findFirst()
+                .orElse(null);
     }
 }

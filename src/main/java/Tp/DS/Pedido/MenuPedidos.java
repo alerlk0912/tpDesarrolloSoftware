@@ -44,7 +44,7 @@ public class MenuPedidos extends javax.swing.JFrame {
 //    }
     private void cargarTablaPedidos() {
         model = (DefaultTableModel) tablaPedido.getModel();
-        model.setRowCount(0); // ñimpiar tabla
+        model.setRowCount(0); // limpiar tabla
         List<Pedido> listaPedidos = pedidoController.mostrarListaPedidos();
         for (Pedido pedido : listaPedidos) {
             String nombresItems = pedidoController.obtenerNombresItems(pedido);
