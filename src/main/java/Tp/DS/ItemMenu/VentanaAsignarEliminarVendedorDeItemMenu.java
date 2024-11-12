@@ -15,26 +15,40 @@ import javax.swing.table.*;
 public class VentanaAsignarEliminarVendedorDeItemMenu extends javax.swing.JFrame {
     //private VentanaDeCreacionEdicionItemsMenu ventana;
     private VendedorController vendedorController;
-    private List<Vendedor> listaVendedores; 
     private ItemMenu itemMenuSeleccionado;
-    private DefaultTableModel modelVendedor;
     private Vendedor vendedorSeleccionado;
     private VentanaDeCreacionEdicionItemsMenu ventanaCreacion;
-    private DAOVendedor vendedorDAO;
-    private ItemMenuController itemMenuController;
   
-    private Object[][] vendedores;
     DefaultTableModel model;
     
-    public VentanaAsignarEliminarVendedorDeItemMenu(ItemMenuController itemMenuController, VentanaDeCreacionEdicionItemsMenu ventanaCreacion, DAOVendedor vendedorDAO, VendedorController vendedorController) {
-        this.itemMenuController = itemMenuController;
-        this.vendedorDAO = vendedorDAO;
+    public VentanaAsignarEliminarVendedorDeItemMenu(ItemMenu itemMenuVentana, VentanaDeCreacionEdicionItemsMenu ventanaCreacion, VendedorController vendedorController) {
         this.vendedorController = vendedorController;
         this.ventanaCreacion = ventanaCreacion;
-        
+        this.itemMenuSeleccionado = itemMenuVentana;
         
         initComponents();
-        cargarVendedoresEnTabla(); // Cargar los vendedores en la tabla al iniciar la ventana
+        cargarVendedorAsociadosEnTabla();
+        cargarVendedoresEnTabla(); 
+    }
+    private void cargarVendedorAsociadosEnTabla(){
+        DefaultTableModel model = (DefaultTableModel) tablaVendedoresAsociadas.getModel();
+        model.setRowCount(0);
+        if(itemMenuSeleccionado != null){
+            Vendedor vendedorItem = itemMenuSeleccionado.getVendedor();
+            if(vendedorItem != null){
+            model.addRow(new Object[]{
+                    vendedorItem.getId(),
+                    vendedorItem.getNombre(),
+                    vendedorItem.getDireccion(),
+                    vendedorItem.getCoordenadas().getLat() + ", " + vendedorItem.getCoordenadas().getLng()
+                });
+            } else {
+                JOptionPane.showMessageDialog(this, "No hay ningún Vendedor asignado al ItemMenu.");
+            }
+        }else{
+            JOptionPane.showMessageDialog(this, "Asignar un Vendedor al nuevo Item.");
+        }
+        
     }
     
     private void cargarVendedoresEnTabla() {
@@ -332,7 +346,10 @@ public class VentanaAsignarEliminarVendedorDeItemMenu extends javax.swing.JFrame
         if (itemMenuSeleccionado != null) {
             itemMenuSeleccionado.setVendedor(null); // Desasignar el vendedor
             JOptionPane.showMessageDialog(this, "Vendedor desasignado correctamente.");
+            cargarVendedorAsociadosEnTabla();
             // Actualizar tabla o interfaz si es necesario
+            this.revalidate();
+            this.repaint();
         } else {
             JOptionPane.showMessageDialog(this, "No hay ningún ItemMenu seleccionado.");
         }
@@ -347,10 +364,15 @@ public class VentanaAsignarEliminarVendedorDeItemMenu extends javax.swing.JFrame
 
         if (filaVendedorSeleccionada != -1) { 
             int idvendedor = (int) tablaVendedor.getValueAt(filaVendedorSeleccionada, 0);
-            Vendedor vendedorSeleccionado = vendedorController.buscarVendedor(idvendedor);
+            vendedorSeleccionado = vendedorController.buscarVendedor(idvendedor);
             ventanaCreacion.setVendedorSeleccionado(vendedorSeleccionado); // asignar vendedor 
             JOptionPane.showMessageDialog(this, "Vendedor asignado temporalmente al nuevo ítem del menú.");
-            dispose(); // cerrar ventana
+            cargarVendedorAsociadosEnTabla();
+            if (itemMenuSeleccionado != null){
+                itemMenuSeleccionado.setVendedor(vendedorSeleccionado);
+            }
+            else {
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Por favor, seleccione un vendedor.");
         }

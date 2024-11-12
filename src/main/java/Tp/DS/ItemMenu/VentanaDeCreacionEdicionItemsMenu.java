@@ -22,7 +22,6 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
     private int filaSeleccionada=100;
     private ItemMenuController itemMenuController;
     private ItemMenu itemActual;
-    private javax.swing.JTable tablaItemsMenu;
     private VendedorController vendedorController;
     private Vendedor vendedorSeleccionado;
     private DAOVendedor vendedorDAO;
@@ -60,8 +59,11 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
     }
     
 
-    public void setVendedorSeleccionado(Vendedor vendedorSeleccionado) {
-        this.vendedorSeleccionado = vendedorSeleccionado;
+    public void setVendedorSeleccionado(Vendedor vendedor) {
+        this.vendedorSeleccionado = vendedor;
+        if (vendedor != null) {
+            campoVendedorSeleccionado.setText(vendedor.getNombre()); 
+        }
     }
     
     
@@ -96,6 +98,7 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
         tit9 = new javax.swing.JLabel();
         botonAgregarDesagregarVendedor = new javax.swing.JButton();
         campoVendedorSeleccionado = new javax.swing.JTextField();
+		campoVendedorSeleccionado.setEditable(false);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(400, 400));
@@ -218,6 +221,11 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
         campoTamanio.setBackground(new java.awt.Color(123, 36, 28));
         campoTamanio.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         campoTamanio.setForeground(new java.awt.Color(255, 255, 255));
+        campoTamanio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                campoTamanioActionPerformed(evt);
+            }
+        });
 
         tit4.setBackground(new java.awt.Color(123, 35, 27));
         tit4.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
@@ -319,17 +327,6 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
         tit9.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tit9.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         tit9.setInheritsPopupMenu(false);
-
-  	tit4.setVisible(false);
-        tit6.setVisible(false);
-        tit7.setVisible(false);
-        tit8.setVisible(false);
-        tit9.setVisible(false);
-        campoTamanio.setVisible(false);
-        comboBoxAlcohol.setVisible(false);
-        campoPeso.setVisible(false);
-        campoCalorias.setVisible(false);
-        comboBoxAptoVegano.setVisible(false);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -511,7 +508,7 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
              (!campoPeso.getText().isEmpty() && !campoCalorias.getText().isEmpty() && comboBoxAptoVegano.getSelectedItem() != null))) {
 
             double precio = Double.parseDouble(campoPrecio.getText());
-            Categoria categoriaItem = new Categoria((String) comboBoxCategoria.getSelectedItem(), "Tipo");
+            Categoria categoriaItem = new Categoria(campoDescripcion.getText(),(String) comboBoxCategoria.getSelectedItem());
 
             // Validación de existencia de vendedor seleccionado para creación
             if (filaSeleccionada == 100 && vendedorSeleccionado == null) {
@@ -576,16 +573,16 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
 
     private void botonAgregarDesagregarVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarDesagregarVendedorActionPerformed
         
-        VentanaAsignarEliminarVendedorDeItemMenu nuevaVentana = new VentanaAsignarEliminarVendedorDeItemMenu(itemMenuController, this, vendedorDAO, vendedorController);
+        VentanaAsignarEliminarVendedorDeItemMenu nuevaVentana = new VentanaAsignarEliminarVendedorDeItemMenu(itemActual, this, vendedorController);
         nuevaVentana.setPantallaAgregarDesagregarVendedor(this);
         nuevaVentana.setVisible(true);
         nuevaVentana.setLocationRelativeTo(null);
         nuevaVentana.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosed(java.awt.event.WindowEvent windowEvent) {
-                Vendedor vendedorSeleccionado = nuevaVentana.getVendedorSeleccionado(); 
+                Vendedor vendedorSeleccionado = nuevaVentana.getVendedorSeleccionado();
                 if (vendedorSeleccionado != null) {
-                    campoVendedorSeleccionado.setText(vendedorSeleccionado.getNombre()); 
+                    setVendedorSeleccionado(vendedorSeleccionado);
                 }
             }
         });
@@ -630,15 +627,6 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
     private void campoTamanioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoTamanioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_campoTamanioActionPerformed
-
-
-    private void abrirVentanaAsignarEliminarVendedor() {
-        // Obtener la lista de vendedores desde el controlador
-        List<Vendedor> listaVendedores = vendedorController.mostrarListaVendedor();
-
-        VentanaAsignarEliminarVendedorDeItemMenu ventanaAsignarEliminarVendedor = new VentanaAsignarEliminarVendedorDeItemMenu(itemMenuController,this, vendedorDAO, vendedorController);
-        ventanaAsignarEliminarVendedor.setVisible(true);
-    }
 
     public static void main(String args[]) {
         DAOItemMenu itemMenuDAO = ItemMenuMemory.getInstance();
