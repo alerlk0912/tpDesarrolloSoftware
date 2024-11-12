@@ -68,7 +68,7 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
     
     
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">
     private void initComponents() {
 
         panelEditable = new javax.swing.JPanel();
@@ -221,11 +221,7 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
         campoTamanio.setBackground(new java.awt.Color(123, 36, 28));
         campoTamanio.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         campoTamanio.setForeground(new java.awt.Color(255, 255, 255));
-        campoTamanio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoTamanioActionPerformed(evt);
-            }
-        });
+        
 
         tit4.setBackground(new java.awt.Color(123, 35, 27));
         tit4.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
@@ -485,9 +481,9 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
         getContentPane().add(panelEditable, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 500));
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }
 
-    private void botonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarActionPerformed
+    private void botonAceptarActionPerformed(java.awt.event.ActionEvent evt) {
 //        String regex = "^\\d*(\\.\\d+)?$";
 //        if (campoPrecio.getText().matches(regex) && !campoNombre.getText().isEmpty() && !campoDescripcion.getText().isEmpty() 
 //                && !campoPrecio.getText().isEmpty() && !campoVendedor.getText().isEmpty()) {
@@ -576,13 +572,13 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Formato Inválido", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
         System.out.println("Vendedor asignado en setVendedorSeleccionado: " + vendedorSeleccionado);
-    }//GEN-LAST:event_botonAceptarActionPerformed
+    }
 
-    private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
+    private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {
         dispose();
-    }//GEN-LAST:event_botonCancelarActionPerformed
+    }
 
-    private void botonAgregarDesagregarVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarDesagregarVendedorActionPerformed
+    private void botonAgregarDesagregarVendedorActionPerformed(java.awt.event.ActionEvent evt) {
         
         VentanaAsignarEliminarVendedorDeItemMenu nuevaVentana = new VentanaAsignarEliminarVendedorDeItemMenu(itemActual, this, vendedorController);
         nuevaVentana.setPantallaAgregarDesagregarVendedor(this);
@@ -597,9 +593,9 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
                 }
             }
         });
-    }//GEN-LAST:event_botonAgregarDesagregarVendedorActionPerformed
+    }
 
-    private void comboBoxCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxCategoriaActionPerformed
+    private void comboBoxCategoriaActionPerformed(java.awt.event.ActionEvent evt) {
         String categoriaSeleccionada = (String) comboBoxCategoria.getSelectedItem();
         tit4.setVisible(false);
         tit6.setVisible(false);
@@ -631,11 +627,8 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
         // refrescar la ventana para aplicar los cambios de visibilidad
         this.revalidate();
         this.repaint();
-    }//GEN-LAST:event_comboBoxCategoriaActionPerformed
+    }
 
-    private void campoTamanioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoTamanioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_campoTamanioActionPerformed
 
     public static void main(String args[]) {
         DAOItemMenu itemMenuDAO = ItemMenuMemory.getInstance();
@@ -649,7 +642,7 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
         });
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // Variables declaration - do not modify
     private javax.swing.JButton botonAceptar;
     private javax.swing.JButton botonAgregarDesagregarVendedor;
     private javax.swing.JButton botonCancelar;
@@ -677,5 +670,5 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
     private javax.swing.JLabel tit9;
     private javax.swing.JLabel titFechaDePago;
     private javax.swing.JLabel tituloPrincipal;
-    // End of variables declaration//GEN-END:variables
+    // End of variables declaration
 }

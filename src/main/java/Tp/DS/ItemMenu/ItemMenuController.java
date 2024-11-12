@@ -81,4 +81,9 @@ public class ItemMenuController {
         crearNuevoItemMenu(catComidas.getTipo_item(), "Pasta", "Spaghetti a la bolognesa", 5500, catComidas, v7, null, null, 0.4, 0.6, false);
         crearNuevoItemMenu(catBebidas.getTipo_item(),"Te", "Te verde", 1800, catBebidas, v7, 0.3, false, null, null, null);
     }
+    public List<ItemMenu> obtenerItemsMenuPorVendedor(Vendedor vendedor) throws DAOException{
+        List<ItemMenu> items = itemMenuDAO.listarItemsMenu();
+        
+        return items;
+    }
 }
