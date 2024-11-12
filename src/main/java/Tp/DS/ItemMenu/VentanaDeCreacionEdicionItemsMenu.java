@@ -48,18 +48,18 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
         campoNombre.setText(item.getNombre());
         campoDescripcion.setText(item.getDescripcion());
         campoPrecio.setText(Double.toString(item.getPrecio()));
-        comboBoxCategoria.setSelectedItem(item.getCategoria().getClass().getSimpleName());
-
-        if (item instanceof Bebida) {
-            Bebida bebida = (Bebida) item;
-            campoTamanio.setText(Double.toString(bebida.getTamanio()));
-            comboBoxAlcohol.setSelectedItem(bebida.isBebidaAlcoholica() ? "SI" : "NO");
-        } else if (item instanceof Plato) {
-            Plato plato = (Plato) item;
-            campoPeso.setText(Double.toString(plato.getPeso()));
-            campoCalorias.setText(Double.toString(plato.getCalorias()));
-            comboBoxAptoVegano.setSelectedItem(plato.isAptoVegano() ? "SI" : "NO");
-        }
+        comboBoxCategoria.setSelectedItem(item.getCategoria().getClass().getName());
+        campoVendedorSeleccionado.setText(item.getVendedor().getNombre());
+        
+        //estos campos deberían completarse, no se si habría q crear la instancia en la pantalla anterior para que se muestre estos datos
+        if(comboBoxCategoria.getSelectedItem().equals("BEBIDA")) {
+            campoTamanio.setText(""); //falta llenar
+            comboBoxAlcohol.setSelectedItem("SI"); //falta llenar
+        } else {
+            campoPeso.setText(""); //falta llenar
+            campoCalorias.setText(""); //falta llenar
+            comboBoxAptoVegano.setSelectedItem("SI"); //falta llenar
+        }      
     }
 
     public void setVendedorSeleccionado(Vendedor vendedor) {
@@ -486,11 +486,9 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
         pack();
     }
 
-    private void botonAceptarActionPerformed(java.awt.event.ActionEvent evt) {
- 
+    private void botonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarActionPerformed
         String regex = "^\\d*(\\.\\d+)?$"; // validación de precio
-        System.out.println(filaSeleccionada);
-        if (vendedorSeleccionado == null) {
+        if (campoVendedorSeleccionado == null) {
             JOptionPane.showMessageDialog(this, "Seleccione un vendedor antes de continuar");
             return;
         }
@@ -560,8 +558,8 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Formato Inválido", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
-        System.out.println("Vendedor asignado en setVendedorSeleccionado: " + vendedorSeleccionado);
-    }
+        //System.out.println("Vendedor asignado en setVendedorSeleccionado: " + vendedorSeleccionado);
+    }//GEN-LAST:event_botonAceptarActionPerformed
 
     private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {
         dispose();
