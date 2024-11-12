@@ -231,7 +231,7 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
         tit4.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         tit4.setForeground(new java.awt.Color(255, 255, 255));
         tit4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        tit4.setText("Tamaño");
+        tit4.setText("Tamaño en L");
         tit4.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tit4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         tit4.setInheritsPopupMenu(false);
@@ -292,7 +292,7 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
         tit7.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         tit7.setForeground(new java.awt.Color(255, 255, 255));
         tit7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        tit7.setText("Peso");
+        tit7.setText("Peso en Kg");
         tit7.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tit7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         tit7.setInheritsPopupMenu(false);
@@ -323,10 +323,21 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
         tit9.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         tit9.setForeground(new java.awt.Color(255, 255, 255));
         tit9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        tit9.setText("Calorías");
+        tit9.setText("Calorías en Kcal");
         tit9.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tit9.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         tit9.setInheritsPopupMenu(false);
+		tit4.setVisible(false);
+        tit6.setVisible(false);
+        tit7.setVisible(false);
+        tit8.setVisible(false);
+        tit9.setVisible(false);
+        campoTamanio.setVisible(false);
+        comboBoxAlcohol.setVisible(false);
+        campoPeso.setVisible(false);
+        campoCalorias.setVisible(false);
+        comboBoxAptoVegano.setVisible(false);
+		
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -590,7 +601,6 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
 
     private void comboBoxCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxCategoriaActionPerformed
         String categoriaSeleccionada = (String) comboBoxCategoria.getSelectedItem();
-        
         tit4.setVisible(false);
         tit6.setVisible(false);
         tit7.setVisible(false);
@@ -601,8 +611,7 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
         campoPeso.setVisible(false);
         campoCalorias.setVisible(false);
         comboBoxAptoVegano.setVisible(false);
-
-       
+		
         if ("BEBIDA".equals(categoriaSeleccionada)) {
             // mostrar campos para BEBIDA
             tit4.setVisible(true);

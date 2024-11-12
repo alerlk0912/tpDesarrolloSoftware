@@ -45,10 +45,7 @@ public class VentanaAsignarEliminarVendedorDeItemMenu extends javax.swing.JFrame
             } else {
                 JOptionPane.showMessageDialog(this, "No hay ningún Vendedor asignado al ItemMenu.");
             }
-        }else{
-            JOptionPane.showMessageDialog(this, "Asignar un Vendedor al nuevo Item.");
         }
-        
     }
     
     private void cargarVendedoresEnTabla() {
@@ -372,6 +369,13 @@ public class VentanaAsignarEliminarVendedorDeItemMenu extends javax.swing.JFrame
                 itemMenuSeleccionado.setVendedor(vendedorSeleccionado);
             }
             else {
+                DefaultTableModel model = (DefaultTableModel) tablaVendedoresAsociadas.getModel();
+                model.addRow(new Object[]{
+                    vendedorSeleccionado.getId(),
+                    vendedorSeleccionado.getNombre(),
+                    vendedorSeleccionado.getDireccion(),
+                    vendedorSeleccionado.getCoordenadas().getLat() + ", " + vendedorSeleccionado.getCoordenadas().getLng()
+                });
             }
         } else {
             JOptionPane.showMessageDialog(this, "Por favor, seleccione un vendedor.");
