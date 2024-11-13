@@ -63,8 +63,10 @@ public class VentanaDeCreacionEdicionPedido extends javax.swing.JFrame {
     public void recibirDatosEdicion(int filaSeleccionada, Pedido pedido) {
         this.filaSeleccionada = filaSeleccionada;
         this.pedidoActual = pedido;
-        Vendedor vendedorItem = pedidoActual.getItemsPedido().getFirst().getItemMenu().getVendedor();
-        campoVendedorSeleccionado.setText(vendedorItem.getNombre());
+        if (!pedidoActual.getItemsPedido().isEmpty()) {
+            Vendedor vendedorItem = pedidoActual.getItemsPedido().getFirst().getItemMenu().getVendedor();
+            campoVendedorSeleccionado.setText(vendedorItem.getNombre());
+        }
         String items = pedidoController.obtenerNombresItems(pedidoActual);
         campoItems.setText(items);
         comboBoxMetodoDePago.setSelectedItem(pedidoActual.getMetodoPago().getClass().getName());
@@ -473,6 +475,7 @@ public class VentanaDeCreacionEdicionPedido extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Pedido creado con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 
             } else { // Condición de edición de pedido existente
+                pedidoActual.setItemsPedido(itemsAsignados);
                 pedidoActual.setFechaPago(new Date());
                 pedidoActual.setMontoBase(Double.parseDouble(campoMontoBase.getText()));
                 pedidoActual.setMontoTotal(Double.parseDouble(campoMontoTotal.getText()));
@@ -522,18 +525,16 @@ public class VentanaDeCreacionEdicionPedido extends javax.swing.JFrame {
             campoMetodoPago1.setVisible(true);
             campoMetodoPago2.setVisible(true);
             pagoPedido = FactoryPago.crearPago("Transferencia",campoMetodoPago1.getText(),campoMetodoPago2.getText());
-            montoTotal = pedidoController.calcularMontoTotal(Double.parseDouble(campoMontoBase.getText()), pagoPedido);
+            montoTotal = pedidoController.calcularMontoTotal(Double.valueOf(campoMontoBase.getText()), pagoPedido);
             campoMontoTotal.setText(montoTotal.toString());
         } else if ("MERCADOPAGO".equals(pagoSeleccionado)) {
-            // mostrar campos para PLATO
             textMetodoPago1.setVisible(true);
             campoMetodoPago1.setVisible(true);
-            pagoPedido = FactoryPago.crearPago("MercadoPago",campoMetodoPago1.getText(),campoMetodoPago2.getText());
-            montoTotal = pedidoController.calcularMontoTotal(Double.parseDouble(campoMontoBase.getText()), pagoPedido);
+            pagoPedido = FactoryPago.crearPago("MercadoPago", campoMetodoPago1.getText(), "");
+            montoTotal = pedidoController.calcularMontoTotal(Double.valueOf(campoMontoBase.getText()), pagoPedido);
             campoMontoTotal.setText(montoTotal.toString());
-            
-        } else if("EFECTIVO".equals(pagoSeleccionado)){
-            pagoPedido = FactoryPago.crearPago("MercadoPago",campoMetodoPago1.getText(),campoMetodoPago2.getText());
+        } else if ("EFECTIVO".equals(pagoSeleccionado)) {
+            pagoPedido = FactoryPago.crearPago("Efectivo", "", "");
             campoMontoTotal.setText(campoMontoBase.getText());
         }
 

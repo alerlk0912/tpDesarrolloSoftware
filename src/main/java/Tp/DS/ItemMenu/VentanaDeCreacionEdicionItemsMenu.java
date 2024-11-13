@@ -1,5 +1,6 @@
 package Tp.DS.ItemMenu;
 
+import Tp.DS.Bebida;
 import Tp.DS.ItemMenu.MenuItemsMenu;
 import Tp.DS.Categoria.Categoria;
 import Tp.DS.ItemMenu.ItemMenuController;
@@ -8,6 +9,7 @@ import Tp.DS.Exceptions.DAOException;
 import Tp.DS.ItemMenu.DAOItemMenu;
 import Tp.DS.Vendedor.DAOVendedor;
 import Tp.DS.ItemMenu.ItemMenuMemory;
+import Tp.DS.Plato;
 import Tp.DS.Vendedor.VendedorMemory;
 import Tp.DS.Vendedor.Vendedor;
 
@@ -39,25 +41,26 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
     public void setItemsMenu(MenuItemsMenu menuItemsMenu) {
         this.menuItemsMenu = menuItemsMenu;
     }
+    
     public void recibirDatosEdicion(int filaSeleccionada, ItemMenu item) {
         this.filaSeleccionada = filaSeleccionada;
         this.itemActual = item;
         campoNombre.setText(item.getNombre());
         campoDescripcion.setText(item.getDescripcion());
         campoPrecio.setText(Double.toString(item.getPrecio()));
-        comboBoxCategoria.setSelectedItem(item.getCategoria().getClass().getName());
-        
-        //estos campos deberían completarse, no se si habría q crear la instancia en la pantalla anterior para que se muestre estos datos
-        if(comboBoxCategoria.getSelectedItem().equals("BEBIDA")) {
-            campoTamanio.setText(""); //falta llenar
-            comboBoxAlcohol.setSelectedItem("SI"); //falta llenar
-        } else {
-            campoPeso.setText(""); //falta llenar
-            campoCalorias.setText(""); //falta llenar
-            comboBoxAptoVegano.setSelectedItem("SI"); //falta llenar
-        }      
+        comboBoxCategoria.setSelectedItem(item.getCategoria().getClass().getSimpleName());
+
+        if (item instanceof Bebida) {
+            Bebida bebida = (Bebida) item;
+            campoTamanio.setText(Double.toString(bebida.getTamanio()));
+            comboBoxAlcohol.setSelectedItem(bebida.isBebidaAlcoholica() ? "SI" : "NO");
+        } else if (item instanceof Plato) {
+            Plato plato = (Plato) item;
+            campoPeso.setText(Double.toString(plato.getPeso()));
+            campoCalorias.setText(Double.toString(plato.getCalorias()));
+            comboBoxAptoVegano.setSelectedItem(plato.isAptoVegano() ? "SI" : "NO");
+        }
     }
-    
 
     public void setVendedorSeleccionado(Vendedor vendedor) {
         this.vendedorSeleccionado = vendedor;
@@ -484,22 +487,7 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
     }
 
     private void botonAceptarActionPerformed(java.awt.event.ActionEvent evt) {
-//        String regex = "^\\d*(\\.\\d+)?$";
-//        if (campoPrecio.getText().matches(regex) && !campoNombre.getText().isEmpty() && !campoDescripcion.getText().isEmpty() 
-//                && !campoPrecio.getText().isEmpty() && !campoVendedor.getText().isEmpty()) {
-//            if(filaSeleccionada==100) {
-//                menuItemsMenu.recibirDatosDeCreacion(campoNombre.getText(), campoDescripcion.getText(), campoPrecio.getText(),
-//                        (String) comboBoxCategoria.getSelectedItem(), campoVendedor.getText());
-//                JOptionPane.showMessageDialog(null, "Creado con Éxito", null, JOptionPane.INFORMATION_MESSAGE);
-//            } else {
-//                menuItemsMenu.recibirDatosDeEdicion(filaSeleccionada, campoNombre.getText(), campoDescripcion.getText(), 
-//                        campoPrecio.getText(), (String) comboBoxCategoria.getSelectedItem(), campoVendedor.getText());
-//                JOptionPane.showMessageDialog(null, "Editado con Éxito", null, JOptionPane.INFORMATION_MESSAGE);
-//            }
-//            dispose();
-//        } else {
-//            JOptionPane.showMessageDialog(null, "Formato Inválido", "Advertencia", JOptionPane.WARNING_MESSAGE);
-//        } 
+ 
         String regex = "^\\d*(\\.\\d+)?$"; // validación de precio
         System.out.println(filaSeleccionada);
         if (vendedorSeleccionado == null) {
@@ -517,6 +505,7 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
             double precio = Double.parseDouble(campoPrecio.getText());
             Categoria categoriaItem = new Categoria(campoDescripcion.getText(),(String) comboBoxCategoria.getSelectedItem());
 
+            
             // Validación de existencia de vendedor seleccionado para creación
             if (filaSeleccionada == 100 && vendedorSeleccionado == null) {
                 JOptionPane.showMessageDialog(this, "Seleccione un vendedor antes de confirmar.");
@@ -524,8 +513,8 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
             }
 
             try {
-                if (filaSeleccionada == 100) { // Creación de nuevo ItemMenu
-                    if (comboBoxCategoria.getSelectedItem().equals("BEBIDA")) {
+                if (filaSeleccionada == 100) { 
+                    if (comboBoxCategoria.getSelectedItem().equals("BEBIDA")) { // Creación de nuevo Bebida
                         itemMenuController.crearNuevoItemMenu((String)comboBoxCategoria.getSelectedItem(),
                                 campoNombre.getText(),
                                 campoDescripcion.getText(),

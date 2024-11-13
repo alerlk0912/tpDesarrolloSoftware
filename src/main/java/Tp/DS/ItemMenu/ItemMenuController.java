@@ -83,13 +83,22 @@ public class ItemMenuController {
         crearNuevoItemMenu(catBebidas.getTipo_item(),"Te", "Te verde", 1800, catBebidas, v7, 0.3, false, null, null, null);
     }
     public List<ItemMenu> obtenerItemsMenuPorVendedor(Vendedor vendedor) throws DAOException{
+        if (vendedor == null) {
+            throw new IllegalArgumentException("El vendedor no puede ser nulo");
+        }
+
         List<ItemMenu> items = itemMenuDAO.listarItemsMenu();
         List<ItemMenu> itemsPorVendedor = new ArrayList<>();
+
         for (ItemMenu item : items) {
-            if (item.getVendedor().equals(vendedor)) {
-                itemsPorVendedor.add(item); 
+            if (vendedor.equals(item.getVendedor())) {
+                itemsPorVendedor.add(item);
             }
         }
+        if (itemsPorVendedor.isEmpty()) {
+            System.out.println("No se encontraron items para el vendedor: " + vendedor.getNombre());
+        }
+
         return itemsPorVendedor;
     }
 }

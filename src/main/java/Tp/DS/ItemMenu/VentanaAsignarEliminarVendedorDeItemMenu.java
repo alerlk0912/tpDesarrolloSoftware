@@ -32,7 +32,6 @@ public class VentanaAsignarEliminarVendedorDeItemMenu extends javax.swing.JFrame
     }
     private void cargarVendedorAsociadosEnTabla(){
         DefaultTableModel model = (DefaultTableModel) tablaVendedoresAsociadas.getModel();
-        model.setRowCount(0);
         if(itemMenuSeleccionado != null){
             Vendedor vendedorItem = itemMenuSeleccionado.getVendedor();
             if(vendedorItem != null){
@@ -387,6 +386,7 @@ public class VentanaAsignarEliminarVendedorDeItemMenu extends javax.swing.JFrame
         String direccionBuscada = campoDireccionVendedor.getText().trim().toLowerCase();
         String coordenadaBuscada = campoCoordenadaVendedor.getText().trim().toLowerCase();
 
+        DefaultTableModel model = (DefaultTableModel) tablaVendedor.getModel();
         model.setRowCount(0); // Limpiar la tabla para mostrar los resultados de la búsqueda
 
         List<Vendedor> vendedores = vendedorController.mostrarListaVendedor();

@@ -8,6 +8,7 @@ import Tp.DS.Exceptions.DAOException;
 import Tp.DS.ItemMenu.*;
 import Tp.DS.Vendedor.*;
 import Tp.DS.ItemPedido.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,6 +34,9 @@ public class VentanaCrearItemPedido extends javax.swing.JFrame {
         this.vendedorController = vendedorController;
         this.itemMenuController = itemMenuController;
         this.ventanaCrearPedido = ventanaCrearPedido;
+        this.itemsPorPedido = new ArrayList<>(); 
+        this.montoBasePedido = 0.0; 
+        this.vendedorSeleccionado = null;
         
         initComponents();
         cargarVendedorAsociadosEnTabla();
@@ -172,13 +176,14 @@ public class VentanaCrearItemPedido extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, true, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        TablaItemsPorVendedor.setColumnSelectionAllowed(true);
         TablaItemsPorVendedor.setGridColor(new java.awt.Color(255, 255, 255));
         TablaItemsPorVendedor.setMaximumSize(new java.awt.Dimension(500, 200));
         TablaItemsPorVendedor.setMinimumSize(new java.awt.Dimension(500, 200));
@@ -473,21 +478,28 @@ public class VentanaCrearItemPedido extends javax.swing.JFrame {
         if (filaVendedorSeleccionada != -1) { 
             int idItem = (int) TablaItemsPorVendedor.getValueAt(filaVendedorSeleccionada, 0);
             try {
+                int cantidad = Integer.parseInt(campoCantidad.getText());
+                if (cantidad <= 0) {
+                    JOptionPane.showMessageDialog(this, "La cantidad debe ser un número positivo.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 itemSeleccionado = itemMenuController.buscarItemMenu(idItem);
-                ItemsPedido nuevoItem = itemPedidoController.crearNuevoyRetornarItemPedido(idItem, Integer.parseInt(campoCantidad.getText()));
+                ItemsPedido nuevoItem = itemPedidoController.crearNuevoyRetornarItemPedido(idItem, cantidad);
                 agregarItemNuevoATabla(nuevoItem);
                 itemsPorPedido.add(nuevoItem);
-            } catch (DAOException ex) {
-                Logger.getLogger(VentanaCrearItemPedido.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Ingrese una cantidad válida.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (DAOException ex) {
+            Logger.getLogger(VentanaCrearItemPedido.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Error al agregar el ítem al pedido.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        }else {
+        }else{
             JOptionPane.showMessageDialog(this, "Por favor, seleccione un Item.");
         }
     }//GEN-LAST:event_botonAgregarItemActionPerformed
 
     private void agregarItemNuevoATabla(ItemsPedido item){
         DefaultTableModel model = (DefaultTableModel) TablaItemsAgregados.getModel();
-        model.setRowCount(0);
         if(item != null){
             model.addRow(new Object[]{
                     item.getItemMenu().getNombre(),
@@ -520,11 +532,9 @@ public class VentanaCrearItemPedido extends javax.swing.JFrame {
             return;
         } else{
             montoBasePedido = pedidoController.calcularTotalPedido(itemsPorPedido);
+            JOptionPane.showMessageDialog(this, "Items agregados con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
+            dispose();
         }
-        
-        JOptionPane.showMessageDialog(this, "Items agregados con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
-        
-        dispose();
     }//GEN-LAST:event_BotonAceptarActionPerformed
 
     private void cargarVendedorAsociadosEnTabla(){
@@ -563,6 +573,7 @@ public class VentanaCrearItemPedido extends javax.swing.JFrame {
             }
         } catch (DAOException ex) {
             Logger.getLogger(VentanaCrearItemPedido.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Error al cargar los items del vendedor.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     
