@@ -4,6 +4,7 @@ import Tp.DS.ItemMenu.DAOItemMenu;
 import Tp.DS.Categoria.Categoria;
 import Tp.DS.Exceptions.DAOException;
 import Tp.DS.Vendedor.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ItemMenuController {
@@ -83,7 +84,12 @@ public class ItemMenuController {
     }
     public List<ItemMenu> obtenerItemsMenuPorVendedor(Vendedor vendedor) throws DAOException{
         List<ItemMenu> items = itemMenuDAO.listarItemsMenu();
-        
-        return items;
+        List<ItemMenu> itemsPorVendedor = new ArrayList<>();
+        for (ItemMenu item : items) {
+            if (item.getVendedor().equals(vendedor)) {
+                itemsPorVendedor.add(item); 
+            }
+        }
+        return itemsPorVendedor;
     }
 }

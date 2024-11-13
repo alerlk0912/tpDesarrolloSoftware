@@ -130,7 +130,6 @@ public class Cliente implements PedidoObserver {
     public void generarPago(Pedido pedido, Pago metodoPago) {
         double montoBase = pedido.getMontoBase();
         pedido.setMetodoPago(metodoPago);
-        pedido.calcularTotalPedido();
         System.out.println("Pago generado para " + nombre + " - Monto: " + pedido.getMontoTotal());
     }
     

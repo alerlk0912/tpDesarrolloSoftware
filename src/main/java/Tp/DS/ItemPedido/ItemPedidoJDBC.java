@@ -37,7 +37,6 @@ public class ItemPedidoJDBC implements DAOItemsPedido {
                     
                     ItemsPedido itemPedido = new ItemsPedido(
                         itemMenu,
-                        pedido,
                         result.getInt("cantidad")
                     );
                     itemPedido.setId(result.getInt("id"));
@@ -67,7 +66,6 @@ public class ItemPedidoJDBC implements DAOItemsPedido {
                     
                     ItemsPedido itemPedido = new ItemsPedido(
                         itemMenu,
-                        pedido,
                         result.getInt("cantidad")
                     );
                     itemPedido.setId(result.getInt("id"));
@@ -97,7 +95,6 @@ public class ItemPedidoJDBC implements DAOItemsPedido {
                     
                     ItemsPedido itemPedido = new ItemsPedido(
                         itemMenu,
-                        pedido,
                         result.getInt("cantidad")
                     );
                     itemPedido.setId(result.getInt("id"));
@@ -127,7 +124,6 @@ public class ItemPedidoJDBC implements DAOItemsPedido {
                     
                     ItemsPedido itemPedido = new ItemsPedido(
                         itemMenu,
-                        pedido,
                         result.getInt("cantidad")
                     );
                     itemPedido.setId(result.getInt("id"));
@@ -154,7 +150,6 @@ public class ItemPedidoJDBC implements DAOItemsPedido {
                 
                 ItemsPedido itemPedido = new ItemsPedido(
                     itemMenu,
-                    pedido,
                     result.getInt("cantidad")
                 );
                 itemPedido.setId(result.getInt("id"));
@@ -179,7 +174,6 @@ public class ItemPedidoJDBC implements DAOItemsPedido {
                 
                 ItemsPedido itemPedido = new ItemsPedido(
                     itemMenu,
-                    pedido,
                     result.getInt("cantidad")
                 );
                 itemPedido.setId(result.getInt("id"));
@@ -261,7 +255,6 @@ public class ItemPedidoJDBC implements DAOItemsPedido {
 
                     itemPedido = new ItemsPedido(
                         itemMenu,
-                        pedido,
                         result.getInt("cantidad")
                     );
                     itemPedido.setId(result.getInt("id"));

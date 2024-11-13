@@ -30,27 +30,24 @@ public class ItemsPedidoController {
         return itemPedidoDAO.listarItemsPedido();
     }
 
-    public void crearNuevoItemPedido(int itemMenuId, int pedidoId, int cantidad) throws DAOException {
-        Pedido pedido = pedidoController.buscarPedido(pedidoId);
+    public void crearNuevoItemPedido(int itemMenuId, int cantidad) throws DAOException {
         ItemMenu itemMenu = itemMenuController.buscarItemMenu(itemMenuId);
         
-        if (pedido != null && itemMenu != null) {
-            ItemsPedido nuevoItemPedido = new ItemsPedido(itemMenu, pedido, cantidad);
+        if (itemMenu != null && cantidad != 0) {
+            ItemsPedido nuevoItemPedido = new ItemsPedido(itemMenu, cantidad);
             itemPedidoDAO.crearItemPedido(nuevoItemPedido);
         } else {
             throw new DAOException("Pedido o ItemMenu no encontrado");
         }
     }
 
-    public void modificarItemPedido(int id, int pedidoId, int itemMenuId, int cantidad) throws DAOException {
+    public void modificarItemPedido(int id, int itemMenuId, int cantidad) throws DAOException {
         ItemsPedido itemPedidoExistente = itemPedidoDAO.buscarItemPedidoPorId(id);
         
         if (itemPedidoExistente != null) {
-            Pedido pedido = pedidoController.buscarPedido(pedidoId);
             ItemMenu itemMenu = itemMenuController.buscarItemMenu(itemMenuId);
 
-            if (pedido != null && itemMenu != null) {
-                itemPedidoExistente.setPedido(pedido);
+            if (itemMenu != null && cantidad != 0) {
                 itemPedidoExistente.setItemMenu(itemMenu);
                 itemPedidoExistente.setCantidad(cantidad);
                 
@@ -98,7 +95,16 @@ public class ItemsPedidoController {
             return null;
         }
     }
-
+    public ItemsPedido crearNuevoyRetornarItemPedido(int idItemMenu, int cantidad) throws DAOException{
+        ItemMenu itemSeleccionado = itemMenuController.buscarItemMenu(idItemMenu);
+        if (itemSeleccionado != null && cantidad != 0) {
+            ItemsPedido nuevoItemPedido = new ItemsPedido(itemSeleccionado, cantidad);
+            itemPedidoDAO.crearItemPedido(nuevoItemPedido);
+            return nuevoItemPedido;
+        } else {
+            throw new DAOException("Pedido o ItemMenu no encontrado");
+        }
+    }
     
     public Pedido buscarPedido(int idPedido) {
         try {

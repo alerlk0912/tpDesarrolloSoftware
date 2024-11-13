@@ -60,4 +60,13 @@ public class PedidoController {
                 .map(item -> item.getItemMenu().getNombre())
                 .collect(Collectors.joining(", "));
     }
+    public Double calcularTotalPedido(List<ItemsPedido> itemsPedido) {
+        double subtotal = itemsPedido.stream()
+                .mapToDouble(item -> item.getItemMenu().getPrecio() * item.getCantidad())
+                .sum();
+        return subtotal;
+    }
+    public Double calcularMontoTotal(Double montoBase, Pago metodoPago){
+        return metodoPago.calcularRecargo(montoBase);
+    }
 }

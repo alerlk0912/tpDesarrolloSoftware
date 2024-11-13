@@ -11,12 +11,15 @@ Tp\DS\Cliente\MenuCliente$4.class
 Tp\DS\ItemMenu\VentanaAsignarEliminarVendedorDeItemMenu$1.class
 Tp\DS\Pedido\MenuPedidos$5.class
 Tp\DS\Cliente\MenuCliente$1.class
+Tp\DS\Pedido\VentanaCrearItemPedido$1.class
+Tp\DS\Pedido\VentanaCrearItemPedido.class
 Tp\DS\Pedido\PedidoMemory.class
 Tp\DS\ItemMenu\MenuItemsMenu$2.class
 Tp\DS\MenuPrincipal\MenuPrincipal$4.class
 Tp\DS\Cliente\DAOCliente.class
 Tp\DS\ItemMenu\ItemMenuFactory.class
 Tp\DS\ItemMenu\VentanaAsignarEliminarVendedorDeItemMenu$6.class
+Tp\DS\Pedido\VentanaDeCreacionEdicionPedido$3.class
 Tp\DS\ItemMenu\ItemMenuController.class
 Tp\DS\ItemMenu\MenuItemsMenu$5.class
 Tp\DS\MetodoPago\DAOMetodoPago.class
@@ -30,6 +33,7 @@ Tp\DS\Pedido\VentanaDeCreacionEdicionPedido$2.class
 Tp\DS\Pedido\DAOPedido.class
 Tp\DS\Vendedor\MenuVendedor$8.class
 Tp\DS\BD\DatabaseConnection.class
+Tp\DS\Pedido\VentanaCrearItemPedido$4.class
 Tp\DS\MenuPrincipal\MenuPrincipal$2.class
 Tp\DS\Vendedor\VentanaDeCreacionEdicionVendedor$2.class
 Tp\DS\MenuPrincipal\MenuPrincipal.class
@@ -45,6 +49,7 @@ Tp\DS\Cliente\MenuCliente$6.class
 Tp\DS\MetodoPago\Efectivo.class
 Tp\DS\ItemMenu\MenuItemsMenu$9.class
 Tp\DS\Pedido\MenuPedidos$9.class
+Tp\DS\Pedido\VentanaCrearItemPedido$3.class
 Tp\DS\Cliente\ClienteMemory.class
 Tp\DS\ItemPedido\DAOItemsPedido.class
 Tp\DS\Exceptions\PedidoInvalidoException.class
@@ -64,7 +69,10 @@ Tp\DS\Pedido\MenuPedidos$10.class
 Tp\DS\Vendedor\VentanaDeCreacionEdicionVendedor.class
 Tp\DS\ItemPedido\ItemPedidoJDBC.class
 Tp\DS\MetodoPago\Pago.class
+Tp\DS\Pedido\VentanaDeCreacionEdicionPedido$4.class
+Tp\DS\Pedido\VentanaDeCreacionEdicionPedido$7.class
 Tp\DS\Cliente\Cliente.class
+Tp\DS\Pedido\VentanaCrearItemPedido$2.class
 Tp\DS\ItemMenu\MenuItemsMenu$1.class
 Tp\DS\ItemMenu\VentanaDeCreacionEdicionItemsMenu$4.class
 Tp\DS\MetodoPago\PagoMemory.class
@@ -95,16 +103,18 @@ Tp\DS\ItemMenu\DAOItemMenu.class
 Tp\DS\ItemPedido\ItemPedidoMemory.class
 Tp\DS\MetodoPago\FactoryPago.class
 Tp\DS\Exceptions\VendedorNoCoincideException.class
+Tp\DS\Pedido\VentanaCrearItemPedido$5.class
 Tp\DS\Vendedor\MenuVendedor$4.class
 Tp\DS\Vendedor\MenuVendedor$1.class
 Tp\DS\Cliente\MenuCliente$5.class
-Tp\DS\ItemMenu\VentanaDeCreacionEdicionItemsMenu$6.class
 Tp\DS\Exceptions\ItemNoEncontradoException.class
 Tp\DS\ItemMenu\MenuItemsMenu$6.class
 Tp\DS\Pedido\PedidoController.class
 Tp\DS\Cliente\MenuCliente$2.class
 Tp\DS\Cliente\VentanaDeCreacionEdicionCliente$1.class
 Tp\DS\ItemMenu\ItemMenu.class
+Tp\DS\Pedido\VentanaCrearItemPedido$7.class
+Tp\DS\Pedido\VentanaDeCreacionEdicionPedido$6.class
 Tp\DS\Vendedor\MenuVendedor$5.class
 Tp\DS\Pedido\MenuPedidos$12.class
 Tp\DS\Cliente\ClienteJDBC.class
@@ -116,6 +126,7 @@ Tp\DS\ItemMenu\MenuItemsMenu$7.class
 Tp\DS\MenuPrincipal\MenuPrincipal$5.class
 Tp\DS\Vendedor\VendedorController.class
 Tp\DS\Pedido\PedidoObserver.class
+Tp\DS\Pedido\VentanaCrearItemPedido$6.class
 Tp\DS\ItemMenu\VentanaDeCreacionEdicionItemsMenu$5.class
 Tp\DS\MetodoPago\Transferencia.class
 Tp\DS\Cliente\MenuCliente$3.class
@@ -126,5 +137,6 @@ Tp\DS\Vendedor\DAOVendedor.class
 Tp\DS\Vendedor\MenuVendedor$6.class
 Tp\DS\ItemMenu\MenuItemsMenu$11.class
 Tp\DS\Pedido\MenuPedidos$11.class
+Tp\DS\Pedido\VentanaDeCreacionEdicionPedido$5.class
 Tp\DS\Categoria\DAOCategoria.class
 Tp\DS\Pedido\MenuPedidos$6.class

@@ -9,9 +9,8 @@ public class ItemsPedido {
     private Pedido pedido;
     private int cantidad;
 
-    public ItemsPedido( ItemMenu itemMenu, Pedido pedido, int cantidad) {
+    public ItemsPedido( ItemMenu itemMenu, int cantidad) {
         this.itemMenu = itemMenu;
-        this.pedido = pedido;
         this.cantidad = cantidad;
     }
 

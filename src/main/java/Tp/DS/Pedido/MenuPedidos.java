@@ -562,21 +562,21 @@ public class MenuPedidos extends javax.swing.JFrame {
             int pedidoId = (int) model.getValueAt(filaSeleccionada, 0);
             Pedido pedido = pedidoController.buscarPedido(pedidoId);
             if (pedido != null) {
-            VentanaDeCreacionEdicionPedido nuevaVentana = new VentanaDeCreacionEdicionPedido(pedidoController);
-            nuevaVentana.recibirDatosEdicion(filaSeleccionada, pedido); // pasa el objeto Pedido 
-            nuevaVentana.setMenuPedido(this);
-            nuevaVentana.setVisible(true);
-            nuevaVentana.setLocationRelativeTo(null);
-            nuevaVentana.setTitulo();
-            nuevaVentana.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosed(java.awt.event.WindowEvent windowEvent) {
-                        cargarTablaPedidos(); // actualizar tabla tras edición
-                    }
-                });
-        } else {
-            JOptionPane.showMessageDialog(null, "No se encontró el pedido para editar.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+                VentanaDeCreacionEdicionPedido nuevaVentana = new VentanaDeCreacionEdicionPedido(pedidoController);
+                nuevaVentana.recibirDatosEdicion(filaSeleccionada, pedido); // pasa el objeto Pedido 
+                nuevaVentana.setMenuPedido(this);
+                nuevaVentana.setVisible(true);
+                nuevaVentana.setLocationRelativeTo(null);
+                nuevaVentana.setTitulo();
+                nuevaVentana.addWindowListener(new java.awt.event.WindowAdapter() {
+                        @Override
+                        public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                            cargarTablaPedidos(); // actualizar tabla tras edición
+                        }
+                    });
+            } else {
+                JOptionPane.showMessageDialog(null, "No se encontró el pedido para editar.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
         else {
             JOptionPane.showMessageDialog(null, "Por favor selecciona una fila para editar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
