@@ -65,7 +65,7 @@ public class VentanaDeCreacionEdicionPedido extends javax.swing.JFrame {
         this.filaSeleccionada = filaSeleccionada;
         this.pedidoActual = pedido;
         if (!pedidoActual.getItemsPedido().isEmpty()) {
-            Vendedor vendedorItem = pedidoActual.getItemsPedido().getFirst().getItemMenu().getVendedor();
+            Vendedor vendedorItem = pedidoActual.getItemsPedido().get(0).getItemMenu().getVendedor();
             campoVendedorSeleccionado.setText(vendedorItem.getNombre());
         }
         itemsAsignados = pedidoActual.getItemsPedido();

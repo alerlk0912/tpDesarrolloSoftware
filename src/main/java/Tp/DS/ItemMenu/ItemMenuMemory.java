@@ -2,9 +2,11 @@ package Tp.DS.ItemMenu;
 
 import Tp.DS.Exceptions.DAOException;
 import Tp.DS.ItemMenu.DAOItemMenu;
+import Tp.DS.Vendedor.Vendedor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ItemMenuMemory implements DAOItemMenu {
     private List<ItemMenu> itemsMenu = new ArrayList<>();
@@ -56,5 +58,15 @@ public class ItemMenuMemory implements DAOItemMenu {
         return itemsMenu.stream()
             .filter(i -> i.getId() == id)
             .findFirst().orElse(null);
+    }
+    @Override
+    public List<ItemMenu> buscarItemsPorCriterios(int id, String nombre, double precio, String categoria, Vendedor vendedor) throws DAOException {
+        return itemsMenu.stream()
+            .filter(item -> (id == 0 || item.getId() == id))
+            .filter(item -> (nombre == null || nombre.isEmpty() || item.getNombre().toLowerCase().contains(nombre.toLowerCase())))
+            .filter(item -> (precio == 0.0 || item.getPrecio() == precio))
+            .filter(item -> (categoria == null || categoria.isEmpty() || item.getCategoria().getTipo_item().equalsIgnoreCase(categoria)))
+            .filter(item -> (vendedor == null || item.getVendedor().equals(vendedor)))
+            .collect(Collectors.toList());
     }
 }

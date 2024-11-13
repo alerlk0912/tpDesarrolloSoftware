@@ -177,4 +177,9 @@ public class ItemMenuJDBC implements DAOItemMenu {
             pstmt.setBoolean(10, bebida.isBebidaAlcoholica());
         }
     }
+
+    @Override
+    public List<ItemMenu> buscarItemsPorCriterios(int id, String nombre, double precio, String categoria, Vendedor vendedor) throws DAOException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

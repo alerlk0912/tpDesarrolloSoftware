@@ -101,4 +101,8 @@ public class ItemMenuController {
 
         return itemsPorVendedor;
     }
+    
+    public List<ItemMenu> buscarItemsPorCriterios(int id, String nombre, double precio, String categoria, Vendedor vendedor) throws DAOException {
+        return itemMenuDAO.buscarItemsPorCriterios(id, nombre, precio, categoria, vendedor);
+    }
 }
