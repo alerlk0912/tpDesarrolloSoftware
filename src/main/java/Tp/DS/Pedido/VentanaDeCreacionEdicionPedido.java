@@ -459,7 +459,7 @@ public class VentanaDeCreacionEdicionPedido extends javax.swing.JFrame {
                 && itemsAsignados != null && !itemsAsignados.isEmpty() && clienteSeleccionado != null) {
 
             // Obtención del método de pago seleccionado y creación del pago correspondiente
-            String metodoPagoSeleccionado = comboBoxMetodoDePago.getSelectedItem().toString();
+            String metodoPagoSeleccionado = comboBoxMetodoDePago.getSelectedItem().toString().toLowerCase();
             Pago pagoPedido = FactoryPago.crearPago(metodoPagoSeleccionado, campoMetodoPago1.getText(), campoMetodoPago2.getText());
 
             // Verifica si es una creación de nuevo pedido o edición de uno existente

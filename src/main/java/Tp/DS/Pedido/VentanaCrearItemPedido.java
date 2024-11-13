@@ -564,7 +564,7 @@ public class VentanaCrearItemPedido extends javax.swing.JFrame {
                         item.getId(),
                         item.getNombre(),
                         item.getPrecio(),
-                        item.getCategoria()
+                        item.getCategoria().getTipo_item()
                     }
                     );
                 }   
