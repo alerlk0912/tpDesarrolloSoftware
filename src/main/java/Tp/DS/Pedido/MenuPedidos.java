@@ -354,7 +354,7 @@ public class MenuPedidos extends javax.swing.JFrame {
         comboBoxMetodoDePago.setBackground(new java.awt.Color(123, 36, 28));
         comboBoxMetodoDePago.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         comboBoxMetodoDePago.setForeground(new java.awt.Color(255, 255, 255));
-        comboBoxMetodoDePago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "EFECTIVO", "MERCADO PAGO" }));
+        comboBoxMetodoDePago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "EFECTIVO", "MERCADO PAGO", "TRANSFERENCIA" }));
 
         comboBoxEstadoPedido.setBackground(new java.awt.Color(123, 36, 28));
         comboBoxEstadoPedido.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N

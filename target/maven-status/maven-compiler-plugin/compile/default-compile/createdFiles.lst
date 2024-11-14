@@ -33,6 +33,7 @@ Tp\DS\Pedido\VentanaDeCreacionEdicionPedido$2.class
 Tp\DS\Pedido\DAOPedido.class
 Tp\DS\Vendedor\MenuVendedor$8.class
 Tp\DS\BD\DatabaseConnection.class
+Tp\DS\ModeSelection.class
 Tp\DS\Pedido\VentanaCrearItemPedido$4.class
 Tp\DS\MenuPrincipal\MenuPrincipal$2.class
 Tp\DS\Vendedor\VentanaDeCreacionEdicionVendedor$2.class
@@ -141,3 +142,4 @@ Tp\DS\Pedido\MenuPedidos$11.class
 Tp\DS\Pedido\VentanaDeCreacionEdicionPedido$5.class
 Tp\DS\Categoria\DAOCategoria.class
 Tp\DS\Pedido\MenuPedidos$6.class
+Tp\DS\PantallaIntro.class

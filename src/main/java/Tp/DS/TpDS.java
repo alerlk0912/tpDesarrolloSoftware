@@ -1,5 +1,6 @@
 package Tp.DS;
 
+import Tp.DS.BD.DatabaseConnection;
 import Tp.DS.Categoria.Categoria;
 import Tp.DS.Cliente.*;
 import Tp.DS.Coordenada.Coordenada;
@@ -12,21 +13,35 @@ import Tp.DS.Pedido.*;
 import Tp.DS.MenuPrincipal.MenuPrincipal;
 import Tp.DS.MetodoPago.*;
 import Tp.DS.Vendedor.*;
+import javax.swing.*;
 
 public class TpDS {
-    
+    private static boolean useJDBC = false;
+
     public static void main(String[] args) throws VendedorNoCoincideException, PedidoInvalidoException, DAOException {
-        prueba();
-        pantallas();
-        //casoPruebaParte5();
+        // Llama a la pantalla de inicio de sesión
+        new PantallaIntro().setOnModeSelected(modeSelection -> inicializar(modeSelection));
     }
-    
-    public static void pantallas() {
-        MenuPrincipal menuPrincipal = new MenuPrincipal();
-        menuPrincipal.setVisible(true);
-        menuPrincipal.setLocationRelativeTo(null);
+
+    private static void inicializar(ModeSelection modeSelection)  {
+        useJDBC = modeSelection.useJDBC;
+        
+        try {
+            if (useJDBC) {
+                DatabaseConnection.setCredentials(modeSelection.username, modeSelection.password);
+                testJDBC();
+            } else {
+                testMemory();
+            }
+
+            pantallas();
+
+        } catch (DAOException ex) {
+            System.err.println("Error: " + ex.getMessage());
+        }
     }
-    public static void prueba () throws VendedorNoCoincideException, DAOException{
+
+    private static void testJDBC() throws DAOException {
         DAOItemMenu itemMenuDAO = ItemMenuMemory.getInstance();
         DAOVendedor vendedorDAO = VendedorMemory.getInstance();
         DAOCliente clienteDAO = ClienteMemory.getInstance();
@@ -34,10 +49,67 @@ public class TpDS {
         ItemMenuController itemMenuController = ItemMenuController.getInstance(itemMenuDAO);
         VendedorController vendedorController = VendedorController.getInstance(vendedorDAO);
         ClienteController clienteController = ClienteController.getInstance(clienteDAO);
+
         vendedorController.cargarVendedores();
         clienteController.cargarClientes();
         itemMenuController.cargarItemsMenu();
     }
+
+    private static void testMemory() throws DAOException {
+        DAOItemMenu itemMenuDAO = ItemMenuMemory.getInstance();
+        DAOVendedor vendedorDAO = VendedorMemory.getInstance();
+        DAOCliente clienteDAO = ClienteMemory.getInstance();
+
+        ItemMenuController itemMenuController = ItemMenuController.getInstance(itemMenuDAO);
+        VendedorController vendedorController = VendedorController.getInstance(vendedorDAO);
+        ClienteController clienteController = ClienteController.getInstance(clienteDAO);
+
+        vendedorController.cargarVendedores();
+        clienteController.cargarClientes();
+        itemMenuController.cargarItemsMenu();
+    }
+
+    public static void pantallas() {
+        MenuPrincipal menuPrincipal = new MenuPrincipal();
+        menuPrincipal.setVisible(true);
+        menuPrincipal.setLocationRelativeTo(null);
+    }
+
+//    private static void testJDBC() throws DAOException {
+//        ItemMenuJDBC itemMenuDAO = new DAOItemMenu(jdbcUsername, jdbcPassword);
+//        VendedorJDBC vendedorDAO = new DAOVendedor(jdbcUsername, jdbcPassword);
+//        ClienteJDBC clienteDAO = new DAOCliente(jdbcUsername, jdbcPassword);
+//        
+//        ItemMenuController itemMenuController = ItemMenuController.getInstance(itemMenuDAO);
+//        VendedorController vendedorController = VendedorController.getInstance(vendedorDAO);
+//        ClienteController clienteController = ClienteController.getInstance(clienteDAO);
+//        
+//        vendedorController.cargarVendedores();
+//        clienteController.cargarClientes();
+//        itemMenuController.cargarItemsMenu();
+//    }
+//
+//    private static void testMemory() throws DAOException {
+//        DAOItemMenu itemMenuDAO = ItemMenuMemory.getInstance();
+//        DAOVendedor vendedorDAO = VendedorMemory.getInstance();
+//        DAOCliente clienteDAO = ClienteMemory.getInstance();
+//        DAOItemsPedido itemPedidoDAO = ItemPedidoMemory.getInstance();
+//        DAOPedido pedidoDAO = PedidoMemory.getInstance();
+//        
+//        ItemMenuController itemMenuController = ItemMenuController.getInstance(itemMenuDAO);
+//        VendedorController vendedorController = VendedorController.getInstance(vendedorDAO);
+//        ClienteController clienteController = ClienteController.getInstance(clienteDAO);
+//        ItemsPedidoController itemPedidoController = ItemsPedidoController.getInstance(itemPedidoDAO);
+//        PedidoController pedidoController = PedidoController.getInstance(pedidoDAO);
+//        
+//        
+//        vendedorController.cargarVendedores();
+//        clienteController.cargarClientes();
+//        itemMenuController.cargarItemsMenu();
+//    }
+    
+    
+    
     
     public static void casoPruebaParte5() throws VendedorNoCoincideException, PedidoInvalidoException {
        
