@@ -13,7 +13,7 @@ public class DatabaseConnection {
 
     public static Connection getInstance() throws SQLException {
         if (connection == null || connection.isClosed()) {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tpds", "usuario", "contraseña");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tpds", "root", "AmD6Kk3ASlaLdQsa1");
         }
         return connection;
     }

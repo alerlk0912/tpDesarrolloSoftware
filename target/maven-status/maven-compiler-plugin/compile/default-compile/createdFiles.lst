@@ -10,6 +10,7 @@ Tp\DS\Vendedor\MenuVendedor$11.class
 Tp\DS\Cliente\MenuCliente$4.class
 Tp\DS\ItemMenu\VentanaAsignarEliminarVendedorDeItemMenu$1.class
 Tp\DS\Pedido\MenuPedidos$5.class
+Tp\DS\Pedido\VentanaCrearItemPedido$9.class
 Tp\DS\Cliente\MenuCliente$1.class
 Tp\DS\Pedido\VentanaCrearItemPedido$1.class
 Tp\DS\Pedido\VentanaCrearItemPedido.class
@@ -94,6 +95,7 @@ Tp\DS\Pedido\MenuPedidos$7.class
 Tp\DS\ItemMenu\VentanaDeCreacionEdicionItemsMenu.class
 Tp\DS\Cliente\ClienteController.class
 Tp\DS\Pedido\PedidoObservable.class
+Tp\DS\Pedido\VentanaCrearItemPedido$8.class
 Tp\DS\Cliente\MenuCliente$8.class
 Tp\DS\Cliente\VentanaDeCreacionEdicionCliente$ClienteListener.class
 Tp\DS\Cliente\MenuCliente.class
