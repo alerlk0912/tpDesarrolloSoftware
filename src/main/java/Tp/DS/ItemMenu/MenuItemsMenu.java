@@ -378,7 +378,7 @@ public class MenuItemsMenu extends javax.swing.JFrame {
 
     private void botonCrearItemsMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearItemsMenuActionPerformed
         VentanaDeCreacionEdicionItemsMenu nuevaVentana = new VentanaDeCreacionEdicionItemsMenu(itemMenuController, vendedorController);
-        nuevaVentana.setItemsMenu(this);
+        //nuevaVentana.setItemsMenu(this);
         nuevaVentana.setVisible(true);
         nuevaVentana.setLocationRelativeTo(null);
         nuevaVentana.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -415,7 +415,7 @@ public class MenuItemsMenu extends javax.swing.JFrame {
                 int id = (int) model.getValueAt(filaSeleccionada, 0);
                 ItemMenu item = itemMenuController.buscarItemMenu(id);
                 VentanaDeCreacionEdicionItemsMenu nuevaVentana = new VentanaDeCreacionEdicionItemsMenu(itemMenuController, vendedorController);
-                nuevaVentana.setItemsMenu(this);
+                //nuevaVentana.setItemsMenu(this);
                 nuevaVentana.setVisible(true);
                 nuevaVentana.setLocationRelativeTo(null);
                 nuevaVentana.recibirDatosEdicion(filaSeleccionada, item);

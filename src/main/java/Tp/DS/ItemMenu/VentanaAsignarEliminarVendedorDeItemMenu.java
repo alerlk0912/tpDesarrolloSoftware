@@ -305,6 +305,7 @@ public class VentanaAsignarEliminarVendedorDeItemMenu extends javax.swing.JFrame
         } else {
             JOptionPane.showMessageDialog(this, "No hay ningún ItemMenu seleccionado.");
         }
+        actualizarTablaVendedoresAsociados(itemMenuSeleccionado);
     }//GEN-LAST:event_botonDesasignarVendedorActionPerformed
 
     private void botonVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonVolverActionPerformed
@@ -335,6 +336,7 @@ public class VentanaAsignarEliminarVendedorDeItemMenu extends javax.swing.JFrame
         } else {
             JOptionPane.showMessageDialog(this, "Por favor, seleccione un vendedor.");
         }
+        actualizarTablaVendedoresAsociados(itemMenuSeleccionado);
     }//GEN-LAST:event_botonAsignarVendedorActionPerformed
 
     private void botonBuscarVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarVendedorActionPerformed
@@ -379,22 +381,22 @@ public class VentanaAsignarEliminarVendedorDeItemMenu extends javax.swing.JFrame
         return vendedorSeleccionado;
     }
 	
-	private void cargarVendedorAsociadosEnTabla(){
-        DefaultTableModel model = (DefaultTableModel) tablaVendedoresAsociadas.getModel();
-        if(itemMenuSeleccionado != null){
-            Vendedor vendedorItem = itemMenuSeleccionado.getVendedor();
-            if(vendedorItem != null){
-            model.addRow(new Object[]{
-                    vendedorItem.getId(),
-                    vendedorItem.getNombre(),
-                    vendedorItem.getDireccion(),
-                    vendedorItem.getCoordenadas().getLat() + ", " + vendedorItem.getCoordenadas().getLng()
-                });
-            } else {
-                JOptionPane.showMessageDialog(this, "No hay ningún Vendedor asignado al ItemMenu.");
-            }
+    private void cargarVendedorAsociadosEnTabla(){
+    DefaultTableModel model = (DefaultTableModel) tablaVendedoresAsociadas.getModel();
+    if(itemMenuSeleccionado != null){
+        Vendedor vendedorItem = itemMenuSeleccionado.getVendedor();
+        if(vendedorItem != null){
+        model.addRow(new Object[]{
+                vendedorItem.getId(),
+                vendedorItem.getNombre(),
+                vendedorItem.getDireccion(),
+                vendedorItem.getCoordenadas().getLat() + ", " + vendedorItem.getCoordenadas().getLng()
+            });
+        } else {
+            JOptionPane.showMessageDialog(this, "No hay ningún Vendedor asignado al ItemMenu.");
         }
     }
+}
     
     private void cargarVendedoresEnTabla() {
         DefaultTableModel model = (DefaultTableModel) tablaVendedor.getModel();
@@ -409,6 +411,25 @@ public class VentanaAsignarEliminarVendedorDeItemMenu extends javax.swing.JFrame
                 vendedor.getCoordenadas().getLat() + ", " + vendedor.getCoordenadas().getLng()
             });
         }
+    }
+    
+    private void actualizarTablaVendedoresAsociados(ItemMenu itemMenu) {
+        DefaultTableModel model = (DefaultTableModel) tablaVendedoresAsociadas.getModel();
+        model.setRowCount(0);
+
+        Vendedor vendedor = itemMenu.getVendedor();
+        if (vendedor != null) {
+            model.addRow(new Object[]{
+                vendedor.getId(),
+                vendedor.getNombre(),
+                vendedor.getDireccion(),
+                vendedor.getCoordenadas().getLat() + ", " + vendedor.getCoordenadas().getLng()
+            });
+        }
+
+        model.fireTableDataChanged();
+        tablaVendedoresAsociadas.revalidate();
+        tablaVendedoresAsociadas.repaint();
     }
     
     public void setPantallaAgregarDesagregarVendedor(VentanaDeCreacionEdicionItemsMenu ventanaCreacion) {
