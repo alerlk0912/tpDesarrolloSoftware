@@ -63,7 +63,6 @@ public class MenuPedidos extends javax.swing.JFrame {
         botonCliente = new javax.swing.JButton();
         botonPedidos = new javax.swing.JButton();
         botonItemsMenu = new javax.swing.JButton();
-        texto1 = new javax.swing.JLabel();
         botonVolver = new javax.swing.JButton();
         buscarPedido = new javax.swing.JButton();
         botonEditarPedido = new javax.swing.JButton();
@@ -85,6 +84,7 @@ public class MenuPedidos extends javax.swing.JFrame {
         campoMontoTotal = new javax.swing.JTextField();
         comboBoxMetodoDePago = new javax.swing.JComboBox<>();
         comboBoxEstadoPedido = new javax.swing.JComboBox<>();
+        Logo = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -147,10 +147,6 @@ public class MenuPedidos extends javax.swing.JFrame {
                 botonItemsMenuActionPerformed(evt);
             }
         });
-
-        texto1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        texto1.setEnabled(false);
-        texto1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         botonVolver.setBackground(new java.awt.Color(123, 36, 28));
         botonVolver.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
@@ -322,6 +318,9 @@ public class MenuPedidos extends javax.swing.JFrame {
         comboBoxEstadoPedido.setForeground(new java.awt.Color(255, 255, 255));
         comboBoxEstadoPedido.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "RECIBIDO", "EN PREPARACIÓN", "EN ENVIO", "ENTREGADO" }));
 
+        Logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logo.jpg"))); // NOI18N
+        Logo.setText("jLabel");
+
         javax.swing.GroupLayout PanelLayout = new javax.swing.GroupLayout(Panel);
         Panel.setLayout(PanelLayout);
         PanelLayout.setHorizontalGroup(
@@ -376,23 +375,23 @@ public class MenuPedidos extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(comboBoxEstadoPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addGroup(PanelLayout.createSequentialGroup()
-                        .addGap(130, 130, 130)
-                        .addComponent(texto1, javax.swing.GroupLayout.PREFERRED_SIZE, 625, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(PanelLayout.createSequentialGroup()
                         .addGap(158, 158, 158)
                         .addComponent(botonEditarPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(botonCrearPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(botonEliminarPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(31, 31, Short.MAX_VALUE))
+                        .addComponent(botonEliminarPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PanelLayout.createSequentialGroup()
+                        .addGap(118, 118, 118)
+                        .addComponent(Logo, javax.swing.GroupLayout.PREFERRED_SIZE, 639, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         PanelLayout.setVerticalGroup(
             PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(texto1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
+                .addComponent(Logo, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -478,43 +477,6 @@ public class MenuPedidos extends javax.swing.JFrame {
     }//GEN-LAST:event_botonVolverActionPerformed
 
     private void buscarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarPedidoActionPerformed
-        /**String clienteBuscado = campoCliente.getText().trim().toLowerCase();
-        String itemsPedidoBuscado = campoItemsPedido.getText().trim().toLowerCase();
-        String metodoDePagoBuscado = comboBoxMetodoDePago.getSelectedItem() != null ? comboBoxMetodoDePago.getSelectedItem().toString() : "";
-        String estadoPedidoBuscado = comboBoxEstadoPedido.getSelectedItem() != null ? comboBoxEstadoPedido.getSelectedItem().toString() : "";
-        String montoBaseBuscado = campoMontoBase.getText().trim();
-        String fechaDePagoBuscado = campoFechaDePago.getText().trim();
-        String montoTotalBuscado = campoMontoTotal.getText().trim();
-        model.setRowCount(0);
-        boolean encontrado = false;
-        List<Pedido> listaPedidos = pedidoController.mostrarListaPedidos();
-        for (Pedido pedido : listaPedidos) {
-            
-            String nombresItems = pedidoController.obtenerNombresItems(pedido);
-            String fechaPagoFormateada = pedido.getFechaPago() != null ? dateFormat.format(pedido.getFechaPago()) : "";
-
-            if ((clienteBuscado.isEmpty() || pedido.getCliente().getNombre().contains(clienteBuscado.toLowerCase())) 
-                        && (itemsPedidoBuscado.isEmpty() || nombresItems.toLowerCase().contains(itemsPedidoBuscado.toLowerCase())) 
-                        && (metodoDePagoBuscado.isEmpty() || pedido.getMetodoPago().getClass().getSimpleName().equalsIgnoreCase(metodoDePagoBuscado)) 
-                        && (estadoPedidoBuscado.isEmpty() || pedido.getEstado().toString().equalsIgnoreCase(estadoPedidoBuscado)) 
-                        && (montoBaseBuscado.isEmpty() || Double.toString(pedido.getMontoBase()).equals(montoBaseBuscado)) 
-                        && (fechaDePagoBuscado.isEmpty() || (fechaPagoFormateada.equals(fechaDePagoBuscado))) 
-                        && (montoTotalBuscado.isEmpty() || Double.toString(pedido.getMontoTotal()).equals(montoTotalBuscado))) {
-                encontrado = true;
-                model.addRow(new Object[]{
-                    pedido.getId(),
-                    pedido.getCliente().getNombre(),
-                    nombresItems,  
-                    pedido.getMetodoPago().getClass().getSimpleName(),
-                    pedido.getEstado().toString(),
-                    pedido.getMontoBase(),
-                    fechaPagoFormateada,
-                    pedido.getMontoTotal()});
-            }
-        }
-        if (!encontrado) {
-            JOptionPane.showMessageDialog(null, "No se encontró ningún pedido con esos parámetros.", "Búsqueda", JOptionPane.INFORMATION_MESSAGE);
-        }*/                                                                                     
         String clienteBuscado = campoCliente.getText().trim().toLowerCase();
         String itemsPedidoBuscado = campoItemsPedido.getText().trim().toLowerCase();
         String metodoDePagoBuscado = comboBoxMetodoDePago.getSelectedItem() != null ? 
@@ -661,6 +623,7 @@ public class MenuPedidos extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Logo;
     private javax.swing.JPanel Panel;
     private javax.swing.JButton botonCliente;
     private javax.swing.JButton botonCrearPedido;
@@ -681,7 +644,6 @@ public class MenuPedidos extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane scrollTablaPedido;
     private javax.swing.JTable tablaPedido;
-    private javax.swing.JLabel texto1;
     private javax.swing.JLabel textoCliente;
     private javax.swing.JLabel textoEstadoPedido;
     private javax.swing.JLabel textoFechaDePago;
