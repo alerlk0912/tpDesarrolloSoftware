@@ -632,8 +632,4 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
     private javax.swing.JLabel titFechaDePago;
     private javax.swing.JLabel tituloPrincipal;
     // End of variables declaration//GEN-END:variables
-
-    void setItemsMenu(MenuItemsMenu aThis) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }
