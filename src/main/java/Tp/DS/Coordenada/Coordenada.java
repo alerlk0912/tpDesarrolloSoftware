@@ -5,6 +5,12 @@ public class Coordenada {
     private double lat;
     private double lng;
 
+    public Coordenada(int id, double lat, double lng) {
+        this.id = id;
+        this.lat = lat;
+        this.lng = lng;
+    }
+    
     public Coordenada(double lat, double lng) {
         this.lat = lat;
         this.lng = lng;

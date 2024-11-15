@@ -19,7 +19,6 @@ public class TpDS {
 
     private static void inicializar(ModeSelection modeSelection)  {
         useJDBC = modeSelection.useJDBC;
-        
         try {
             if (useJDBC) {
                 DatabaseConnection.setCredentials(modeSelection.username, modeSelection.password);
@@ -36,17 +35,12 @@ public class TpDS {
     }
 
     private static void testJDBC() throws DAOException {
-        DAOItemMenu itemMenuDAO = ItemMenuMemory.getInstance();
-        DAOVendedor vendedorDAO = VendedorMemory.getInstance();
-        DAOCliente clienteDAO = ClienteMemory.getInstance();
-
-        ItemMenuController itemMenuController = ItemMenuController.getInstance(itemMenuDAO);
+        DAOVendedor vendedorDAO = new VendedorJDBC();
         VendedorController vendedorController = VendedorController.getInstance(vendedorDAO);
+        
+        DAOCliente clienteDAO = new ClienteJDBC();
         ClienteController clienteController = ClienteController.getInstance(clienteDAO);
-
-        vendedorController.cargarVendedores();
-        clienteController.cargarClientes();
-        itemMenuController.cargarItemsMenu();
+        
     }
 
     private static void testMemory() throws DAOException {

@@ -9,7 +9,7 @@ import java.util.List;
 public class ClienteJDBC implements DAOCliente {
     private Connection connection;
     
-    private ClienteJDBC() {
+    public ClienteJDBC() {
         try {
             connection = DatabaseConnection.getInstance();
         } catch (SQLException e) {

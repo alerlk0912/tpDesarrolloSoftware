@@ -8,7 +8,7 @@ import java.util.List;
 public class CoordenadaJDBC implements DAOCoordenada {
 private static Connection connection;
 
-    private CoordenadaJDBC() {
+    public CoordenadaJDBC() {
         try {
             connection = DatabaseConnection.getInstance();
         } catch (SQLException e) {
@@ -61,7 +61,7 @@ private static Connection connection;
 
     @Override
     public void actualizarCoordenada(Coordenada coordenada) {
-        String sql = "UPDATE coordenadas SET latitud = ?, longitud = ? WHERE id = ?";
+        String sql = "UPDATE coordenada SET Lat = ?, Lng = ? WHERE ID_Coordenada = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setDouble(1, coordenada.getLat());
             pstmt.setDouble(2, coordenada.getLng());
@@ -74,12 +74,17 @@ private static Connection connection;
 
     @Override
     public void eliminarCoordenada(int id) {
-        String sql = "DELETE FROM coordenadas WHERE id = ?";
-        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setInt(1, id);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            System.err.println("Error al eliminar coordenada: " + e.getMessage());
+        String sqlCoordenada = "DELETE FROM coordenada WHERE ID_Coordenada = ?";        
+        try (PreparedStatement stmtCoordenada = connection.prepareStatement(sqlCoordenada)) {
+            stmtCoordenada.setInt(1, id);
+            int rowsAffected = stmtCoordenada.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Coordenada asociada al Vendedor con ID " + id + " eliminada correctamente.");
+            } else {
+                System.out.println("No se encontró coordenada asociada al Vendedor con ID " + id + ".");
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error al eliminar la coordenada: " + ex.getMessage());
         }
     }
 

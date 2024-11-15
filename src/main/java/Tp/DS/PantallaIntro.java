@@ -33,6 +33,7 @@ public class PantallaIntro {
         JPanel panelUsername = new JPanel(new FlowLayout());
         panelUsername.add(new JLabel("Usuario:"));
         txtUsername = new JTextField(15);
+        txtUsername.setText("root");
         panelUsername.add(txtUsername);
         frame.add(panelUsername);
 
@@ -65,12 +66,12 @@ public class PantallaIntro {
         String usuario = txtUsername.getText().trim();
         String password = new String(txtPassword.getPassword()).trim();
 
-        if (usuario.isEmpty() || password.isEmpty()) {
+        if (usuario.isEmpty()) {
             JOptionPane.showMessageDialog(frame, "Usuario y/o contraseña no pueden estar vacíos.", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
-        if (!usuario.equals("root") || !password.equals("AmD6Kk3ASlaLdQsa1")) {
+        if (!usuario.equals("root") || !password.equals("")) {
             JOptionPane.showMessageDialog(frame, "Credenciales incorrectas.", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }

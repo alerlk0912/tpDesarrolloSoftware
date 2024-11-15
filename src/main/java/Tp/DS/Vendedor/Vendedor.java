@@ -17,6 +17,14 @@ public class Vendedor {
     private Coordenada coordenadas;
     private List<ItemMenu> menu;
 
+    public Vendedor(int id, String nombre, String direccion, Coordenada coordenadas) {
+        this.id = id;
+        this.nombre = nombre;
+        this.direccion = direccion;
+        this.coordenadas = coordenadas;
+        this.menu = new ArrayList<>();
+    }
+    
     public Vendedor(String nombre, String direccion, Coordenada coordenadas) {
         this.nombre = nombre;
         this.direccion = direccion;

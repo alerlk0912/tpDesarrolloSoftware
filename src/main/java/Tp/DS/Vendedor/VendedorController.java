@@ -1,6 +1,6 @@
 package Tp.DS.Vendedor;
 
-import Tp.DS.Coordenada.Coordenada;
+import Tp.DS.Coordenada.*;
 import java.util.List;
 
 public class VendedorController {
@@ -34,10 +34,11 @@ public class VendedorController {
 
     public void modificarVendedor(int id, String nombre, String direccion, Coordenada coordenadas) {
         Vendedor vendedor = vendedorDAO.buscarVendedorPorId(id);
+        Coordenada cr = new Coordenada(vendedor.getCoordenadas().getId(), coordenadas.getLat(), coordenadas.getLng());
         if (vendedor != null) {
             vendedor.setNombre(nombre);
             vendedor.setDireccion(direccion);
-            vendedor.setCoordenadas(coordenadas);
+            vendedor.setCoordenadas(cr);
             vendedorDAO.actualizarVendedor(vendedor);
         }
     }
@@ -57,6 +58,5 @@ public class VendedorController {
         crearNuevoVendedor("Restaurante E", "Calle 202", new Coordenada(-34.6180, -58.4350));
         crearNuevoVendedor("Restaurante F", "Calle 303", new Coordenada(-34.6201, -58.3701));
         crearNuevoVendedor("Restaurante G", "Calle 404", new Coordenada(-34.6081, -58.3846));
-        
     }
 }
