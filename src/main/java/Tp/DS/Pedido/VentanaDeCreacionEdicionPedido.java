@@ -31,6 +31,10 @@ public class VentanaDeCreacionEdicionPedido extends javax.swing.JFrame {
     public VentanaDeCreacionEdicionPedido(PedidoController pedidoController) {
         this.pedidoController = pedidoController;
         initComponents();
+        textMetodoPago1.setVisible(false);
+        textMetodoPago2.setVisible(false);
+        campoMetodoPago1.setVisible(false);
+        campoMetodoPago2.setVisible(false);
         cargarClientesAsociadosEnTabla();
     }
     
@@ -151,7 +155,6 @@ public class VentanaDeCreacionEdicionPedido extends javax.swing.JFrame {
 
         PanelClientes.setBackground(new java.awt.Color(69, 69, 69));
 
-        TablaClientes.setForeground(new java.awt.Color(255, 255, 255));
         TablaClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -268,6 +271,7 @@ public class VentanaDeCreacionEdicionPedido extends javax.swing.JFrame {
         campoMetodoPago1.setBackground(new java.awt.Color(123, 36, 28));
         campoMetodoPago1.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         campoMetodoPago1.setForeground(new java.awt.Color(255, 255, 255));
+        campoMetodoPago1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         textMetodoPago2.setBackground(new java.awt.Color(123, 35, 27));
         textMetodoPago2.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
@@ -281,6 +285,7 @@ public class VentanaDeCreacionEdicionPedido extends javax.swing.JFrame {
         campoMetodoPago2.setBackground(new java.awt.Color(123, 36, 28));
         campoMetodoPago2.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         campoMetodoPago2.setForeground(new java.awt.Color(255, 255, 255));
+        campoMetodoPago2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         javax.swing.GroupLayout PanelPagoLayout = new javax.swing.GroupLayout(PanelPago);
         PanelPago.setLayout(PanelPagoLayout);
@@ -290,7 +295,7 @@ public class VentanaDeCreacionEdicionPedido extends javax.swing.JFrame {
                 .addGroup(PanelPagoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(PanelPagoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(campoMetodoPago1)
-                        .addComponent(textMetodoPago1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(textMetodoPago1, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE))
                     .addGroup(PanelPagoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(titMetodoDePago, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(comboBoxMetodoDePago, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -304,7 +309,7 @@ public class VentanaDeCreacionEdicionPedido extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(PanelPagoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(textMetodoPago2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(campoMetodoPago2, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(campoMetodoPago2, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         PanelPagoLayout.setVerticalGroup(
@@ -375,32 +380,29 @@ public class VentanaDeCreacionEdicionPedido extends javax.swing.JFrame {
         PanelFinalLayout.setHorizontalGroup(
             PanelFinalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelFinalLayout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addComponent(botonAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
+                .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelFinalLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(PanelFinalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PanelFinalLayout.createSequentialGroup()
-                        .addGap(92, 92, 92)
-                        .addGroup(PanelFinalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(titMontoTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(campoMontoTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(PanelFinalLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(botonAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                    .addComponent(campoMontoTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(titMontoTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(95, 95, 95))
         );
         PanelFinalLayout.setVerticalGroup(
             PanelFinalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelFinalLayout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(titMontoTotal)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(1, 1, 1)
                 .addComponent(campoMontoTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(PanelFinalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(7, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panelEditableLayout = new javax.swing.GroupLayout(panelEditable);
@@ -428,7 +430,7 @@ public class VentanaDeCreacionEdicionPedido extends javax.swing.JFrame {
                 .addGroup(panelEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(PanelClientes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(PanelPago, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(PanelFinal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(PanelFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelEditableLayout.setVerticalGroup(
@@ -450,7 +452,7 @@ public class VentanaDeCreacionEdicionPedido extends javax.swing.JFrame {
                 .addComponent(PanelPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(PanelFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         getContentPane().add(panelEditable, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 520));
@@ -472,6 +474,7 @@ public class VentanaDeCreacionEdicionPedido extends javax.swing.JFrame {
                     setVendedorSeleccionado(vendedorSeleccionado);
                     setItemsAsignadosAlPedido(itemsVentana);
                     campoMontoBase.setText(nuevaVentana.getMontoBaseItemsSeleccionados().toString());
+                    campoMontoTotal.setText(nuevaVentana.getMontoBaseItemsSeleccionados().toString());
                 }
             }
         });
@@ -542,8 +545,8 @@ public class VentanaDeCreacionEdicionPedido extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Debe agregar items al pedido antes de seleccionar un método de pago.", "Error", JOptionPane.ERROR_MESSAGE);
             return; 
         }
-        
-        String pagoSeleccionado = (String) comboBoxMetodoDePago.getSelectedItem();
+        String pagoSeleccionado = "EFECTIVO";
+        pagoSeleccionado = (String) comboBoxMetodoDePago.getSelectedItem();
         Double montoTotal;
         Pago pagoPedido;
         textMetodoPago1.setVisible(false);
@@ -568,6 +571,8 @@ public class VentanaDeCreacionEdicionPedido extends javax.swing.JFrame {
         } else if ("EFECTIVO".equals(pagoSeleccionado)) {
             pagoPedido = FactoryPago.crearPago("Efectivo", "", "");
             campoMontoTotal.setText(campoMontoBase.getText());
+            montoTotal = pedidoController.calcularMontoTotal(Double.valueOf(campoMontoBase.getText()), pagoPedido);
+            campoMontoTotal.setText(montoTotal.toString());
         }
 
         this.revalidate();

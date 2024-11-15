@@ -478,7 +478,7 @@ public class MenuPedidos extends javax.swing.JFrame {
     }//GEN-LAST:event_botonVolverActionPerformed
 
     private void buscarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarPedidoActionPerformed
-        String clienteBuscado = campoCliente.getText().trim().toLowerCase();
+        /**String clienteBuscado = campoCliente.getText().trim().toLowerCase();
         String itemsPedidoBuscado = campoItemsPedido.getText().trim().toLowerCase();
         String metodoDePagoBuscado = comboBoxMetodoDePago.getSelectedItem() != null ? comboBoxMetodoDePago.getSelectedItem().toString() : "";
         String estadoPedidoBuscado = comboBoxEstadoPedido.getSelectedItem() != null ? comboBoxEstadoPedido.getSelectedItem().toString() : "";
@@ -514,6 +514,84 @@ public class MenuPedidos extends javax.swing.JFrame {
         }
         if (!encontrado) {
             JOptionPane.showMessageDialog(null, "No se encontró ningún pedido con esos parámetros.", "Búsqueda", JOptionPane.INFORMATION_MESSAGE);
+        }*/                                                                                     
+        String clienteBuscado = campoCliente.getText().trim().toLowerCase();
+        String itemsPedidoBuscado = campoItemsPedido.getText().trim().toLowerCase();
+        String metodoDePagoBuscado = comboBoxMetodoDePago.getSelectedItem() != null ? 
+                                     comboBoxMetodoDePago.getSelectedItem().toString().toLowerCase() : "";
+        String estadoPedidoBuscado = comboBoxEstadoPedido.getSelectedItem() != null ? 
+                                     comboBoxEstadoPedido.getSelectedItem().toString().toLowerCase() : "";
+        String montoBaseBuscado = campoMontoBase.getText().trim();
+        String fechaDePagoBuscado = campoFechaDePago.getText().trim();
+        String montoTotalBuscado = campoMontoTotal.getText().trim();
+
+        model.setRowCount(0); // Limpiar la tabla
+        boolean encontrado = false;
+
+        // Obtener todos los pedidos
+        List<Pedido> listaPedidos = pedidoController.mostrarListaPedidos();
+
+        for (Pedido pedido : listaPedidos) {
+            // Obtener datos del pedido
+            String nombresItems = pedidoController.obtenerNombresItems(pedido);
+            String nombresItemsComparacion = nombresItems.toLowerCase();
+            String fechaPagoFormateada = pedido.getFechaPago() != null ? dateFormat.format(pedido.getFechaPago()) : "";
+            String metodoPago = pedido.getMetodoPago().getClass().getSimpleName();
+            String metodoPagoComparacion = metodoPago.toLowerCase();
+            String estadoPedido = pedido.getEstado().toString();
+            String estadoPedidoComparacion = estadoPedido.toLowerCase();
+            double montoBase = pedido.getMontoBase();
+            double montoTotal = pedido.getMontoTotal();
+
+            // Condiciones de filtrado
+            boolean coincideCliente = clienteBuscado.isEmpty() || 
+                                      pedido.getCliente().getNombre().toLowerCase().contains(clienteBuscado);
+            boolean coincideItems = itemsPedidoBuscado.isEmpty() || 
+                                    nombresItemsComparacion.contains(itemsPedidoBuscado);
+            boolean coincideMetodoPago = metodoDePagoBuscado.isEmpty() || 
+                                         metodoPagoComparacion.equals(metodoDePagoBuscado);
+            boolean coincideEstado = estadoPedidoBuscado.isEmpty() || 
+                                     estadoPedidoComparacion.equals(estadoPedidoBuscado);
+            boolean coincideMontoBase = true;
+            if (!montoBaseBuscado.isEmpty()) {
+                try {
+                    coincideMontoBase = Double.parseDouble(montoBaseBuscado) == montoBase;
+                } catch (NumberFormatException e) {
+                    coincideMontoBase = false;
+                }
+            }
+            boolean coincideFechaPago = fechaDePagoBuscado.isEmpty() || 
+                                        fechaPagoFormateada.equals(fechaDePagoBuscado);
+            boolean coincideMontoTotal = true;
+            if (!montoTotalBuscado.isEmpty()) {
+                try {
+                    coincideMontoTotal = Double.parseDouble(montoTotalBuscado) == montoTotal;
+                } catch (NumberFormatException e) {
+                    coincideMontoTotal = false;
+                }
+            }
+
+            // Agregar fila si cumple con todos los filtros
+            if (coincideCliente && coincideItems && coincideMetodoPago &&
+                coincideEstado && coincideMontoBase && coincideFechaPago && coincideMontoTotal) {
+                encontrado = true;
+                model.addRow(new Object[]{
+                    pedido.getId(),
+                    pedido.getCliente().getNombre(),
+                    nombresItems,  // Mantiene los textos originales
+                    metodoPago,    // Mantiene el texto original
+                    estadoPedido,  // Mantiene el texto original
+                    pedido.getMontoBase(),
+                    fechaPagoFormateada,
+                    pedido.getMontoTotal()
+                });
+            }
+        }
+
+        // Mostrar mensaje si no se encuentra ningún pedido
+        if (!encontrado) {
+            JOptionPane.showMessageDialog(this, "No se encontró ningún pedido con esos parámetros.", 
+                                          "Búsqueda", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_buscarPedidoActionPerformed
 
