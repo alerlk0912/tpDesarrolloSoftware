@@ -5,7 +5,7 @@ import Tp.DS.ItemMenu.ItemMenu;
 import Tp.DS.Vendedor.Vendedor;
 
 public class Bebida extends ItemMenu {
-    private final double tamanio; // Volumen en ml
+    private final double tamanio;
     private final boolean graduacionAlcoholica;
 
     public Bebida(String nombre, String descripcion, double precio, Categoria categoria, Vendedor vendedor, double tamanio, boolean alcoholica) {
@@ -13,7 +13,6 @@ public class Bebida extends ItemMenu {
         this.tamanio = tamanio;
         this.graduacionAlcoholica = alcoholica;
     }
-    
     
     @Override
     public String toString() {

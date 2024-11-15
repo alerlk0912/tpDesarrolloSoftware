@@ -1,7 +1,5 @@
 package Tp.DS.Pedido;
 
-import Tp.DS.Pedido.DAOPedido;
-
 import java.util.ArrayList;
 import java.util.List;
 

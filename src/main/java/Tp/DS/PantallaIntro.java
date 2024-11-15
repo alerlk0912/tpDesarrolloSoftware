@@ -1,21 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Tp.DS;
 
-import Tp.DS.BD.DatabaseConnection;
-import Tp.DS.Exceptions.DAOException;
-import Tp.DS.Exceptions.PedidoInvalidoException;
-import Tp.DS.Exceptions.VendedorNoCoincideException;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.SQLException;
 import java.util.function.Consumer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class PantallaIntro {
     private JFrame frame;

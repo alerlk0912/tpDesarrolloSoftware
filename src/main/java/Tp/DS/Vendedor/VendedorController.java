@@ -1,7 +1,6 @@
 package Tp.DS.Vendedor;
 
 import Tp.DS.Coordenada.Coordenada;
-import Tp.DS.Vendedor.DAOVendedor;
 import java.util.List;
 
 public class VendedorController {
@@ -22,13 +21,11 @@ public class VendedorController {
     public DAOVendedor getVendedorDAO() {
         return vendedorDAO;
     }
-    
 
     public List<Vendedor> mostrarListaVendedor() {
         List<Vendedor> vendedores = vendedorDAO.listarVendedores(); // Método en DAO
         return vendedores;
     }
-
 
     public void crearNuevoVendedor(String nombre, String direccion, Coordenada coordenadas) {
         Vendedor nuevoVendedor = new Vendedor(nombre, direccion, coordenadas);
@@ -53,7 +50,6 @@ public class VendedorController {
         return vendedorDAO.buscarVendedorPorId(id);
     }
     public void cargarVendedores() {
-        // Crear vendedores (restaurantes)
         crearNuevoVendedor("Restaurante A", "Calle 123", new Coordenada(-34.6037, -58.3816));
         crearNuevoVendedor("Restaurante B", "Calle 456", new Coordenada(-34.6158, -58.4333));
         crearNuevoVendedor("Restaurante C", "Calle 789", new Coordenada(-34.6179, -58.3686));

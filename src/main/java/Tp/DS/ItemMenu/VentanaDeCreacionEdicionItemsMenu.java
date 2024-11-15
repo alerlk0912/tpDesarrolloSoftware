@@ -1,79 +1,31 @@
 package Tp.DS.ItemMenu;
 
-import Tp.DS.Bebida;
-import Tp.DS.ItemMenu.MenuItemsMenu;
 import Tp.DS.Categoria.Categoria;
-import Tp.DS.ItemMenu.ItemMenuController;
 import Tp.DS.Vendedor.VendedorController;
 import Tp.DS.Exceptions.DAOException;
-import Tp.DS.ItemMenu.DAOItemMenu;
 import Tp.DS.Vendedor.DAOVendedor;
-import Tp.DS.ItemMenu.ItemMenuMemory;
-import Tp.DS.Plato;
 import Tp.DS.Vendedor.VendedorMemory;
 import Tp.DS.Vendedor.Vendedor;
 
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 
 public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
-    private MenuItemsMenu menuItemsMenu;
     private int filaSeleccionada=100;
     private ItemMenuController itemMenuController;
     private ItemMenu itemActual;
     private VendedorController vendedorController;
     private Vendedor vendedorSeleccionado;
-    private DAOVendedor vendedorDAO;
-    private VentanaDeCreacionEdicionItemsMenu ventanaCreacion;
 
     public VentanaDeCreacionEdicionItemsMenu(ItemMenuController itemMenuController, VendedorController vendedorController) {
         this.itemMenuController = itemMenuController;
         this.vendedorController = vendedorController;
-        this.vendedorDAO = vendedorController.getVendedorDAO();
+        vendedorController.getVendedorDAO();
         initComponents();
     }
-    public void setTitulo() {
-        tituloPrincipal.setText("Editar Items Menú");
-    }
-    public void setItemsMenu(MenuItemsMenu menuItemsMenu) {
-        this.menuItemsMenu = menuItemsMenu;
-    }
-    
-    public void recibirDatosEdicion(int filaSeleccionada, ItemMenu item) {
-        this.filaSeleccionada = filaSeleccionada;
-        this.itemActual = item;
-        campoNombre.setText(item.getNombre());
-        campoDescripcion.setText(item.getDescripcion());
-        campoPrecio.setText(Double.toString(item.getPrecio()));
-        comboBoxCategoria.setSelectedItem(item.getCategoria().getClass().getName());
-        campoVendedorSeleccionado.setText(item.getVendedor().getNombre());
-        
-        //estos campos deberían completarse, no se si habría q crear la instancia en la pantalla anterior para que se muestre estos datos
-        if(comboBoxCategoria.getSelectedItem().equals("BEBIDA")) {
-            campoTamanio.setText(""); //falta llenar
-            comboBoxAlcohol.setSelectedItem("SI"); //falta llenar
-        } else {
-            campoPeso.setText(""); //falta llenar
-            campoCalorias.setText(""); //falta llenar
-            comboBoxAptoVegano.setSelectedItem("SI"); //falta llenar
-        }      
-    }
-
-    public void setVendedorSeleccionado(Vendedor vendedor) {
-        this.vendedorSeleccionado = vendedor;
-        if (vendedor != null) {
-            campoVendedorSeleccionado.setText(vendedor.getNombre()); 
-        }
-    }
-    
     
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         panelEditable = new javax.swing.JPanel();
         botonCancelar = new javax.swing.JButton();
         botonAceptar = new javax.swing.JButton();
@@ -484,15 +436,14 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
         getContentPane().add(panelEditable, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 500));
 
         pack();
-    }
+    }// </editor-fold>//GEN-END:initComponents
 
     private void botonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarActionPerformed
-        String regex = "^\\d*(\\.\\d+)?$"; // validación de precio
+        String regex = "^\\d*(\\.\\d+)?$";
         if (campoVendedorSeleccionado == null) {
             JOptionPane.showMessageDialog(this, "Seleccione un vendedor antes de continuar");
             return;
         }
-        // Validación de campos obligatorios y formato de datos
         if (campoPrecio.getText().matches(regex) && 
             !campoNombre.getText().isEmpty() && 
             !campoDescripcion.getText().isEmpty() && 
@@ -503,8 +454,6 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
             double precio = Double.parseDouble(campoPrecio.getText());
             Categoria categoriaItem = new Categoria(campoDescripcion.getText(),(String) comboBoxCategoria.getSelectedItem());
 
-            
-            // Validación de existencia de vendedor seleccionado para creación
             if (filaSeleccionada == 100 && vendedorSeleccionado == null) {
                 JOptionPane.showMessageDialog(this, "Seleccione un vendedor antes de confirmar.");
                 return;
@@ -525,7 +474,7 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
                                 null,
                                 null
                         );
-                    } else { // Creación de un plato
+                    } else {
                         itemMenuController.crearNuevoItemMenu((String)comboBoxCategoria.getSelectedItem(),
                                 campoNombre.getText(),
                                 campoDescripcion.getText(),
@@ -540,7 +489,7 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
                         );
                     }
                     JOptionPane.showMessageDialog(this, "ItemMenu creado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
-                } else { // Edición de un ItemMenu existente
+                } else {
                     itemActual.setNombre(campoNombre.getText());
                     itemActual.setDescripcion(campoDescripcion.getText());
                     itemActual.setPrecio(precio);
@@ -549,7 +498,7 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
                     itemMenuController.modificarItemMenu(filaSeleccionada, itemActual);
                     JOptionPane.showMessageDialog(this, "ItemMenu actualizado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
                 }
-                dispose(); // Cierra la ventana después de la creación o edición
+                dispose();
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "Error en el formato de los datos. Verifique los campos de entrada.");
             } catch (DAOException e) {
@@ -558,14 +507,13 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Formato Inválido", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
-        //System.out.println("Vendedor asignado en setVendedorSeleccionado: " + vendedorSeleccionado);
     }//GEN-LAST:event_botonAceptarActionPerformed
 
-    private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {
+    private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
         dispose();
-    }
+    }//GEN-LAST:event_botonCancelarActionPerformed
 
-    private void botonAgregarDesagregarVendedorActionPerformed(java.awt.event.ActionEvent evt) {
+    private void botonAgregarDesagregarVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarDesagregarVendedorActionPerformed
         
         VentanaAsignarEliminarVendedorDeItemMenu nuevaVentana = new VentanaAsignarEliminarVendedorDeItemMenu(itemActual, this, vendedorController);
         nuevaVentana.setPantallaAgregarDesagregarVendedor(this);
@@ -580,9 +528,9 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
                 }
             }
         });
-    }
+    }//GEN-LAST:event_botonAgregarDesagregarVendedorActionPerformed
 
-    private void comboBoxCategoriaActionPerformed(java.awt.event.ActionEvent evt) {
+    private void comboBoxCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxCategoriaActionPerformed
         String categoriaSeleccionada = (String) comboBoxCategoria.getSelectedItem();
         tit4.setVisible(false);
         tit6.setVisible(false);
@@ -596,13 +544,11 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
         comboBoxAptoVegano.setVisible(false);
 		
         if ("BEBIDA".equals(categoriaSeleccionada)) {
-            // mostrar campos para BEBIDA
             tit4.setVisible(true);
             tit6.setVisible(true);
             campoTamanio.setVisible(true);
             comboBoxAlcohol.setVisible(true);
         } else if ("PLATO".equals(categoriaSeleccionada)) {
-            // mostrar campos para PLATO
             tit7.setVisible(true);
             tit8.setVisible(true);
             tit9.setVisible(true);
@@ -611,11 +557,39 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
             comboBoxAptoVegano.setVisible(true);
         }
 
-        // refrescar la ventana para aplicar los cambios de visibilidad
         this.revalidate();
         this.repaint();
+    }//GEN-LAST:event_comboBoxCategoriaActionPerformed
+	
+	public void setTitulo() {
+        tituloPrincipal.setText("Editar Items Menú");
+    }
+    
+    public void recibirDatosEdicion(int filaSeleccionada, ItemMenu item) {
+        this.filaSeleccionada = filaSeleccionada;
+        this.itemActual = item;
+        campoNombre.setText(item.getNombre());
+        campoDescripcion.setText(item.getDescripcion());
+        campoPrecio.setText(Double.toString(item.getPrecio()));
+        comboBoxCategoria.setSelectedItem(item.getCategoria().getClass().getName());
+        campoVendedorSeleccionado.setText(item.getVendedor().getNombre());
+        
+        if(comboBoxCategoria.getSelectedItem().equals("BEBIDA")) {
+            campoTamanio.setText("");
+            comboBoxAlcohol.setSelectedItem("SI");
+        } else {
+            campoPeso.setText("");
+            campoCalorias.setText("");
+            comboBoxAptoVegano.setSelectedItem("SI");
+        }      
     }
 
+    public void setVendedorSeleccionado(Vendedor vendedor) {
+        this.vendedorSeleccionado = vendedor;
+        if (vendedor != null) {
+            campoVendedorSeleccionado.setText(vendedor.getNombre()); 
+        }
+    }
 
     public static void main(String args[]) {
         DAOItemMenu itemMenuDAO = ItemMenuMemory.getInstance();
@@ -629,7 +603,7 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
         });
     }
 
-    // Variables declaration - do not modify
+    // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAceptar;
     private javax.swing.JButton botonAgregarDesagregarVendedor;
     private javax.swing.JButton botonCancelar;
@@ -657,5 +631,9 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
     private javax.swing.JLabel tit9;
     private javax.swing.JLabel titFechaDePago;
     private javax.swing.JLabel tituloPrincipal;
-    // End of variables declaration
+    // End of variables declaration//GEN-END:variables
+
+    void setItemsMenu(MenuItemsMenu aThis) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

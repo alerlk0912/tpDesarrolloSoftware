@@ -4,9 +4,7 @@ import Tp.DS.BD.DatabaseConnection;
 import Tp.DS.MetodoPago.DAOMetodoPago;
 import Tp.DS.Cliente.Cliente;
 import Tp.DS.Cliente.DAOCliente;
-import Tp.DS.Pedido.DAOPedido;
 import Tp.DS.MetodoPago.Pago;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

@@ -1,9 +1,7 @@
 package Tp.DS.ItemMenu;
 
 import Tp.DS.Exceptions.DAOException;
-import Tp.DS.ItemMenu.DAOItemMenu;
 import Tp.DS.Vendedor.Vendedor;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,7 +44,6 @@ public class ItemMenuMemory implements DAOItemMenu {
             throw new DAOException("ItemMenu no encontrado con el ID: " + item.getId());
         }
     }
-
 
     @Override
     public void eliminarItemMenu(int id) {

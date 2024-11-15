@@ -1,8 +1,5 @@
 package Tp.DS.Vendedor;
 
-import Tp.DS.Coordenada.Coordenada;
-import Tp.DS.Vendedor.DAOVendedor;
-
 import java.util.ArrayList;
 import java.util.List;
 

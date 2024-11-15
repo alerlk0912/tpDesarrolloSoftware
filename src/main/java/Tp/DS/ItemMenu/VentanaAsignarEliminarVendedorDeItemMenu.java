@@ -1,24 +1,16 @@
 package Tp.DS.ItemMenu;
 
 import Tp.DS.Vendedor.VendedorController;
-import Tp.DS.Vendedor.DAOVendedor;
-import Tp.DS.Vendedor.VendedorMemory;
-import Tp.DS.Vendedor.VentanaDeCreacionEdicionVendedor;
 import Tp.DS.Vendedor.Vendedor;
-import Tp.DS.ItemMenu.VentanaDeCreacionEdicionItemsMenu;
-import Tp.DS.Vendedor.DAOVendedor;
-
 import java.util.List;
 import javax.swing.*;
 import javax.swing.table.*;
 
 public class VentanaAsignarEliminarVendedorDeItemMenu extends javax.swing.JFrame {
-    //private VentanaDeCreacionEdicionItemsMenu ventana;
     private VendedorController vendedorController;
     private ItemMenu itemMenuSeleccionado;
     private Vendedor vendedorSeleccionado;
     private VentanaDeCreacionEdicionItemsMenu ventanaCreacion;
-  
     DefaultTableModel model;
     
     public VentanaAsignarEliminarVendedorDeItemMenu(ItemMenu itemMenuVentana, VentanaDeCreacionEdicionItemsMenu ventanaCreacion, VendedorController vendedorController) {
@@ -30,44 +22,9 @@ public class VentanaAsignarEliminarVendedorDeItemMenu extends javax.swing.JFrame
         cargarVendedorAsociadosEnTabla();
         cargarVendedoresEnTabla(); 
     }
-    private void cargarVendedorAsociadosEnTabla(){
-        DefaultTableModel model = (DefaultTableModel) tablaVendedoresAsociadas.getModel();
-        if(itemMenuSeleccionado != null){
-            Vendedor vendedorItem = itemMenuSeleccionado.getVendedor();
-            if(vendedorItem != null){
-            model.addRow(new Object[]{
-                    vendedorItem.getId(),
-                    vendedorItem.getNombre(),
-                    vendedorItem.getDireccion(),
-                    vendedorItem.getCoordenadas().getLat() + ", " + vendedorItem.getCoordenadas().getLng()
-                });
-            } else {
-                JOptionPane.showMessageDialog(this, "No hay ningún Vendedor asignado al ItemMenu.");
-            }
-        }
-    }
-    
-    private void cargarVendedoresEnTabla() {
-        DefaultTableModel model = (DefaultTableModel) tablaVendedor.getModel();
-        model.setRowCount(0); // Limpia cualquier fila existente
-
-        List<Vendedor> listaVendedores = vendedorController.mostrarListaVendedor();
-        for (Vendedor vendedor : listaVendedores) {
-            model.addRow(new Object[]{
-                vendedor.getId(),
-                vendedor.getNombre(),
-                vendedor.getDireccion(),
-                vendedor.getCoordenadas().getLat() + ", " + vendedor.getCoordenadas().getLng()
-            });
-        }
-    }
-    
-    public void setPantallaAgregarDesagregarVendedor(VentanaDeCreacionEdicionItemsMenu ventanaCreacion) {
-        this.ventanaCreacion = ventanaCreacion;
-    }
-    
+	
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         Panel = new javax.swing.JPanel();
@@ -336,14 +293,13 @@ public class VentanaAsignarEliminarVendedorDeItemMenu extends javax.swing.JFrame
         getContentPane().add(Panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
-    }// </editor-fold>
+    }// </editor-fold>//GEN-END:initComponents
 
     private void botonDesasignarVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonDesasignarVendedorActionPerformed
         if (itemMenuSeleccionado != null) {
-            itemMenuSeleccionado.setVendedor(null); // Desasignar el vendedor
+            itemMenuSeleccionado.setVendedor(null);
             JOptionPane.showMessageDialog(this, "Vendedor desasignado correctamente.");
             cargarVendedorAsociadosEnTabla();
-            // Actualizar tabla o interfaz si es necesario
             this.revalidate();
             this.repaint();
         } else {
@@ -361,7 +317,7 @@ public class VentanaAsignarEliminarVendedorDeItemMenu extends javax.swing.JFrame
         if (filaVendedorSeleccionada != -1) { 
             int idvendedor = (int) tablaVendedor.getValueAt(filaVendedorSeleccionada, 0);
             vendedorSeleccionado = vendedorController.buscarVendedor(idvendedor);
-            ventanaCreacion.setVendedorSeleccionado(vendedorSeleccionado); // asignar vendedor 
+            ventanaCreacion.setVendedorSeleccionado(vendedorSeleccionado);
             JOptionPane.showMessageDialog(this, "Vendedor asignado temporalmente al nuevo ítem del menú.");
             cargarVendedorAsociadosEnTabla();
             if (itemMenuSeleccionado != null){
@@ -387,14 +343,13 @@ public class VentanaAsignarEliminarVendedorDeItemMenu extends javax.swing.JFrame
         String coordenadaBuscada = campoCoordenadaVendedor.getText().trim().toLowerCase();
 
         DefaultTableModel model = (DefaultTableModel) tablaVendedor.getModel();
-        model.setRowCount(0); // Limpiar la tabla para mostrar los resultados de la búsqueda
+        model.setRowCount(0);
 
         List<Vendedor> vendedores = vendedorController.mostrarListaVendedor();
         for (Vendedor vendedor : vendedores) {
             boolean coincide = true;
             String coordenadas = vendedor.getCoordenadas().getLat() + ", " + vendedor.getCoordenadas().getLng();
 
-            // Verificar coincidencias con los criterios de búsqueda
             if (!nombreBuscado.isEmpty() && !vendedor.getNombre().toLowerCase().contains(nombreBuscado)) {
                 coincide = false;
             }
@@ -405,7 +360,6 @@ public class VentanaAsignarEliminarVendedorDeItemMenu extends javax.swing.JFrame
                 coincide = false;
             }
 
-            // Agregar a la tabla si coincide con todos los criterios
             if (coincide) {
                 model.addRow(new Object[]{
                     vendedor.getId(),
@@ -423,12 +377,48 @@ public class VentanaAsignarEliminarVendedorDeItemMenu extends javax.swing.JFrame
     
     public Vendedor getVendedorSeleccionado() {
         return vendedorSeleccionado;
-    }   
+    }
+	
+	private void cargarVendedorAsociadosEnTabla(){
+        DefaultTableModel model = (DefaultTableModel) tablaVendedoresAsociadas.getModel();
+        if(itemMenuSeleccionado != null){
+            Vendedor vendedorItem = itemMenuSeleccionado.getVendedor();
+            if(vendedorItem != null){
+            model.addRow(new Object[]{
+                    vendedorItem.getId(),
+                    vendedorItem.getNombre(),
+                    vendedorItem.getDireccion(),
+                    vendedorItem.getCoordenadas().getLat() + ", " + vendedorItem.getCoordenadas().getLng()
+                });
+            } else {
+                JOptionPane.showMessageDialog(this, "No hay ningún Vendedor asignado al ItemMenu.");
+            }
+        }
+    }
+    
+    private void cargarVendedoresEnTabla() {
+        DefaultTableModel model = (DefaultTableModel) tablaVendedor.getModel();
+        model.setRowCount(0);
+
+        List<Vendedor> listaVendedores = vendedorController.mostrarListaVendedor();
+        for (Vendedor vendedor : listaVendedores) {
+            model.addRow(new Object[]{
+                vendedor.getId(),
+                vendedor.getNombre(),
+                vendedor.getDireccion(),
+                vendedor.getCoordenadas().getLat() + ", " + vendedor.getCoordenadas().getLng()
+            });
+        }
+    }
+    
+    public void setPantallaAgregarDesagregarVendedor(VentanaDeCreacionEdicionItemsMenu ventanaCreacion) {
+        this.ventanaCreacion = ventanaCreacion;
+    }
     
     public static void main(String args[]) {
     }
-    
-    // Variables declaration - do not modify
+
+	// Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Panel;
     private javax.swing.JButton botonAsignarVendedor;
     private javax.swing.JButton botonBuscarVendedor;
@@ -446,6 +436,5 @@ public class VentanaAsignarEliminarVendedorDeItemMenu extends javax.swing.JFrame
     private javax.swing.JLabel texto4;
     private javax.swing.JLabel texto5;
     private javax.swing.JLabel texto6;
-    // End of variables declaration
-
+    // End of variables declaration//GEN-END:variables
 }

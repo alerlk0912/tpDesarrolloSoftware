@@ -1,6 +1,5 @@
 package Tp.DS.Pedido;
 
-
 public interface PedidoObservable {
     public void agregarObservador(PedidoObserver observer);
     public void eliminarObservador(PedidoObserver observer);

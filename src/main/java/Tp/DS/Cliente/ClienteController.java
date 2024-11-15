@@ -1,13 +1,11 @@
 package Tp.DS.Cliente;
 
-import Tp.DS.Cliente.DAOCliente;
 import Tp.DS.Coordenada.Coordenada;
 import java.util.List;
 
 public class ClienteController {
     private static ClienteController instance;
     private DAOCliente clienteDAO;
-    
 
     private ClienteController(DAOCliente clienteDAO) {
         this.clienteDAO = clienteDAO;
@@ -19,7 +17,6 @@ public class ClienteController {
         }
         return instance;
     }
-   
 
     public List<Cliente> mostrarClientes() {
         return clienteDAO.listarClientes();

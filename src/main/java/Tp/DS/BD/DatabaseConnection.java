@@ -10,7 +10,6 @@ public class DatabaseConnection {
     private static String usuario;
     private static String password;
 
- 
    private DatabaseConnection( ) {
         
    }
@@ -18,7 +17,6 @@ public class DatabaseConnection {
         usuario = usuarioIngresado;
         password = passwordIngresado;
     }
-   
 
     public static Connection getInstance() throws SQLException {
         if (!"root".equals(usuario) || !"AmD6Kk3ASlaLdQsa1".equals(password)) {

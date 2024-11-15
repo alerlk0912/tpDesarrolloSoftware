@@ -10,7 +10,6 @@ public abstract class ItemMenu {
     private double precio;
     private Categoria categoria;
     private Vendedor vendedor;
-    
 
     public ItemMenu(String nombre, String descripcion, double precio, Categoria categoria, Vendedor vendedor) {
         this.nombre = nombre;
@@ -19,12 +18,15 @@ public abstract class ItemMenu {
         this.categoria = categoria;
         this.vendedor = vendedor;
     }
-    
 
+    public abstract double peso();
+    public abstract boolean esComida();
+    public abstract boolean esBebida();
+    public abstract boolean isAptoVegano();
+    
     public int getId() {
         return id;
     }
-
     
     public String getNombre() {
         return nombre;
@@ -49,7 +51,6 @@ public abstract class ItemMenu {
     public void setId(int id) {
         this.id = id;
     }
-
     
     public void setNombre(String nombre) {
         this.nombre = nombre;
@@ -70,11 +71,4 @@ public abstract class ItemMenu {
     public void setVendedor(Vendedor vendedor) {
         this.vendedor = vendedor;
     }
-    
-    
-    
-    public abstract double peso();
-    public abstract boolean esComida();
-    public abstract boolean esBebida();
-    public abstract boolean isAptoVegano();
 }

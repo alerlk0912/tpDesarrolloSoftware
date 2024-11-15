@@ -1,69 +1,17 @@
 package Tp.DS.Cliente;
 
-import Tp.DS.Cliente.MenuCliente;
-import Tp.DS.Cliente.ClienteController;
 import Tp.DS.Coordenada.Coordenada;
-import Tp.DS.Cliente.DAOCliente;
-import Tp.DS.Cliente.ClienteMemory;
 import javax.swing.JOptionPane;
 
 public class VentanaDeCreacionEdicionCliente extends javax.swing.JFrame {
     private MenuCliente menuCliente;
     private int filaSeleccionada=100;
     private ClienteListener clienteListener;
-    private final ClienteController clienteController;
 
-    public void setMenuCliente(MenuCliente menuCliente) {
-        this.menuCliente = menuCliente;
-    }
-
-    public void setClienteListener(ClienteListener listener) {
-        this.clienteListener = listener;
-    }
-    
-    public void setTitulo() {
-        tituloPrincipal.setText("Editar Cliente");
-    }
-
-    // Al guardar, notifica a MenuCliente
-    private void guardarCliente() {
-        String cuit = campoCUIT.getText();
-        String nombre = campoNombre.getText();
-        String email = campoEmail.getText();
-        String direccion = campoDireccion.getText();
-        String latitud = campoLatitud.getText();
-        String longitud = campoLongitud.getText();
-
-        if (clienteListener != null) {
-            Double lat = Double.parseDouble(campoLatitud.getText());
-            Double lng = Double.parseDouble(campoLongitud.getText());
-            Coordenada coordenadas = new Coordenada(lat, lng);
-            clienteListener.onClienteSaved(cuit, nombre, email, direccion, coordenadas);
-        }
-        dispose();
-    }
-    
-    public interface ClienteListener {
-        void onClienteSaved(String cuit, String nombre, String email, String direccion, Coordenada coordenadas);
-    }
-    
-    public void recibirDatosEdicion(int filaSeleccionada, String cuit, String nombre, String email, String direccion, String coordenada) {
-        this.filaSeleccionada = filaSeleccionada;
-        campoCUIT.setText(cuit);
-        campoNombre.setText(nombre);
-        campoEmail.setText(email);
-        campoDireccion.setText(direccion);
-        String[] partes = coordenada.split(",");
-        String latitud = partes[0];
-        String longitud = partes[1];
-        campoLatitud.setText(latitud.trim());
-        campoLongitud.setText(longitud.trim());
-    }
-    
     public VentanaDeCreacionEdicionCliente(ClienteController clienteController) {
-        this.clienteController = clienteController;
         initComponents();
     }
+	
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -332,6 +280,52 @@ public class VentanaDeCreacionEdicionCliente extends javax.swing.JFrame {
     private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
         dispose();
     }//GEN-LAST:event_botonCancelarActionPerformed
+	
+    public void setMenuCliente(MenuCliente menuCliente) {
+        this.menuCliente = menuCliente;
+    }
+
+    public void setClienteListener(ClienteListener listener) {
+        this.clienteListener = listener;
+    }
+    
+    public void setTitulo() {
+        tituloPrincipal.setText("Editar Cliente");
+    }
+
+    private void guardarCliente() {
+        String cuit = campoCUIT.getText();
+        String nombre = campoNombre.getText();
+        String email = campoEmail.getText();
+        String direccion = campoDireccion.getText();
+        String latitud = campoLatitud.getText();
+        String longitud = campoLongitud.getText();
+
+        if (clienteListener != null) {
+            Double lat = Double.parseDouble(campoLatitud.getText());
+            Double lng = Double.parseDouble(campoLongitud.getText());
+            Coordenada coordenadas = new Coordenada(lat, lng);
+            clienteListener.onClienteSaved(cuit, nombre, email, direccion, coordenadas);
+        }
+        dispose();
+    }
+    
+    public interface ClienteListener {
+        void onClienteSaved(String cuit, String nombre, String email, String direccion, Coordenada coordenadas);
+    }
+    
+    public void recibirDatosEdicion(int filaSeleccionada, String cuit, String nombre, String email, String direccion, String coordenada) {
+        this.filaSeleccionada = filaSeleccionada;
+        campoCUIT.setText(cuit);
+        campoNombre.setText(nombre);
+        campoEmail.setText(email);
+        campoDireccion.setText(direccion);
+        String[] partes = coordenada.split(",");
+        String latitud = partes[0];
+        String longitud = partes[1];
+        campoLatitud.setText(latitud.trim());
+        campoLongitud.setText(longitud.trim());
+    }
 
     public static void main(String args[]) {
         DAOCliente clienteDAO = ClienteMemory.getInstance();

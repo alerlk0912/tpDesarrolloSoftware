@@ -6,11 +6,9 @@ import Tp.DS.Exceptions.VendedorNoCoincideException;
 import Tp.DS.ItemPedido.ItemsPedido;
 import Tp.DS.MetodoPago.Pago;
 import Tp.DS.Vendedor.Vendedor;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Pedido implements PedidoObservable {
     private int id;
@@ -33,12 +31,10 @@ public class Pedido implements PedidoObservable {
         this.estado = EstadoPedido.RECIBIDO;
     }
 
-    // metodo para agregar ítems al pedido
     public void agregarItem(ItemsPedido item) throws VendedorNoCoincideException {
         if (itemsPedido.isEmpty()) {
             this.itemsPedido.add(item);
         } else {
-            // verificar que todos los items sean del mismo vendedor
             Vendedor vendedorActual = itemsPedido.get(0).getItemMenu().getVendedor();
             if (!item.getItemMenu().getVendedor().equals(vendedorActual)) {
                 throw new VendedorNoCoincideException("Todos los items del pedido deben ser del mismo vendedor");
@@ -47,7 +43,6 @@ public class Pedido implements PedidoObservable {
         }
     }
    
-    // metodo para calcular el total del pedido con recargo
     public void calcularTotalPedido() {
         double subtotal = itemsPedido.stream()
                 .mapToDouble(item -> item.getItemMenu().getPrecio() * item.getCantidad())
@@ -175,24 +170,8 @@ public class Pedido implements PedidoObservable {
             throw e; 
         }
 
-        // mostrar la información del pedido
-        try {
-            //System.out.println("Pedido creado para el cliente: " + cliente.getNombre());
-            //System.out.println("Vendedor: " + vendedorPrincipal.getNombre());
-            //System.out.println("Metodo de pago: " + pedido.metodoPago.getClass().getSimpleName());
-            //System.out.println("Items seleccionados:");
-            //for (ItemsPedido item : pedido.getItemsPedido()) {
-            //    System.out.println(item.getItemMenu().getNombre() + " - Cantidad: " + item.getCantidad());
-            //}
-        } catch (Exception e) {
-            //System.err.println("Error al mostrar el pedido: " + e.getMessage());
-            throw new PedidoInvalidoException("Error al mostrar el pedido.");
-        }
-
         return pedido;
-    }
-    
-    
+    }    
 
     @Override
     public void agregarObservador(PedidoObserver observer) {

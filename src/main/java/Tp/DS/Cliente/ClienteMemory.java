@@ -1,7 +1,5 @@
 package Tp.DS.Cliente;
 
-import Tp.DS.Cliente.DAOCliente;
-
 import java.util.ArrayList;
 import java.util.List;
 

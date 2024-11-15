@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package Tp.DS.Pedido;
 
 import Tp.DS.Exceptions.DAOException;
@@ -16,17 +12,14 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-
 public class VentanaCrearItemPedido extends javax.swing.JFrame {
     VendedorController vendedorController;
     PedidoController pedidoController;
     ItemMenuController itemMenuController; 
     ItemsPedidoController itemPedidoController;
     private Vendedor vendedorSeleccionado;
-    private ItemMenu itemSeleccionado;
     private List<ItemsPedido> itemsPorPedido;
     private Double montoBasePedido;
-    private VentanaDeCreacionEdicionPedido ventanaCrearPedido;
     
     public VentanaCrearItemPedido(VentanaDeCreacionEdicionPedido ventanaCrearPedido,VendedorController vendedorController, PedidoController pedidoController,
             ItemMenuController itemMenuController, ItemsPedidoController itemPedidoController) {
@@ -34,7 +27,6 @@ public class VentanaCrearItemPedido extends javax.swing.JFrame {
         this.pedidoController = pedidoController;
         this.vendedorController = vendedorController;
         this.itemMenuController = itemMenuController;
-        this.ventanaCrearPedido = ventanaCrearPedido;
         this.itemsPorPedido = new ArrayList<>(); 
         this.montoBasePedido = 0.0; 
         this.vendedorSeleccionado = null;
@@ -44,25 +36,6 @@ public class VentanaCrearItemPedido extends javax.swing.JFrame {
         cargarVendedorAsociadosEnTabla();
     }
 
-    private void configurarTablas() {
-        // Configurar tabla de vendedores
-        DefaultTableModel modelVendedores = (DefaultTableModel) TablaVendedor1.getModel();
-        modelVendedores.setColumnIdentifiers(new Object[]{"ID", "Nombre"});
-
-        // Configurar tabla de items por vendedor
-        DefaultTableModel modelItems = (DefaultTableModel) TablaItemsPorVendedor.getModel();
-        modelItems.setColumnIdentifiers(new Object[]{"ID", "Nombre", "Precio", "Categoría"});
-        modelItems.setRowCount(0);
-
-        // Configurar tabla de items agregados
-        DefaultTableModel modelAgregados = (DefaultTableModel) TablaItemsAgregados.getModel();
-        modelAgregados.setColumnIdentifiers(new Object[]{"Nombre", "Precio", "Cantidad"});
-        modelAgregados.setRowCount(0);
-    }
-    
-    public void setPantallaAgregarDesagregarVendedor(VentanaDeCreacionEdicionPedido ventanaCrearPedido) {
-        this.ventanaCrearPedido = ventanaCrearPedido;
-    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -236,10 +209,11 @@ public class VentanaCrearItemPedido extends javax.swing.JFrame {
             PanelAgregarItemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelAgregarItemsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(PanelAgregarItemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campoCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botonAgregarItem, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(titCantidad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(PanelAgregarItemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(titCantidad, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(PanelAgregarItemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(campoCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(botonAgregarItem, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -558,7 +532,7 @@ public class VentanaCrearItemPedido extends javax.swing.JFrame {
                     return;
                 }
                 int idItem = (int) TablaItemsPorVendedor.getValueAt(filaVendedorSeleccionada, 0);
-                itemSeleccionado = itemMenuController.buscarItemMenu(idItem);
+                itemMenuController.buscarItemMenu(idItem);
                 ItemsPedido nuevoItem = itemPedidoController.crearNuevoyRetornarItemPedido(idItem, cantidad);
                 agregarItemNuevoATabla(nuevoItem);
                 itemsPorPedido.add(nuevoItem);
@@ -574,7 +548,23 @@ public class VentanaCrearItemPedido extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Por favor, seleccione un Item.");
         }
     }//GEN-LAST:event_botonAgregarItemActionPerformed
+    
+    private void configurarTablas() {
+        DefaultTableModel modelVendedores = (DefaultTableModel) TablaVendedor1.getModel();
+        modelVendedores.setColumnIdentifiers(new Object[]{"ID", "Nombre"});
 
+        DefaultTableModel modelItems = (DefaultTableModel) TablaItemsPorVendedor.getModel();
+        modelItems.setColumnIdentifiers(new Object[]{"ID", "Nombre", "Precio", "Categoría"});
+        modelItems.setRowCount(0);
+
+        DefaultTableModel modelAgregados = (DefaultTableModel) TablaItemsAgregados.getModel();
+        modelAgregados.setColumnIdentifiers(new Object[]{"Nombre", "Precio", "Cantidad"});
+        modelAgregados.setRowCount(0);
+    }
+    
+    public void setPantallaAgregarDesagregarVendedor(VentanaDeCreacionEdicionPedido ventanaCrearPedido) {
+    }
+    
     private void agregarItemNuevoATabla(ItemsPedido item){
         DefaultTableModel model = (DefaultTableModel) TablaItemsAgregados.getModel();
         if(item != null){
@@ -588,7 +578,7 @@ public class VentanaCrearItemPedido extends javax.swing.JFrame {
         }
     }
     
-	private void botonVendedorActionPerformed(java.awt.event.ActionEvent evt) {                                              
+    private void botonVendedorActionPerformed(java.awt.event.ActionEvent evt) {                                              
         int filaVendedorSeleccionada = TablaVendedor1.getSelectedRow();
 
         if (filaVendedorSeleccionada != -1) { 
@@ -626,23 +616,23 @@ public class VentanaCrearItemPedido extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_BotonAceptarActionPerformed
 
-	private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {
-		try {
-			int id = campoID.getText().isEmpty() ? 0 : Integer.parseInt(campoID.getText());
-			String nombre = campoNombre.getText();
-			double precio = campoPrecio.getText().isEmpty() ? 0.0 : Double.parseDouble(campoPrecio.getText());
-			String categoria = comboBoxCategoria.getSelectedItem().toString();
-			Vendedor vendedor = vendedorSeleccionado;
+    private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {
+            try {
+                    int id = campoID.getText().isEmpty() ? 0 : Integer.parseInt(campoID.getText());
+                    String nombre = campoNombre.getText();
+                    double precio = campoPrecio.getText().isEmpty() ? 0.0 : Double.parseDouble(campoPrecio.getText());
+                    String categoria = comboBoxCategoria.getSelectedItem().toString();
+                    Vendedor vendedor = vendedorSeleccionado;
 
-			List<ItemMenu> itemsFiltrados = itemMenuController.buscarItemsPorCriterios(id, nombre, precio, categoria, vendedor);
-			actualizarTablaItems(itemsFiltrados);
+                    List<ItemMenu> itemsFiltrados = itemMenuController.buscarItemsPorCriterios(id, nombre, precio, categoria, vendedor);
+                    actualizarTablaItems(itemsFiltrados);
 
-		} catch (DAOException e) {
-			JOptionPane.showMessageDialog(this, "Error al buscar ítems: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-		} catch (NumberFormatException e) {
-			JOptionPane.showMessageDialog(this, "ID y precio deben ser numéricos", "Error de Formato", JOptionPane.ERROR_MESSAGE);
-		}
-	}
+            } catch (DAOException e) {
+                    JOptionPane.showMessageDialog(this, "Error al buscar ítems: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(this, "ID y precio deben ser numéricos", "Error de Formato", JOptionPane.ERROR_MESSAGE);
+            }
+    }
 
 	private void actualizarTablaItems(List<ItemMenu> items) {
 		DefaultTableModel model = (DefaultTableModel) TablaItemsPorVendedor.getModel();
@@ -713,7 +703,6 @@ public class VentanaCrearItemPedido extends javax.swing.JFrame {
         }
         return vendedorSeleccionado;
     }
-    
     
     public static void main(String args[]) {
     }

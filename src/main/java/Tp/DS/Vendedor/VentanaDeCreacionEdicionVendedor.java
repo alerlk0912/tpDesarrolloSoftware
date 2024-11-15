@@ -1,38 +1,17 @@
 package Tp.DS.Vendedor;
 
-import Tp.DS.Vendedor.MenuVendedor;
-import Tp.DS.Vendedor.VendedorController;
 import Tp.DS.Coordenada.Coordenada;
-import Tp.DS.Vendedor.DAOVendedor;
-import Tp.DS.Vendedor.VendedorMemory;
-
 import javax.swing.JOptionPane;
 
 public class VentanaDeCreacionEdicionVendedor extends javax.swing.JFrame {
-    private MenuVendedor menuVendedor;
     private VendedorController vendedorController;
     private Vendedor vendedorActual;
-    private int filaSeleccionada=100;
-    
-    public void setMenuVendedor(MenuVendedor menuVendedor) {
-        this.menuVendedor = menuVendedor;
-    }
-    public void setTitulo() {
-        tituloPrincipal.setText("Editar Vendedor");
-    }
-    public void recibirDatosEdicion(int filaSeleccionada, Vendedor vendedor) {
-        this.filaSeleccionada = filaSeleccionada;
-        this.vendedorActual = vendedor;
-        campoNombre.setText(vendedor.getNombre());
-        campoDireccion.setText(vendedor.getDireccion());
-        campoLatitud.setText(String.valueOf(vendedor.getCoordenadas().getLat()));
-        campoLongitud.setText(String.valueOf(vendedor.getCoordenadas().getLng()));
-    }
-    
+
     public VentanaDeCreacionEdicionVendedor(VendedorController vendedorController) {
         this.vendedorController = vendedorController;
         initComponents();
     }
+	
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -269,7 +248,20 @@ public class VentanaDeCreacionEdicionVendedor extends javax.swing.JFrame {
     private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
         dispose();
     }//GEN-LAST:event_botonCancelarActionPerformed
-
+    
+    public void setMenuVendedor(MenuVendedor menuVendedor) {
+    }
+    public void setTitulo() {
+        tituloPrincipal.setText("Editar Vendedor");
+    }
+    public void recibirDatosEdicion(int filaSeleccionada, Vendedor vendedor) {
+        this.vendedorActual = vendedor;
+        campoNombre.setText(vendedor.getNombre());
+        campoDireccion.setText(vendedor.getDireccion());
+        campoLatitud.setText(String.valueOf(vendedor.getCoordenadas().getLat()));
+        campoLongitud.setText(String.valueOf(vendedor.getCoordenadas().getLng()));
+    }
+    
     public static void main(String args[]) {
         DAOVendedor vendedorDAO = VendedorMemory.getInstance();
         VendedorController vendedorController = VendedorController.getInstance(vendedorDAO);

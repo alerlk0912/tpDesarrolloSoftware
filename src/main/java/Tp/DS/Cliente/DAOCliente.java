@@ -1,7 +1,5 @@
 package Tp.DS.Cliente;
 
-import Tp.DS.Cliente.ClienteMemory;
-
 import java.util.List;
 
 public interface DAOCliente {

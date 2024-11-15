@@ -2,9 +2,7 @@ package Tp.DS.ItemMenu;
 
 import Tp.DS.Exceptions.DAOException;
 import Tp.DS.Vendedor.Vendedor;
-
 import java.util.List;
-
 
 public interface DAOItemMenu {
     public List<ItemMenu> listarItemsMenu() throws DAOException;

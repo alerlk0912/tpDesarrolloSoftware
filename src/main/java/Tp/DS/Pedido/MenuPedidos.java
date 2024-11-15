@@ -3,14 +3,9 @@ package Tp.DS.Pedido;
 import Tp.DS.MenuPrincipal.MenuPrincipal;
 import Tp.DS.Cliente.MenuCliente;
 import Tp.DS.ItemMenu.MenuItemsMenu;
-import Tp.DS.Pedido.PedidoController;
-import Tp.DS.Pedido.DAOPedido;
-import Tp.DS.Pedido.PedidoMemory;
 import javax.swing.*;
 import javax.swing.table.*;
-import Tp.DS.Pedido.VentanaDeCreacionEdicionPedido;
 import Tp.DS.Vendedor.MenuVendedor;
-
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -19,29 +14,17 @@ public class MenuPedidos extends javax.swing.JFrame {
     private MenuVendedor menuVendedor;
     private MenuCliente menuCliente;
     private MenuItemsMenu menuItemsMenu;
-    private MenuPedidos menuPedidos;
     private PedidoController pedidoController;
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-    //para tabla
-    private Object[][] pedidos;
     DefaultTableModel model;
     
-//    public void setListaTablaPedidos() {
-//        model = (DefaultTableModel) tablaPedido.getModel();
-//        pedidos = new Object[][] {
-//            {1, "Cliente 1", "Items Pedido 1", "EFECTIVO", "RECIBIDO", "1000", "15/08/2024", "5000"},
-//            {2, "Cliente 2", "Items Pedido 2", "MERCADO PAGO", "EN PREPARACION", "1500", "16/08/2024", "7500"},
-//            {3, "Cliente 3", "Items Pedido 3", "EFECTIVO", "EN ENVIO", "2000", "17/08/2024", "10000"},
-//            {4, "Cliente 4", "Items Pedido 4", "MERCADO PAGO", "ENTREGADO", "2500", "18/08/2024", "12500"},
-//            {5, "Cliente 5", "Items Pedido 5", "EFECTIVO", "RECIBIDO", "3000", "19/08/2024", "15000"},
-//            {6, "Cliente 6", "Items Pedido 6", "MERCADO PAGO", "EN PREPARACION", "3500", "20/08/2024", "17500"},
-//            {7, "Cliente 7", "Items Pedido 7", "EFECTIVO", "EN ENVIO", "4000", "21/08/2024", "20000"},
-//            {8, "Cliente 8", "Items Pedido 8", "MERCADO PAGO", "ENTREGADO", "4500", "22/08/2024", "22500"},
-//            {9, "Cliente 9", "Items Pedido 9", "EFECTIVO", "RECIBIDO", "5000", "23/08/2024", "25000"},
-//            {10, "Cliente 10", "Items Pedido 10", "MERCADO PAGO", "EN PREPARACION", "5500", "24/08/2024", "27500"}
-//        };
-//    }
+    public MenuPedidos(PedidoController pedidoController) {
+        this.pedidoController = pedidoController;
+        initComponents();
+        cargarTablaPedidos();
+    }
+    
     private void cargarTablaPedidos() {
         model = (DefaultTableModel) tablaPedido.getModel();
         model.setRowCount(0); // limpiar tabla
@@ -52,7 +35,6 @@ public class MenuPedidos extends javax.swing.JFrame {
             model.addRow(new Object[]{pedido.getId(), pedido.getCliente().getNombre(), nombresItems, 
                 pedido.getMetodoPago().getClass().getSimpleName(), pedido.getEstado(), 
                 pedido.getMontoBase(), fechaPagoFormateada, pedido.getMontoTotal()});
-            
         }
     }
     
@@ -69,29 +51,8 @@ public class MenuPedidos extends javax.swing.JFrame {
         this.menuItemsMenu = menuItemsMenu;
     }
     public void setMenuPedidos(MenuPedidos menuPedidos) {
-        this.menuPedidos = menuPedidos;
-    }
-//    public void recibirDatosDeCreacion(String cliente, String itemsPedido, String metodoDePago, String estadoPedido, String montoBase, String fechaDePago, String montoTotal) {
-//        Object[] vendedor = new Object[] {model.getRowCount() + 1, cliente, itemsPedido, metodoDePago, estadoPedido, montoBase, fechaDePago, montoTotal};
-//        model.addRow(vendedor);
-//    }
-//    public void recibirDatosDeEdicion(int filaSeleccionada, String cliente, String itemsPedido, String metodoDePago, String estadoPedido, String montoBase, String fechaDePago, String montoTotal) {
-//        model.setValueAt(cliente, filaSeleccionada, 1);
-//        model.setValueAt(itemsPedido, filaSeleccionada, 2);
-//        model.setValueAt(metodoDePago, filaSeleccionada, 3);
-//        model.setValueAt(estadoPedido, filaSeleccionada, 4);
-//        model.setValueAt(montoBase, filaSeleccionada, 5);
-//        model.setValueAt(fechaDePago, filaSeleccionada, 6); 
-//        model.setValueAt(montoTotal, filaSeleccionada, 7); 
-//    }
-    
-    public MenuPedidos(PedidoController pedidoController) {
-        this.pedidoController = pedidoController;
-        initComponents();
-//        setListaTablaPedidos();
-        cargarTablaPedidos();
-    }
-    
+    }    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -500,7 +461,7 @@ public class MenuPedidos extends javax.swing.JFrame {
     }//GEN-LAST:event_botonClienteActionPerformed
 
     private void botonPedidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonPedidosActionPerformed
-        //fdg
+        //
     }//GEN-LAST:event_botonPedidosActionPerformed
 
     private void botonItemsMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonItemsMenuActionPerformed
@@ -563,7 +524,7 @@ public class MenuPedidos extends javax.swing.JFrame {
             Pedido pedido = pedidoController.buscarPedido(pedidoId);
             if (pedido != null) {
                 VentanaDeCreacionEdicionPedido nuevaVentana = new VentanaDeCreacionEdicionPedido(pedidoController);
-                nuevaVentana.recibirDatosEdicion(filaSeleccionada, pedido); // pasa el objeto Pedido 
+                nuevaVentana.recibirDatosEdicion(filaSeleccionada, pedido);
                 nuevaVentana.setMenuPedido(this);
                 nuevaVentana.setVisible(true);
                 nuevaVentana.setLocationRelativeTo(null);
@@ -571,7 +532,7 @@ public class MenuPedidos extends javax.swing.JFrame {
                 nuevaVentana.addWindowListener(new java.awt.event.WindowAdapter() {
                         @Override
                         public void windowClosed(java.awt.event.WindowEvent windowEvent) {
-                            cargarTablaPedidos(); // actualizar tabla tras edición
+                            cargarTablaPedidos();
                         }
                     });
             } else {

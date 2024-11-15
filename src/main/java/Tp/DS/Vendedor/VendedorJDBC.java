@@ -2,8 +2,6 @@ package Tp.DS.Vendedor;
 
 import Tp.DS.BD.DatabaseConnection;
 import Tp.DS.Coordenada.Coordenada;
-import Tp.DS.Vendedor.DAOVendedor;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

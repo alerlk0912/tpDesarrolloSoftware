@@ -52,7 +52,6 @@ public class Cliente implements PedidoObserver {
     public void setId(int id) {
         this.id = id;
     }
-    
 
     public void setCuit(String cuit) {
         this.cuit = cuit;
@@ -73,8 +72,6 @@ public class Cliente implements PedidoObserver {
     public void setCoordenadas(Coordenada coordenadas) {
         this.coordenadas = coordenadas;
     }
-    
-    
     
     @Override
     public String toString() {
@@ -118,20 +115,15 @@ public class Cliente implements PedidoObserver {
 	
     @Override
     public void actualizarEstado(Pedido pedido, Pago metodoPago) {
-        //System.out.println("Cliente " + nombre + ": El estado del pedido ha cambiado a " + pedido.getEstado());
-
-        // si el estado es EN_ENVIO, generar el pago
         if (pedido.getEstado() == EstadoPedido.EN_ENVIO) {
             generarPago(pedido, metodoPago);
         }
     }
 
-    // genera el pago asociado al pedido
     public void generarPago(Pedido pedido, Pago metodoPago) {
         double montoBase = pedido.getMontoBase();
         pedido.setMetodoPago(metodoPago);
         pedido.calcularTotalPedido();
-        //System.out.println("Pago generado para " + nombre + " - Monto: " + pedido.getMontoTotal());
     }
     
     

@@ -1,13 +1,10 @@
 package Tp.DS.Pedido;
 
-import Tp.DS.Pedido.DAOPedido;
 import Tp.DS.Cliente.Cliente;
 import Tp.DS.ItemPedido.ItemsPedido;
 import Tp.DS.MetodoPago.Pago;
-
 import java.util.List;
 import java.util.stream.Collectors;
-
 
 public class PedidoController {
     private static PedidoController instance;

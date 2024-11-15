@@ -5,22 +5,15 @@ import Tp.DS.ItemMenu.*;
 import Tp.DS.ItemPedido.*;
 import Tp.DS.MetodoPago.*;
 import Tp.DS.Vendedor.*;
-
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class VentanaDeCreacionEdicionPedido extends javax.swing.JFrame {
-    private MenuPedidos menuPedido;
     private Pedido pedidoActual;
     private int filaSeleccionada=100;
-    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     
     private DAOVendedor vendedorDAO = VendedorMemory.getInstance();
     private VendedorController vendedorController = VendedorController.getInstance(vendedorDAO);
@@ -32,51 +25,15 @@ public class VentanaDeCreacionEdicionPedido extends javax.swing.JFrame {
     private PedidoController pedidoController = PedidoController.getInstance(pedidoDAO);
     private DAOItemsPedido itemPedidoDAO = ItemPedidoMemory.getInstance();
     private ItemsPedidoController itemPedidoController = ItemsPedidoController.getInstance(itemPedidoDAO, pedidoController,itemMenuController);
-    private Vendedor vendedorSeleccionado;
     private Cliente clienteSeleccionado;
     private List<ItemsPedido> itemsAsignados;
-    
-    public void setMenuPedido(MenuPedidos menuPedido) {
-        this.menuPedido = menuPedido;
-    }
-    public void setTitulo() {
-        tituloPrincipal.setText("Editar Pedido");
-    }
-    public void setItemsAsignadosAlPedido(List<ItemsPedido> ip) {
-        this.itemsAsignados = ip;
-
-        if (ip.isEmpty()) {
-            campoItems.setText("No hay ítems asignados.");
-        } else { 
-            StringBuilder items = new StringBuilder();
-            for (ItemsPedido item : ip) {
-                items.append(item.getItemMenu().getNombre()).append(", ");
-            }
-            campoItems.setText(items.toString());
-        }
-    }
     
     public VentanaDeCreacionEdicionPedido(PedidoController pedidoController) {
         this.pedidoController = pedidoController;
         initComponents();
         cargarClientesAsociadosEnTabla();
     }
-    public void recibirDatosEdicion(int filaSeleccionada, Pedido pedido) {
-        this.filaSeleccionada = filaSeleccionada;
-        this.pedidoActual = pedido;
-        if (!pedidoActual.getItemsPedido().isEmpty()) {
-            Vendedor vendedorItem = pedidoActual.getItemsPedido().get(0).getItemMenu().getVendedor();
-            campoVendedorSeleccionado.setText(vendedorItem.getNombre());
-        }
-        itemsAsignados = pedidoActual.getItemsPedido();
-        clienteSeleccionado = pedidoActual.getCliente();
-        String items = pedidoController.obtenerNombresItems(pedidoActual);
-        campoItems.setText(items);
-        campoClienteSeleccionado.setText(pedidoActual.getCliente().getNombre());
-        comboBoxMetodoDePago.setSelectedItem(pedidoActual.getMetodoPago().getClass().getName());
-        campoMontoBase.setText(Double.toString(pedidoActual.getMontoBase()));
-        campoMontoTotal.setText(Double.toString(pedidoActual.getMontoBase()));
-    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -523,7 +480,6 @@ public class VentanaDeCreacionEdicionPedido extends javax.swing.JFrame {
     private void botonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarActionPerformed
         String regexNumero = "^\\d*(\\.\\d+)?$";
 
-        // Verificación de campos y condiciones necesarias para crear o modificar el pedido
         if (!campoMontoBase.getText().matches(regexNumero) || campoMontoBase.getText().isEmpty() 
                 || !campoMontoTotal.getText().matches(regexNumero) || campoMontoTotal.getText().isEmpty()  
                 || itemsAsignados == null || itemsAsignados.isEmpty() || clienteSeleccionado == null) {
@@ -543,22 +499,18 @@ public class VentanaDeCreacionEdicionPedido extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Cliente o items no seleccionados.", "Advertencia", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        // Obtención del método de pago seleccionado y creación del pago correspondiente
         String metodoPagoSeleccionado = comboBoxMetodoDePago.getSelectedItem().toString().toLowerCase();
         Pago pagoPedido = FactoryPago.crearPago(metodoPagoSeleccionado, campoMetodoPago1.getText(), campoMetodoPago2.getText());
 
-        // Verifica si es una creación de nuevo pedido o edición de uno existente
-        if (filaSeleccionada == 100) { // crear pedido
+        if (filaSeleccionada == 100) {
             Pedido pedidoActual = pedidoController.crearRetornarPedido(clienteSeleccionado, pagoPedido);
             pedidoActual.setItemsPedido(itemsAsignados);
-
-            // Configuración de fecha de pago y otros atributos del pedido
             pedidoActual.setFechaPago(new Date());
             pedidoActual.setMontoBase(Double.parseDouble(campoMontoBase.getText()));
             pedidoActual.setMontoTotal(Double.parseDouble(campoMontoTotal.getText()));
             pedidoController.modificarPedido(pedidoActual.getId(), clienteSeleccionado, pagoPedido);
             JOptionPane.showMessageDialog(null, "Pedido creado con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-        } else { // editar pedido existente
+        } else {
             pedidoActual.setItemsPedido(itemsAsignados);
             pedidoActual.setFechaPago(new Date());
             pedidoActual.setMontoBase(Double.parseDouble(campoMontoBase.getText()));
@@ -618,14 +570,49 @@ public class VentanaDeCreacionEdicionPedido extends javax.swing.JFrame {
             campoMontoTotal.setText(campoMontoBase.getText());
         }
 
-        // refrescar la ventana para aplicar los cambios de visibilidad
         this.revalidate();
         this.repaint();
     }//GEN-LAST:event_comboBoxMetodoDePagoActionPerformed
+    
+    public void setMenuPedido(MenuPedidos menuPedido) {
+    }
+    public void setTitulo() {
+        tituloPrincipal.setText("Editar Pedido");
+    }
+    public void setItemsAsignadosAlPedido(List<ItemsPedido> ip) {
+        this.itemsAsignados = ip;
 
+        if (ip.isEmpty()) {
+            campoItems.setText("No hay ítems asignados.");
+        } else { 
+            StringBuilder items = new StringBuilder();
+            for (ItemsPedido item : ip) {
+                items.append(item.getItemMenu().getNombre()).append(", ");
+            }
+            campoItems.setText(items.toString());
+        }
+    }
+    
+    public void recibirDatosEdicion(int filaSeleccionada, Pedido pedido) {
+        this.filaSeleccionada = filaSeleccionada;
+        this.pedidoActual = pedido;
+        if (!pedidoActual.getItemsPedido().isEmpty()) {
+            Vendedor vendedorItem = pedidoActual.getItemsPedido().get(0).getItemMenu().getVendedor();
+            campoVendedorSeleccionado.setText(vendedorItem.getNombre());
+        }
+        itemsAsignados = pedidoActual.getItemsPedido();
+        clienteSeleccionado = pedidoActual.getCliente();
+        String items = pedidoController.obtenerNombresItems(pedidoActual);
+        campoItems.setText(items);
+        campoClienteSeleccionado.setText(pedidoActual.getCliente().getNombre());
+        comboBoxMetodoDePago.setSelectedItem(pedidoActual.getMetodoPago().getClass().getName());
+        campoMontoBase.setText(Double.toString(pedidoActual.getMontoBase()));
+        campoMontoTotal.setText(Double.toString(pedidoActual.getMontoBase()));
+    }
+    
     private void cargarClientesAsociadosEnTabla(){
         DefaultTableModel model = (DefaultTableModel) TablaClientes.getModel();
-        model.setRowCount(0); // Limpiar tabla
+        model.setRowCount(0);
         List<Cliente> listaClientes = clienteController.mostrarClientes();
         if (listaClientes != null) {
             for (Cliente cliente : listaClientes) {
@@ -641,7 +628,6 @@ public class VentanaDeCreacionEdicionPedido extends javax.swing.JFrame {
     }
     
     public void setVendedorSeleccionado(Vendedor vendedor) {
-        this.vendedorSeleccionado = vendedor;
         if (vendedor != null) {
             campoVendedorSeleccionado.setText(vendedor.getNombre()); 
         }

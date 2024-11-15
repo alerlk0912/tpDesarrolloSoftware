@@ -6,7 +6,6 @@ import Tp.DS.Coordenada.Coordenada;
 import Tp.DS.ItemMenu.ItemMenu;
 import Tp.DS.Pedido.EstadoPedido;
 import Tp.DS.Pedido.Pedido;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -57,12 +56,10 @@ public class Vendedor {
         this.coordenadas = coordenadas;
     }
     
-
-    // Método para calcular la distancia entre el vendedor y un cliente
     public double distancia(Cliente cliente) {
         return this.coordenadas.calcularDistancia(cliente.getCoordenadas());
     }
-    // Método para buscar un vendedor por nombre
+
     public static Vendedor buscarVendedorPorNombre(Vendedor[] vendedores, String nombre) {
         for (Vendedor vendedor : vendedores) {
             if (vendedor.getNombre().equals(nombre)) {
@@ -72,7 +69,6 @@ public class Vendedor {
         return null;
     }
 
-    // Método para buscar un vendedor por ID
     public static Vendedor buscarVendedorPorId(Vendedor[] vendedores, int id) {
         for (Vendedor vendedor : vendedores) {
             if (vendedor.getId() == id) {
@@ -81,13 +77,12 @@ public class Vendedor {
         }
         return null;
     }
-    // Método para eliminar un vendedor del arreglo
+
     public static Vendedor[] eliminarVendedor(Vendedor[] vendedores, String nombre) {
         int index = -1;
         for (int i = 0; i < vendedores.length; i++) {
             if (vendedores[i].getNombre().equals(nombre)) {
                 index = i;
-                //System.out.println("Vendedor encontrado: " + vendedores[i].getNombre() + ". Eliminando...");
                 break;
             }
         }
@@ -101,12 +96,10 @@ public class Vendedor {
             }
             return nuevoArray;
         } else {
-            //System.out.println("Vendedor no encontrado.");
             return vendedores;
         }
     }
     
-    // metodos para manejar el menu de platos
     public void agregarItemMenu(ItemMenu item) {
         menu.add(item);
     }
@@ -156,13 +149,12 @@ public class Vendedor {
     }
     
     public void actualizarEstadoPedido(Pedido pedido, EstadoPedido nuevoEstado) {
-        //System.out.println("Vendedor " + nombre + ": actualizando estado del pedido a " + nuevoEstado);
         pedido.cambiarEstado(nuevoEstado);
     }
 
     public String getNombresMenu() {
         return menu.stream()
-                   .map(ItemMenu::getNombre) // Obtener el nombre de cada ItemMenu
-                   .collect(Collectors.joining(", ")); // Unir con comas
+                   .map(ItemMenu::getNombre)
+                   .collect(Collectors.joining(", "));
     }
 }

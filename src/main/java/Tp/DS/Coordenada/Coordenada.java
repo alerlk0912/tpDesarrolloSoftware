@@ -37,6 +37,4 @@ public class Coordenada {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return RADIO_TIERRA * c;
     }
-
-    
 }

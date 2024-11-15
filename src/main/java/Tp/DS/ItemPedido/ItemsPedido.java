@@ -22,7 +22,6 @@ public class ItemsPedido {
         return itemMenu;
     }
 
-
     public int getCantidad() {
         return cantidad;
     }
@@ -57,7 +56,4 @@ public class ItemsPedido {
                 ", cantidad=" + cantidad +
                 '}';
     }
-
-    
-
 }

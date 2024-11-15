@@ -1,6 +1,5 @@
 package Tp.DS.ItemMenu;
 
-import Tp.DS.ItemMenu.DAOItemMenu;
 import Tp.DS.Categoria.Categoria;
 import Tp.DS.Exceptions.DAOException;
 import Tp.DS.Vendedor.*;
@@ -66,7 +65,6 @@ public class ItemMenuController {
         // Crear categorías
         Categoria catBebidas = new Categoria("Descripcion","BEBIDA");
         Categoria catComidas = new Categoria("Descripcion", "PLATO");
-
 
         // Crear ítems de menú
         crearNuevoItemMenu(catBebidas.getTipo_item(), "Gaseosa", "Refresco de cola", 2500, catBebidas, v1, 0.5, false, null, null, null);

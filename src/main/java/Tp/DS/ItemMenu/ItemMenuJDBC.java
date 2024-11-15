@@ -6,7 +6,6 @@ import Tp.DS.Bebida;
 import Tp.DS.Categoria.Categoria;
 import Tp.DS.Categoria.DAOCategoria;
 import Tp.DS.Exceptions.DAOException;
-import Tp.DS.ItemMenu.DAOItemMenu;
 import Tp.DS.Vendedor.DAOVendedor;
 import Tp.DS.Vendedor.Vendedor;
 import java.sql.*;
@@ -180,6 +179,7 @@ public class ItemMenuJDBC implements DAOItemMenu {
 
     @Override
     public List<ItemMenu> buscarItemsPorCriterios(int id, String nombre, double precio, String categoria, Vendedor vendedor) throws DAOException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return null;
+        //No implementado
     }
 }

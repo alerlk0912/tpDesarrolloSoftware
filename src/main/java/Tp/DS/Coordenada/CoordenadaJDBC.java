@@ -1,7 +1,6 @@
 package Tp.DS.Coordenada;
 
 import Tp.DS.BD.DatabaseConnection;
-import Tp.DS.Coordenada.DAOCoordenada;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

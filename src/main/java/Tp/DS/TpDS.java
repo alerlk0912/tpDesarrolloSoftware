@@ -1,25 +1,19 @@
 package Tp.DS;
 
 import Tp.DS.BD.DatabaseConnection;
-import Tp.DS.Categoria.Categoria;
 import Tp.DS.Cliente.*;
-import Tp.DS.Coordenada.Coordenada;
 import Tp.DS.Exceptions.DAOException;
 import Tp.DS.Exceptions.PedidoInvalidoException;
 import Tp.DS.Exceptions.VendedorNoCoincideException;
 import Tp.DS.ItemMenu.*;
-import Tp.DS.ItemPedido.*;
-import Tp.DS.Pedido.*;
 import Tp.DS.MenuPrincipal.MenuPrincipal;
 import Tp.DS.MetodoPago.*;
 import Tp.DS.Vendedor.*;
-import javax.swing.*;
 
 public class TpDS {
     private static boolean useJDBC = false;
 
     public static void main(String[] args) throws VendedorNoCoincideException, PedidoInvalidoException, DAOException {
-        // Llama a la pantalla de inicio de sesión
         new PantallaIntro().setOnModeSelected(modeSelection -> inicializar(modeSelection));
     }
 
@@ -112,9 +106,6 @@ public class TpDS {
     
     
     public static void casoPruebaParte5() throws VendedorNoCoincideException, PedidoInvalidoException {
-       
-        
-        
         // Crear métodos de pago
         Pago pago1 = new MercadoPago("cliente1.alias.mercado");
         Pago pago2 = new Transferencia("12345678901234567890", "20-12345678-9");
