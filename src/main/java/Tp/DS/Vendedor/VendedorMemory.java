@@ -18,6 +18,7 @@ public class VendedorMemory implements DAOVendedor {
         return instance;
     }
     
+    @Override
     public List<Vendedor> listarVendedores() {
         return vendedores;
     }

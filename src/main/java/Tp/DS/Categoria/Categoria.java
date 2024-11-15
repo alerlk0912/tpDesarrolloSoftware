@@ -4,7 +4,12 @@ public class Categoria {
     private int id;
     private String descripcion;
     private String tipo_item;
-
+    
+    public Categoria( String descripcion, String tipo) {
+        this.descripcion = descripcion;
+        this.tipo_item = tipo;
+    }
+    
     public int getId() {
         return id;
     }
@@ -32,10 +37,7 @@ public class Categoria {
             throw new IllegalArgumentException("tipo_item debe ser 'plato' o 'bebida'");
         }
     }
-    public Categoria( String descripcion, String tipo) {
-        this.descripcion = descripcion;
-        this.tipo_item = tipo;
-    }
+
     @Override
     public String toString() {
         return descripcion;

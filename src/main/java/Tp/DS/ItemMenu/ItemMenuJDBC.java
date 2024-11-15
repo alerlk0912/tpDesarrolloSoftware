@@ -134,6 +134,12 @@ public class ItemMenuJDBC implements DAOItemMenu {
         return null;
     }
 
+    @Override
+    public List<ItemMenu> buscarItemsPorCriterios(int id, String nombre, double precio, String categoria, Vendedor vendedor) throws DAOException {
+        return null;
+        //No implementado
+    }
+    
     private Plato crearPlato(ResultSet result, Categoria categoria, Vendedor vendedor) throws SQLException {
         String nombre = result.getString("nombre");
         String descripcion = result.getString("descripcion");
@@ -177,9 +183,4 @@ public class ItemMenuJDBC implements DAOItemMenu {
         }
     }
 
-    @Override
-    public List<ItemMenu> buscarItemsPorCriterios(int id, String nombre, double precio, String categoria, Vendedor vendedor) throws DAOException {
-        return null;
-        //No implementado
-    }
 }

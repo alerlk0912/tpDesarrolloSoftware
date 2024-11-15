@@ -17,6 +17,7 @@ public class ClienteMemory implements DAOCliente {
         }
         return instance;
     }
+    @Override
     public List<Cliente> listarClientes() {
         return clientes;
     }

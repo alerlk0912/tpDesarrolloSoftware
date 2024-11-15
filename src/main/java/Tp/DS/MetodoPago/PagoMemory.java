@@ -28,11 +28,13 @@ public class PagoMemory implements DAOMetodoPago {
         return resultado; 
     }
 
+    @Override
     public void guardarPago(Pago pago) {
         pagos.put(nextId, pago);
         nextId++;
     }
 
+    @Override
     public void eliminarPago(int id) {
         pagos.remove(id);
     }
