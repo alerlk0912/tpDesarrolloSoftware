@@ -93,7 +93,6 @@ public class MenuCliente extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(1000, 1000));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         Panel.setBackground(new java.awt.Color(69, 69, 69));
@@ -236,7 +235,7 @@ public class MenuCliente extends javax.swing.JFrame {
 
             },
             new String [] {
-                "", "CUIT", "Nombre", "Email", "Dirección", "Coordenadas"
+                "ID", "CUIT", "Nombre", "Email", "Dirección", "Coordenadas"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -247,7 +246,7 @@ public class MenuCliente extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tablaClientes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        tablaClientes.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tablaClientes.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         tablaClientes.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tablaClientes.setShowGrid(true);
@@ -471,18 +470,22 @@ public class MenuCliente extends javax.swing.JFrame {
     private void botonEditarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarClienteActionPerformed
         int filaSeleccionada = tablaClientes.getSelectedRow();
         if (filaSeleccionada != -1) {
-            String cuit = (String) model.getValueAt(filaSeleccionada, 1);
-            String nombre = (String) model.getValueAt(filaSeleccionada, 2);
-            String email = (String) model.getValueAt(filaSeleccionada, 3);
-            String direccion = (String) model.getValueAt(filaSeleccionada, 4);
-            String coordenada = (String) model.getValueAt(filaSeleccionada, 5);
-
-            VentanaDeCreacionEdicionCliente ventanaEdicion = new VentanaDeCreacionEdicionCliente(clienteController);
-            ventanaEdicion.setMenuCliente(this);
-            ventanaEdicion.recibirDatosEdicion(filaSeleccionada, cuit, nombre, email, direccion, coordenada);
-            ventanaEdicion.setVisible(true);
-            ventanaEdicion.setLocationRelativeTo(null);
-            ventanaEdicion.setTitulo();
+            int id = (int) model.getValueAt(filaSeleccionada, 0);
+            Cliente cliente = clienteController.buscarCliente(id);
+            if(cliente != null){
+                VentanaDeCreacionEdicionCliente ventanaEdicion = new VentanaDeCreacionEdicionCliente(clienteController);
+                ventanaEdicion.setMenuCliente(this);
+                ventanaEdicion.recibirDatosEdicion(filaSeleccionada, cliente);
+                ventanaEdicion.setVisible(true);
+                ventanaEdicion.setLocationRelativeTo(null);
+                ventanaEdicion.setTitulo();
+                ventanaEdicion.addWindowListener(new java.awt.event.WindowAdapter() {
+                        @Override
+                        public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                            cargarClientesEnTabla();
+                        }
+                    });
+            }
         } else {
             JOptionPane.showMessageDialog(null, "Por favor selecciona una fila para editar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }

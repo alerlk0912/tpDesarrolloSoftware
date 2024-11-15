@@ -2,6 +2,7 @@ package Tp.DS.Cliente;
 
 import Tp.DS.BD.DatabaseConnection;
 import Tp.DS.Coordenada.Coordenada;
+import Tp.DS.Coordenada.CoordenadaJDBC;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,14 +20,15 @@ public class ClienteJDBC implements DAOCliente {
 
     @Override
     public void actualizarCliente(Cliente cliente){
-        String sql = "UPDATE cliente SET cuit = ?, nombre = ?, email = ?, direccion = ?, coordenadas = ? WHERE id = ?";
+        CoordenadaJDBC coordenadaJDBC = new CoordenadaJDBC();
+        coordenadaJDBC.actualizarCoordenada(cliente.getCoordenadas());
+        String sql = "UPDATE cliente SET CUIT  = ?, Nombre = ?, Email = ?, Direccion = ? WHERE ID_Cliente  = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, cliente.getCuit());
             pstmt.setString(2, cliente.getNombre());
             pstmt.setString(3, cliente.getEmail());
             pstmt.setString(4, cliente.getDireccion());
-            pstmt.setObject(5, cliente.getCoordenadas());
-            pstmt.setInt(6, cliente.getId());
+            pstmt.setInt(5, cliente.getId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.err.println("Error al actualizar cliente por ID: " + e.getMessage());
@@ -35,19 +37,25 @@ public class ClienteJDBC implements DAOCliente {
 
     @Override
     public Cliente buscarClientePorId(int id){
-        String sql = "SELECT * FROM cliente WHERE id = ?";
         Cliente cliente = null;
+        String sql = "SELECT * FROM cliente INNER JOIN coordenada ON cliente.CoordenadaID = coordenada.ID_Coordenada WHERE ID_Cliente = ?";
+        
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, id);
             try (ResultSet result = pstmt.executeQuery()) {
                 if (result.next()) {
+                    int coordenadaId = result.getInt("CoordenadaID");
+                    double lat = result.getDouble("Lat");
+                    double lng = result.getDouble("Lng");
+                    Coordenada coordenadas = new Coordenada(coordenadaId, lat, lng);
                     cliente = new Cliente(
-                        result.getString("cuit"),
-                        result.getString("nombre"),
-                        result.getString("email"),
-                        result.getString("direccion"),
-                        (Coordenada) result.getObject("coordenadas")
+                        result.getString("CUIT"),
+                        result.getString("Nombre"),
+                        result.getString("Email"),
+                        result.getString("Direccion"),
+                        coordenadas
                     );
+                    cliente.setId(id);
                 }
             }
         } 
@@ -114,6 +122,7 @@ public class ClienteJDBC implements DAOCliente {
         try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery(sql)) {
             while (result.next()) {
                 Cliente cliente;
+                int id = result.getInt("ID_Cliente");
                 int coordenadaId = result.getInt("CoordenadaID");
                 double lat = result.getDouble("Lat");
                 double lng = result.getDouble("Lng");
@@ -125,6 +134,7 @@ public class ClienteJDBC implements DAOCliente {
                     result.getString("direccion"),
                     coordenadas
                 );
+                cliente.setId(id);
                 clientes.add(cliente);
             }
         } catch (SQLException e) {

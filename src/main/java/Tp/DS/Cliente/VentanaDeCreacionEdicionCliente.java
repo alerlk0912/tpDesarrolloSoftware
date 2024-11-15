@@ -7,8 +7,11 @@ public class VentanaDeCreacionEdicionCliente extends javax.swing.JFrame {
     private MenuCliente menuCliente;
     private int filaSeleccionada=100;
     private ClienteListener clienteListener;
+    private ClienteController clienteController;
+    private Cliente clienteActual;
 
     public VentanaDeCreacionEdicionCliente(ClienteController clienteController) {
+        this.clienteController = clienteController;
         initComponents();
     }
 	
@@ -262,10 +265,10 @@ public class VentanaDeCreacionEdicionCliente extends javax.swing.JFrame {
             double lng = Double.parseDouble(campoLongitud.getText());
             Coordenada coordenadas = new Coordenada(lat, lng);
             if(filaSeleccionada==100) {
-                menuCliente.recibirDatosDeCreacion(campoCUIT.getText(), campoNombre.getText(), campoEmail.getText(), campoDireccion.getText(), coordenadas);
+                clienteController.crearNuevoCliente(campoCUIT.getText(), campoNombre.getText(), campoEmail.getText(), campoDireccion.getText(), coordenadas);
                 JOptionPane.showMessageDialog(null, "Creado con Éxito", null, JOptionPane.INFORMATION_MESSAGE);
             } else {
-                menuCliente.recibirDatosDeEdicion(filaSeleccionada, campoCUIT.getText(), campoNombre.getText(), campoEmail.getText(), campoDireccion.getText(), coordenadas);
+                clienteController.modificarCliente(clienteActual.getId(), campoCUIT.getText(), campoNombre.getText(), campoEmail.getText(), campoDireccion.getText(), coordenadas);
                 JOptionPane.showMessageDialog(null, "Editado con Éxito", null, JOptionPane.INFORMATION_MESSAGE);
             }
             dispose();
@@ -314,17 +317,15 @@ public class VentanaDeCreacionEdicionCliente extends javax.swing.JFrame {
         void onClienteSaved(String cuit, String nombre, String email, String direccion, Coordenada coordenadas);
     }
     
-    public void recibirDatosEdicion(int filaSeleccionada, String cuit, String nombre, String email, String direccion, String coordenada) {
+    public void recibirDatosEdicion(int filaSeleccionada, Cliente cliente) {
         this.filaSeleccionada = filaSeleccionada;
-        campoCUIT.setText(cuit);
-        campoNombre.setText(nombre);
-        campoEmail.setText(email);
-        campoDireccion.setText(direccion);
-        String[] partes = coordenada.split(",");
-        String latitud = partes[0];
-        String longitud = partes[1];
-        campoLatitud.setText(latitud.trim());
-        campoLongitud.setText(longitud.trim());
+        this.clienteActual = cliente;
+        campoCUIT.setText(cliente.getCuit());
+        campoNombre.setText(cliente.getNombre());
+        campoEmail.setText(cliente.getEmail());
+        campoDireccion.setText(cliente.getDireccion());
+        campoLatitud.setText(String.valueOf(cliente.getCoordenadas().getLat()));
+        campoLongitud.setText(String.valueOf(cliente.getCoordenadas().getLng()));
     }
 
     public static void main(String args[]) {

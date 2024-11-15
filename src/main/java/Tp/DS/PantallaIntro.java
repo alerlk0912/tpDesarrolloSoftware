@@ -71,7 +71,7 @@ public class PantallaIntro {
             return false;
         }
 
-        if (!usuario.equals("root") || !password.equals("")) {
+        if (!usuario.equals("root") || !password.equals("AmD6Kk3ASlaLdQsa1")) {
             JOptionPane.showMessageDialog(frame, "Credenciales incorrectas.", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }

@@ -88,6 +88,7 @@ Tp\DS\Cliente\VentanaDeCreacionEdicionCliente.class
 Tp\DS\Pedido\MenuPedidos.class
 Tp\DS\Pedido\PedidoJDBC.class
 Tp\DS\Pedido\VentanaDeCreacionEdicionPedido$1.class
+Tp\DS\Cliente\MenuCliente$10.class
 Tp\DS\ItemMenu\ItemMenuMemory.class
 Tp\DS\Vendedor\Vendedor.class
 Tp\DS\Exceptions\DAOException.class
