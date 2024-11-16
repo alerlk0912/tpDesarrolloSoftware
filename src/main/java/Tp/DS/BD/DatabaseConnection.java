@@ -9,7 +9,7 @@ public class DatabaseConnection {
     private static String usuario;
     private static String password;
 
-   private DatabaseConnection( ) {
+   public DatabaseConnection( ) {
         
    }
    public static void setCredentials(String usuarioIngresado, String passwordIngresado) {

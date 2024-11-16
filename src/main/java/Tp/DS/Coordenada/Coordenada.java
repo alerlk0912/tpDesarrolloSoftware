@@ -1,5 +1,7 @@
 package Tp.DS.Coordenada;
 
+import java.util.Objects;
+
 public class Coordenada {
     int id;
     private double lat;
@@ -42,5 +44,21 @@ public class Coordenada {
                 * Math.sin(lngDistancia / 2) * Math.sin(lngDistancia / 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return RADIO_TIERRA * c;
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Coordenada that = (Coordenada) o;
+
+        return id == that.id &&
+               Double.compare(that.lat, lat) == 0 &&
+               Double.compare(that.lng, lng) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, lat, lng);
     }
 }

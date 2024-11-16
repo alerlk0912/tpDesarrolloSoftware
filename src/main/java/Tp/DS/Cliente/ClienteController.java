@@ -12,10 +12,8 @@ public class ClienteController {
     }
 
     public static ClienteController getInstance(DAOCliente clienteDAO) {
-        if (instance == null) {
-            instance = new ClienteController(clienteDAO);
-        }
-        return instance;
+        
+        return instance = new ClienteController(clienteDAO);
     }
 
     public List<Cliente> mostrarClientes() {
