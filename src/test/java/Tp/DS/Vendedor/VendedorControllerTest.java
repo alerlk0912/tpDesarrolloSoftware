@@ -4,45 +4,50 @@ package Tp.DS.Vendedor;
 import Tp.DS.Coordenada.Coordenada;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
 import java.util.List;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
+@ExtendWith(MockitoExtension.class)
 public class VendedorControllerTest {
-    private VendedorController vendedorController;
+    @Mock
     private DAOVendedor vendedorDAO = new VendedorJDBC();
+    @InjectMocks
+    private VendedorController vendedorController;
+    
 
     @BeforeEach
     void setUp() {
-        // Mock del DAOVendedor
-        vendedorDAO = Mockito.mock(DAOVendedor.class);
-        // Instancia del controlador con el DAO mockeado
+        MockitoAnnotations.openMocks(this);
+        
         vendedorController = VendedorController.getInstance(vendedorDAO);
     }
 
     @Test
     void testMostrarListaVendedores() {
-        // Datos simulados
-        Coordenada coordenada1 = new Coordenada(1, -34.6037, -58.3816);
-        Coordenada coordenada2 = new Coordenada(2, -33.4489, -70.6693);
 
-        Vendedor vendedor1 = new Vendedor(1, "Juan", "Calle Falsa 123", coordenada1);
-        Vendedor vendedor2 = new Vendedor(2, "Pedro", "Av. Siempre Viva 742", coordenada2);
+        List<Vendedor> vendedoresSimulados = Arrays.asList(
+            new Vendedor(1, "Juan", "Calle Falsa 123", new Coordenada(1, -34.6037, -58.3816)),
+            new Vendedor(2, "Pedro", "Av. Siempre Viva 742", new Coordenada(2, -33.4489, -70.6693))
+        );
+        
+        when(vendedorDAO.listarVendedores()).thenReturn(vendedoresSimulados);
 
-        when(vendedorDAO.listarVendedores()).thenReturn(Arrays.asList(vendedor1, vendedor2));
-
-        // Ejecución del método
         List<Vendedor> vendedores = vendedorController.mostrarListaVendedor();
 
-        // Verificación
+        assertNotNull(vendedores);
         assertEquals(2, vendedores.size());
-        assertEquals("Juan", vendedores.get(0).getNombre());
-        assertEquals("Pedro", vendedores.get(1).getNombre());
-        verify(vendedorDAO, times(1)).listarVendedores();
+        assertEquals(vendedoresSimulados, vendedores);
+        verify(vendedorDAO).listarVendedores(); // Verifica que se llamó al método
     }
 
     @Test
@@ -119,6 +124,7 @@ public class VendedorControllerTest {
         verify(vendedorDAO, times(1)).buscarVendedorPorId(99);
         verify(vendedorDAO, times(0)).eliminarVendedor(99);
     }
+    
 
     @Test
     void testBuscarVendedor() {
