@@ -30,7 +30,7 @@ public class ItemMenuController {
     }
 
     public List<ItemMenu> mostrarListaItemsMenu() throws DAOException {
-        return itemMenuDAO.listarItemsMenu();
+        return itemMenuDAO.mostrarListaItemsMenu();
     }
 
     public void crearNuevoItemMenu(String tipoItem, String nombre, String descripcion, double precio,
@@ -102,7 +102,7 @@ public class ItemMenuController {
             throw new IllegalArgumentException("El vendedor no puede ser nulo");
         }
 
-        List<ItemMenu> items = itemMenuDAO.listarItemsMenu();
+        List<ItemMenu> items = itemMenuDAO.mostrarListaItemsMenu();
         List<ItemMenu> itemsPorVendedor = new ArrayList<>();
 
         for (ItemMenu item : items) {

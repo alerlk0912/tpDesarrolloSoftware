@@ -21,6 +21,8 @@ public class Pedido implements PedidoObservable {
     private Date fechaPago;
     private double montoTotal;
 
+    public Pedido() {
+    }
     public Pedido(Cliente cliente, Pago metodoPago) {
         if (metodoPago == null) {
             throw new IllegalArgumentException("El método de pago no puede ser nulo");

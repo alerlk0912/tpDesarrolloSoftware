@@ -25,105 +25,100 @@ public class PedidoJDBC implements DAOPedido {
     }
 
     @Override
-    public List<Pedido> listarPedidos(){
+    public List<Pedido> listarPedidos() {
         List<Pedido> pedidos = new ArrayList<>();
-        String sql = "SELECT * FROM pedidos";
-        try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery(sql)) {
-            while (result.next()) {
-                int clienteId = result.getInt("cliente_id");
-                int metodoPagoId = result.getInt("pago_id");
+        String query = "SELECT * FROM pedidos";
 
-                Cliente cliente = clienteDAO.buscarClientePorId(clienteId);
-                
-                Pago metodoPago = daoPago.buscarPagoPorId(metodoPagoId);
-
-                Pedido pedido = new Pedido(cliente, metodoPago);
-                pedido.setId(result.getInt("id"));  
-                pedido.setFechaPago(result.getDate("fecha"));  
-                pedido.setMontoTotal(result.getDouble("total"));
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+            while (rs.next()) {
+                Pedido pedido = mapearPedido(rs);
                 pedidos.add(pedido);
             }
         } catch (SQLException e) {
-            System.err.println("Error al listar pedidos: " + e.getMessage());
+            e.printStackTrace();
         }
         return pedidos;
     }
 
     @Override
     public void crearPedido(Pedido pedido) {
-        String sql = "INSERT INTO pedidos (cliente_id, fecha, total) VALUES (?, ?, ?)";
-
-        try (PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        String query = "INSERT INTO pedidos (cliente_id, metodo_pago, estado, monto_base, fecha_pago, monto_total) VALUES (?, ?, ?, ?, ?, ?)";
+        
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setInt(1, pedido.getCliente().getId());
-            pstmt.setDate(2, new java.sql.Date(pedido.getFechaPago().getTime()));
-            pstmt.setDouble(3, pedido.getMontoTotal());
-
-            int affectedRows = pstmt.executeUpdate();
-            if (affectedRows == 0) {
-                throw new SQLException("Error en crearPedido: No se afectaron filas.");
-            }
-
-            try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    pedido.setId(generatedKeys.getInt(1)); 
-                } else {
-                    throw new SQLException("Error en crearPedido: No se generó ID.");
-                }
-            }
+            //pstmt.setString(2, pedido.getMetodoPago());
+            pstmt.setString(3, pedido.getEstado().name());
+            pstmt.setDouble(4, pedido.getMontoBase());
+            pstmt.setDate(5, pedido.getFechaPago() != null ? new Date(pedido.getFechaPago().getTime()) : null);
+            pstmt.setDouble(6, pedido.getMontoTotal());
+            pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Error al crear pedido: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
     
 
     @Override
-    public void actualizarPedido(Pedido pedido){
-        String sql = "UPDATE pedidos SET cliente_id = ?, fecha = ?, total = ? WHERE id = ?";
-        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+    public void actualizarPedido(Pedido pedido) {
+        String query = "UPDATE pedidos SET cliente_id = ?, metodo_pago = ?, estado = ?, monto_base = ?, fecha_pago = ?, monto_total = ? WHERE id = ?";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setInt(1, pedido.getCliente().getId());
-            pstmt.setDate(2, new java.sql.Date(pedido.getFechaPago().getTime()));
-            pstmt.setDouble(3, pedido.getMontoTotal());
-            pstmt.setInt(4, pedido.getId());
+            //pstmt.setString(2, pedido.getMetodoPago().name());
+            pstmt.setString(3, pedido.getEstado().name());
+            pstmt.setDouble(4, pedido.getMontoBase());
+            pstmt.setDate(5, pedido.getFechaPago() != null ? new Date(pedido.getFechaPago().getTime()) : null);
+            pstmt.setDouble(6, pedido.getMontoTotal());
+            pstmt.setInt(7, pedido.getId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Error al actualizar pedido por ID: " + e.getMessage());
-        } 
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void eliminarPedido(int id){
-        String sql = "DELETE FROM pedidos WHERE id = ?";
-        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+    public void eliminarPedido(int id) {
+        String query = "DELETE FROM pedidos WHERE id = ?";
+        
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Error al eliminar pedido por ID: " + e.getMessage());
-        } 
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public Pedido buscarPedidoPorId(int id){
-        String sql = "SELECT * FROM pedidos WHERE id = ?";
+    public Pedido buscarPedidoPorId(int id) {
+        String query = "SELECT * FROM pedidos WHERE id = ?";
         Pedido pedido = null;
-        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setInt(1, id);
-            ResultSet result = pstmt.executeQuery();
-            if (result.next()) {
-                int clienteId = result.getInt("cliente_id");
-                int metodoPagoId = result.getInt("pago_id");
-
-                Cliente cliente = clienteDAO.buscarClientePorId(clienteId);
-                Pago metodoPago = daoPago.buscarPagoPorId(metodoPagoId);
-
-                pedido = new Pedido(cliente, metodoPago);
-                pedido.setId(result.getInt("id"));
-                pedido.setFechaPago(result.getDate("fecha"));
-                pedido.setMontoTotal(result.getDouble("total"));
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    pedido = mapearPedido(rs);
+                }
             }
         } catch (SQLException e) {
-            System.err.println("Error al buscar pedido por ID: " + e.getMessage());
-        }  
+            e.printStackTrace();
+        }
+        return pedido;
+    }
+
+    private Pedido mapearPedido(ResultSet rs) throws SQLException {
+        Pedido pedido = new Pedido();
+        pedido.setId(rs.getInt("id"));
+        // Asumimos que los objetos relacionados se cargan mediante otros DAOs
+        Cliente cliente = clienteDAO.buscarClientePorId(rs.getInt("cliente_id")); // Usa DAOCliente
+        pedido.setCliente(cliente);
+        pedido.setMetodoPago(Pago.valueOf(rs.getString("metodo_pago")));
+        pedido.setEstado(EstadoPedido.valueOf(rs.getString("estado")));
+        pedido.setMontoBase(rs.getDouble("monto_base"));
+        pedido.setFechaPago(rs.getDate("fecha_pago"));
+        pedido.setMontoTotal(rs.getDouble("monto_total"));
         return pedido;
     }
 }
