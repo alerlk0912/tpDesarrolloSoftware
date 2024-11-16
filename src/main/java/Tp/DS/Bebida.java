@@ -8,6 +8,12 @@ public class Bebida extends ItemMenu {
     private final double tamanio;
     private final boolean graduacionAlcoholica;
 
+    public Bebida(int id, String nombre, String descripcion, double precio, Categoria categoria, Vendedor vendedor, double tamanio, boolean graduacionAlcoholica) {
+        super(id, nombre, descripcion, precio, categoria, vendedor);
+        this.tamanio = tamanio;
+        this.graduacionAlcoholica = graduacionAlcoholica;
+    }
+    
     public Bebida(String nombre, String descripcion, double precio, Categoria categoria, Vendedor vendedor, double tamanio, boolean alcoholica) {
         super( nombre, descripcion, precio, categoria, vendedor);
         this.tamanio = tamanio;

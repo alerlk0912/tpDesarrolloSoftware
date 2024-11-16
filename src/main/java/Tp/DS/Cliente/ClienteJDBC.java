@@ -106,7 +106,7 @@ public class ClienteJDBC implements DAOCliente {
     
     @Override
     public void eliminarCliente(int id){
-        String sql = "DELETE FROM cliente WHERE id = ?";
+        String sql = "DELETE FROM cliente WHERE ID_Cliente = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, id);
             pstmt.executeUpdate();

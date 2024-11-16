@@ -19,6 +19,15 @@ public abstract class ItemMenu {
         this.vendedor = vendedor;
     }
 
+    public ItemMenu(int id, String nombre, String descripcion, double precio, Categoria categoria, Vendedor vendedor) {
+        this.id = id;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.precio = precio;
+        this.categoria = categoria;
+        this.vendedor = vendedor;
+    }
+    
     public abstract double peso();
     public abstract boolean esComida();
     public abstract boolean esBebida();

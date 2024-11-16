@@ -110,6 +110,7 @@ Tp\DS\Pedido\VentanaCrearItemPedido$5.class
 Tp\DS\Vendedor\MenuVendedor$4.class
 Tp\DS\Vendedor\MenuVendedor$1.class
 Tp\DS\Cliente\MenuCliente$5.class
+Tp\DS\ItemMenu\VentanaDeCreacionEdicionItemsMenu$6.class
 Tp\DS\Exceptions\ItemNoEncontradoException.class
 Tp\DS\ItemMenu\MenuItemsMenu$6.class
 Tp\DS\Pedido\PedidoController.class
