@@ -452,7 +452,7 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
              (!campoPeso.getText().isEmpty() && !campoCalorias.getText().isEmpty() && comboBoxAptoVegano.getSelectedItem() != null))) {
 
             double precio = Double.parseDouble(campoPrecio.getText());
-            Categoria categoriaItem = new Categoria(campoDescripcion.getText(),(String) comboBoxCategoria.getSelectedItem());
+            Categoria categoriaItem = new Categoria((String) comboBoxCategoria.getSelectedItem(),(String) comboBoxCategoria.getSelectedItem());
 
             if (filaSeleccionada == 100 && vendedorSeleccionado == null) {
                 JOptionPane.showMessageDialog(this, "Seleccione un vendedor antes de confirmar.");

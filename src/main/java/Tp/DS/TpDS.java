@@ -1,6 +1,7 @@
 package Tp.DS;
 
 import Tp.DS.BD.DatabaseConnection;
+import Tp.DS.Categoria.*;
 import Tp.DS.Cliente.*;
 import Tp.DS.Exceptions.DAOException;
 import Tp.DS.Exceptions.PedidoInvalidoException;
@@ -40,6 +41,10 @@ public class TpDS {
         
         DAOCliente clienteDAO = new ClienteJDBC();
         ClienteController clienteController = ClienteController.getInstance(clienteDAO);
+        
+        DAOCategoria categoriaDAO = new CategoriaJDBC();
+        DAOItemMenu itemMenuDAO = new ItemMenuJDBC(categoriaDAO, vendedorDAO);
+        ItemMenuController itemMenuController = ItemMenuController.getInstance(itemMenuDAO);
         
     }
 

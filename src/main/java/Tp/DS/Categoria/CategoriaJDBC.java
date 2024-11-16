@@ -20,7 +20,7 @@ public class CategoriaJDBC implements DAOCategoria {
     @Override
     public List<Categoria> listarCategorias() {
         List<Categoria> categorias = new ArrayList<>();
-        String sql = "SELECT * FROM categorias";
+        String sql = "SELECT * FROM categoria";
         try (Statement stmt = connection.createStatement();
              ResultSet result = stmt.executeQuery(sql)) {
             while (result.next()) {
@@ -38,7 +38,7 @@ public class CategoriaJDBC implements DAOCategoria {
 
     @Override
     public void crearCategoria(Categoria categoria) {
-        String sql = "INSERT INTO categorias (descripcion, tipo_item) VALUES (?, ?)";
+        String sql = "INSERT INTO categoria (descripcion, tipo_item) VALUES (?, ?)";
         try (PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setString(1, categoria.getDescripcion());
             pstmt.setString(2, categoria.getTipo_item());
@@ -61,7 +61,7 @@ public class CategoriaJDBC implements DAOCategoria {
 
     @Override
     public void actualizarCategoria(Categoria categoria) {
-        String sql = "UPDATE categorias SET descripcion = ?, tipo_item = ? WHERE id = ?";
+        String sql = "UPDATE categoria SET descripcion = ?, tipo_item = ? WHERE id = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, categoria.getDescripcion());
             pstmt.setString(2, categoria.getTipo_item());
@@ -74,7 +74,7 @@ public class CategoriaJDBC implements DAOCategoria {
 
     @Override
     public void eliminarCategoria(int id) {
-        String sql = "DELETE FROM categorias WHERE id = ?";
+        String sql = "DELETE FROM categoria WHERE id = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
@@ -85,7 +85,7 @@ public class CategoriaJDBC implements DAOCategoria {
 
     @Override
     public Categoria buscarCategoriaPorId(int id) {
-        String sql = "SELECT * FROM categorias WHERE id = ?";
+        String sql = "SELECT * FROM categoria WHERE id = ?";
         Categoria categoria = null;
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, id);
