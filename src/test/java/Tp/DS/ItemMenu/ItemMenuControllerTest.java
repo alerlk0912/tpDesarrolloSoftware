@@ -3,28 +3,31 @@ package Tp.DS.ItemMenu;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import Tp.DS.ItemMenu.*;
 import Tp.DS.Exceptions.DAOException;
-import Tp.DS.Vendedor.Vendedor;
-import Tp.DS.Categoria.Categoria;
+import Tp.DS.Vendedor.*;
+import Tp.DS.Categoria.*;
 import Tp.DS.Plato;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
+import org.mockito.InjectMocks;
 
 import java.util.List;
 import java.util.ArrayList;
 
 public class ItemMenuControllerTest {
+    private DAOCategoria categoriaDAO = new CategoriaJDBC();
+    private DAOVendedor vendedorDAO = new VendedorJDBC();
+    @Mock
+    private DAOItemMenu itemMenuDAO = new ItemMenuJDBC(categoriaDAO,vendedorDAO);
+    @InjectMocks
     private ItemMenuController controller;
-    private DAOItemMenu itemMenuDAO;
 
     @BeforeEach
     void setup() {
-        itemMenuDAO = mock(DAOItemMenu.class);
+        MockitoAnnotations.openMocks(this);
+        
         controller = ItemMenuController.getInstance(itemMenuDAO);
     }
 

@@ -23,10 +23,7 @@ public class ItemMenuController {
     }
 
     public static ItemMenuController getInstance(DAOItemMenu itemMenuDAO) {
-        if (instance == null) {
-            instance = new ItemMenuController(itemMenuDAO);
-        }
-        return instance;
+        return instance = new ItemMenuController(itemMenuDAO);
     }
 
     public List<ItemMenu> mostrarListaItemsMenu() throws DAOException {
