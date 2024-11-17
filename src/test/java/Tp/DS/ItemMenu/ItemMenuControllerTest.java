@@ -35,12 +35,12 @@ public class ItemMenuControllerTest {
     void testMostrarListaItemsMenu() throws DAOException {
         List<ItemMenu> expectedItems = new ArrayList<>();
         expectedItems.add(new Plato(1, "Pizza", "Pizza Margherita", 10.0, null, null, 1.0, 300.0, true));
-        when(itemMenuDAO.mostrarListaItemsMenu()).thenReturn(expectedItems);
+        when(itemMenuDAO.listarItemsMenu()).thenReturn(expectedItems);
 
         List<ItemMenu> actualItems = controller.mostrarListaItemsMenu();
 
         assertEquals(expectedItems, actualItems);
-        verify(itemMenuDAO, times(1)).mostrarListaItemsMenu();
+        verify(itemMenuDAO, times(1)).listarItemsMenu();
     }
     @Test
     void testCrearNuevoItemMenu() throws DAOException {
@@ -86,12 +86,12 @@ public class ItemMenuControllerTest {
         List<ItemMenu> items = List.of(
             new Plato(1, "Pizza", "Pizza Margherita", 10.0, null, vendedor, 1.0, 300.0, true)
         );
-        when(itemMenuDAO.mostrarListaItemsMenu()).thenReturn(items);
+        when(itemMenuDAO.listarItemsMenu()).thenReturn(items);
 
         List<ItemMenu> actualItems = controller.obtenerItemsMenuPorVendedor(vendedor);
 
         assertEquals(items, actualItems);
-        verify(itemMenuDAO, times(1)).mostrarListaItemsMenu();
+        verify(itemMenuDAO, times(1)).listarItemsMenu();
     }
     @Test
     void testBuscarItemsPorCriterios() throws DAOException {

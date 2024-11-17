@@ -28,7 +28,7 @@ public class ItemMenuJDBC implements DAOItemMenu {
     }
 
     @Override
-    public List<ItemMenu> mostrarListaItemsMenu() throws DAOException {
+    public List<ItemMenu> listarItemsMenu() throws DAOException {
         List<ItemMenu> items = new ArrayList<>();
         String sql = "SELECT itemmenu.ID_ItemMenu, itemmenu.Nombre, itemmenu.Descripcion, itemmenu.Precio, "
                 + "categoria.ID_Categoria, categoria.Descripcion, categoria.Tipo_Item, "

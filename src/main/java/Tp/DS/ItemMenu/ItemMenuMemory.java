@@ -24,7 +24,7 @@ public class ItemMenuMemory implements DAOItemMenu {
     }
 
     @Override
-    public List<ItemMenu> mostrarListaItemsMenu() {
+    public List<ItemMenu> listarItemsMenu() {
         return itemsMenu;
     }
 

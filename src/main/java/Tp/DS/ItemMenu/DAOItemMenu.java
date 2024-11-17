@@ -6,7 +6,7 @@ import Tp.DS.Vendedor.Vendedor;
 import java.util.List;
 
 public interface DAOItemMenu {
-    public List<ItemMenu> mostrarListaItemsMenu() throws DAOException;
+    public List<ItemMenu> listarItemsMenu() throws DAOException;
     public void crearItemMenu(ItemMenu item) throws DAOException;
     public void actualizarItemMenu(ItemMenu item, double tamanio, boolean alcholica, double peso, double calorias, boolean aptoVegano) throws DAOException;
     public void actualizarItemMenu(ItemMenu item) throws DAOException;
