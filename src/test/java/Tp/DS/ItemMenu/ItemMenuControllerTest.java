@@ -57,7 +57,7 @@ public class ItemMenuControllerTest {
         ItemMenu itemActualizado = new Plato(1, "Pizza", "Pizza Margarita Actualizada", 12.0, null, null, 1.2, 350.0, true);
         when(itemMenuDAO.buscarItemMenuPorId(1)).thenReturn(itemExistente);
 
-        controller.modificarItemMenu(1, itemActualizado);
+        controller.modificarItemMenu(1, itemActualizado, 8.0, false, 0.5, 200, true);
 
         verify(itemMenuDAO, times(1)).actualizarItemMenu(itemActualizado);
     }
