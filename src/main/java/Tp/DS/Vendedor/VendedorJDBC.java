@@ -12,7 +12,6 @@ public class VendedorJDBC implements DAOVendedor {
     
     public VendedorJDBC() {
         try {
-            DatabaseConnection.setCredentials("root","AmD6Kk3ASlaLdQsa1");
             this.connection = DatabaseConnection.getInstance();
         } catch (SQLException e) {
             System.err.println("Error al conectar la base de datos: " + e.getMessage());

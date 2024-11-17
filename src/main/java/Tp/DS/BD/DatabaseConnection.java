@@ -1,7 +1,8 @@
 package Tp.DS.BD;
 
 import java.sql.Connection;
-import java.sql.*;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 // SINGLETON
 public class DatabaseConnection {
@@ -9,7 +10,7 @@ public class DatabaseConnection {
     private static String usuario;
     private static String password;
 
-   public DatabaseConnection( ) {
+   private DatabaseConnection( ) {
         
    }
    public static void setCredentials(String usuarioIngresado, String passwordIngresado) {
@@ -18,12 +19,12 @@ public class DatabaseConnection {
     }
 
     public static Connection getInstance() throws SQLException {
-        if (!"root".equals(usuario)) {
+        if (!"root".equals(usuario) || !"AmD6Kk3ASlaLdQsa1".equals(password)) {
             throw new SQLException("Usuario o contraseña incorrectos.");
         }
         if (connection == null || connection.isClosed()) {
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tpds", usuario, password);
-        }        
+        }
         return connection;
     }
 }

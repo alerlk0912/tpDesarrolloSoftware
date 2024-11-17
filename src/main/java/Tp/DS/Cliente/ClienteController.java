@@ -12,13 +12,14 @@ public class ClienteController {
     }
 
     public static ClienteController getInstance(DAOCliente clienteDAO) {
-        
-        return instance = new ClienteController(clienteDAO);
+        if (instance == null) {
+            instance = new ClienteController(clienteDAO);
+        }
+        return instance;
     }
 
     public List<Cliente> mostrarClientes() {
-        List<Cliente> clientes = clienteDAO.listarClientes();
-        return clientes;
+        return clienteDAO.listarClientes();
     }
 
     public void crearNuevoCliente(String cuit, String nombre, String email, String direccion, Coordenada coordenadas) {
@@ -28,13 +29,12 @@ public class ClienteController {
 
     public void modificarCliente(int id, String cuit, String nombre, String email, String direccion, Coordenada coordenadas) {
         Cliente cliente = clienteDAO.buscarClientePorId(id);
-        Coordenada cr = new Coordenada(cliente.getCoordenadas().getId(), coordenadas.getLat(), coordenadas.getLng());
         if (cliente != null) {
             cliente.setCuit(cuit);
             cliente.setNombre(nombre);
             cliente.setEmail(email);
             cliente.setDireccion(direccion);
-            cliente.setCoordenadas(cr);           
+            cliente.setCoordenadas(coordenadas);           
             clienteDAO.actualizarCliente(cliente);
         }
     }

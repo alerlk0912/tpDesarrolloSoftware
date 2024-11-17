@@ -1,8 +1,14 @@
 package Tp.DS;
 
+import Tp.DS.BD.DatabaseConnection;
+import Tp.DS.Exceptions.DAOException;
+import Tp.DS.Exceptions.PedidoInvalidoException;
+import Tp.DS.Exceptions.VendedorNoCoincideException;
 import javax.swing.*;
 import java.awt.*;
 import java.util.function.Consumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PantallaIntro {
     private JFrame frame;

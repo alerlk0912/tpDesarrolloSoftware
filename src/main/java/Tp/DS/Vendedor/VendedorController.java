@@ -12,10 +12,10 @@ public class VendedorController {
     }
 
     public static VendedorController getInstance(DAOVendedor vendedorDAO) {
-        
-            
-        return instance = new VendedorController(vendedorDAO);
-        
+        if (instance == null) {
+            instance = new VendedorController(vendedorDAO);
+        }
+        return instance;
     }
 
     public DAOVendedor getVendedorDAO() {
@@ -34,22 +34,16 @@ public class VendedorController {
 
     public void modificarVendedor(int id, String nombre, String direccion, Coordenada coordenadas) {
         Vendedor vendedor = vendedorDAO.buscarVendedorPorId(id);
-        
-        if (vendedor == null) {
-            throw new IllegalArgumentException("El vendedor con ID " + id + " no existe.");
-        }
+        Coordenada cr = new Coordenada(vendedor.getCoordenadas().getId(), coordenadas.getLat(), coordenadas.getLng());
+        if (vendedor != null) {
             vendedor.setNombre(nombre);
             vendedor.setDireccion(direccion);
-            vendedor.setCoordenadas(coordenadas);
+            vendedor.setCoordenadas(cr);
             vendedorDAO.actualizarVendedor(vendedor);
         }
-    
+    }
 
     public void eliminarVendedor(int id) {
-        Vendedor vendedor = vendedorDAO.buscarVendedorPorId(id);
-        if (vendedor == null) {
-            throw new IllegalArgumentException("El vendedor con ID " + id + " no existe.");
-        }
         vendedorDAO.eliminarVendedor(id);
     }
 
