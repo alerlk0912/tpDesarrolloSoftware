@@ -1,8 +1,10 @@
 package Tp.DS.ItemMenu;
 
+import Tp.DS.Bebida;
 import Tp.DS.Categoria.Categoria;
 import Tp.DS.Vendedor.VendedorController;
 import Tp.DS.Exceptions.DAOException;
+import Tp.DS.*;
 import Tp.DS.Vendedor.DAOVendedor;
 import Tp.DS.Vendedor.VendedorMemory;
 import Tp.DS.Vendedor.Vendedor;
@@ -21,6 +23,7 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
         this.vendedorController = vendedorController;
         vendedorController.getVendedorDAO();
         initComponents();
+        comboBoxCategoriaItemStateChanged(null);
     }
     
     @SuppressWarnings("unchecked")
@@ -144,6 +147,11 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
         comboBoxCategoria.setForeground(new java.awt.Color(255, 255, 255));
         comboBoxCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PLATO", "BEBIDA" }));
         comboBoxCategoria.setSelectedIndex(1);
+        comboBoxCategoria.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboBoxCategoriaItemStateChanged(evt);
+            }
+        });
         comboBoxCategoria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboBoxCategoriaActionPerformed(evt);
@@ -342,11 +350,6 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
         campoVendedorSeleccionado.setForeground(new java.awt.Color(255, 255, 255));
         campoVendedorSeleccionado.setAction(botonAgregarDesagregarVendedor.getAction());
         campoVendedorSeleccionado.setActionCommand(getName());
-        campoVendedorSeleccionado.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoVendedorSeleccionadoActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout panelEditableLayout = new javax.swing.GroupLayout(panelEditable);
         panelEditable.setLayout(panelEditableLayout);
@@ -434,8 +437,12 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
             !campoPrecio.getText().isEmpty() &&
             (comboBoxCategoria.getSelectedItem().equals("BEBIDA") || 
              (!campoPeso.getText().isEmpty() && !campoCalorias.getText().isEmpty() && comboBoxAptoVegano.getSelectedItem() != null))) {
-
+            
             double precio = Double.parseDouble(campoPrecio.getText());
+            double tamanio = campoTamanio.getText().isEmpty() ? 0 : Double.parseDouble(campoPrecio.getText());
+            double peso = campoPeso.getText().isEmpty() ? 0 : Double.parseDouble(campoPeso.getText());
+            double calorias = campoCalorias.getText().isEmpty() ? 0 : Double.parseDouble(campoCalorias.getText());
+            
             Categoria categoriaItem = new Categoria((String) comboBoxCategoria.getSelectedItem(),(String) comboBoxCategoria.getSelectedItem());
 
             if (filaSeleccionada == 100 && vendedorSeleccionado == null) {
@@ -478,8 +485,11 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
                     itemActual.setDescripcion(campoDescripcion.getText());
                     itemActual.setPrecio(precio);
                     itemActual.setCategoria(categoriaItem);
-
-                    itemMenuController.modificarItemMenu(filaSeleccionada, itemActual);
+                    
+                    itemMenuController.modificarItemMenu(filaSeleccionada, itemActual, 
+                            tamanio, comboBoxAlcohol.getSelectedItem().equals("SI"),
+                            peso, calorias, comboBoxAptoVegano.getSelectedItem().equals("SI"));
+                    
                     JOptionPane.showMessageDialog(this, "ItemMenu actualizado con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);
                 }
                 dispose();
@@ -545,9 +555,36 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
         this.repaint();
     }//GEN-LAST:event_comboBoxCategoriaActionPerformed
 
-    private void campoVendedorSeleccionadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoVendedorSeleccionadoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_campoVendedorSeleccionadoActionPerformed
+    private void comboBoxCategoriaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboBoxCategoriaItemStateChanged
+        String categoriaSeleccionada = (String) comboBoxCategoria.getSelectedItem();
+        tit4.setVisible(false);
+        tit6.setVisible(false);
+        tit7.setVisible(false);
+        tit8.setVisible(false);
+        tit9.setVisible(false);
+        campoTamanio.setVisible(false);
+        comboBoxAlcohol.setVisible(false);
+        campoPeso.setVisible(false);
+        campoCalorias.setVisible(false);
+        comboBoxAptoVegano.setVisible(false);
+		
+        if ("BEBIDA".equals(categoriaSeleccionada)) {
+            tit4.setVisible(true);
+            tit6.setVisible(true);
+            campoTamanio.setVisible(true);
+            comboBoxAlcohol.setVisible(true);
+        } else if ("PLATO".equals(categoriaSeleccionada)) {
+            tit7.setVisible(true);
+            tit8.setVisible(true);
+            tit9.setVisible(true);
+            campoPeso.setVisible(true);
+            campoCalorias.setVisible(true);
+            comboBoxAptoVegano.setVisible(true);
+        }
+
+        this.revalidate();
+        this.repaint();
+    }//GEN-LAST:event_comboBoxCategoriaItemStateChanged
 	
 	public void setTitulo() {
         tituloPrincipal.setText("Editar Items Menú");
@@ -559,23 +596,40 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
         campoNombre.setText(item.getNombre());
         campoDescripcion.setText(item.getDescripcion());
         campoPrecio.setText(Double.toString(item.getPrecio()));
-        comboBoxCategoria.setSelectedItem(item.getCategoria().getClass().getName());
-        campoVendedorSeleccionado.setText(item.getVendedor().getNombre());
         
-        if(comboBoxCategoria.getSelectedItem().equals("BEBIDA")) {
-            campoTamanio.setText("");
-            comboBoxAlcohol.setSelectedItem("SI");
+        if(item.getCategoria().getTipo_item().equals("Plato")) {
+            comboBoxCategoria.setSelectedItem("PLATO");
         } else {
-            campoPeso.setText("");
-            campoCalorias.setText("");
-            comboBoxAptoVegano.setSelectedItem("SI");
-        }      
+            comboBoxCategoria.setSelectedItem("BEBIDA");
+        }
+        
+        //obtenerDatosBebidaPlato
+        if(itemMenuController.getItemMenuDAO() instanceof ItemMenuJDBC) {
+            Plato plato = itemMenuController.obtenerDatosPlato(item.getId());
+            Bebida bebida = itemMenuController.obtenerDatosBebida(item.getId());
+            if(comboBoxCategoria.getSelectedItem().equals("BEBIDA")) {
+                campoTamanio.setText(Double.toString(bebida.getTamanio()));
+                if(bebida.isBebidaAlcoholica()) {
+                    comboBoxAlcohol.setSelectedItem("SI");
+                } else {
+                    comboBoxAlcohol.setSelectedItem("NO");
+                }
+            } else {
+                campoPeso.setText(Double.toString(plato.getPeso()));
+                campoCalorias.setText(Double.toString(plato.getCalorias()));
+                if(plato.isAptoVegano()) {
+                    comboBoxAptoVegano.setSelectedItem("SI");
+                } else {
+                    comboBoxAptoVegano.setSelectedItem("NO");
+                }
+            }
+        }
     }
 
     public void setVendedorSeleccionado(Vendedor vendedor) {
         this.vendedorSeleccionado = vendedor;
         if (vendedor != null) {
-            campoVendedorSeleccionado.setText(vendedor.getNombre()); 
+            //campoVendedorSeleccionado.setText(vendedor.getNombre()); 
         }
     }
 

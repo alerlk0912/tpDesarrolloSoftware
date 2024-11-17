@@ -5,8 +5,8 @@ import Tp.DS.ItemMenu.ItemMenu;
 import Tp.DS.Vendedor.Vendedor;
 
 public class Bebida extends ItemMenu {
-    private final double tamanio;
-    private final boolean graduacionAlcoholica;
+    private double tamanio;
+    private boolean graduacionAlcoholica;
 
     public Bebida(int id, String nombre, String descripcion, double precio, Categoria categoria, Vendedor vendedor, double tamanio, boolean graduacionAlcoholica) {
         super(id, nombre, descripcion, precio, categoria, vendedor);
@@ -60,5 +60,13 @@ public class Bebida extends ItemMenu {
     @Override
     public boolean isAptoVegano() {
         throw new UnsupportedOperationException("No aplica a bebida.");
+    }
+
+    public void setTamanio(double tamanio) {
+        this.tamanio = tamanio;
+    }
+
+    public void setGraduacionAlcoholica(boolean graduacionAlcoholica) {
+        this.graduacionAlcoholica = graduacionAlcoholica;
     }
 }

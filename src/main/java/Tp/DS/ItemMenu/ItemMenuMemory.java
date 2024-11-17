@@ -1,6 +1,8 @@
 package Tp.DS.ItemMenu;
 
+import Tp.DS.Bebida;
 import Tp.DS.Exceptions.DAOException;
+import Tp.DS.Plato;
 import Tp.DS.Vendedor.Vendedor;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,5 +67,20 @@ public class ItemMenuMemory implements DAOItemMenu {
             .filter(item -> (categoria == null || categoria.isEmpty() || item.getCategoria().getTipo_item().equalsIgnoreCase(categoria)))
             .filter(item -> (vendedor == null || item.getVendedor().equals(vendedor)))
             .collect(Collectors.toList());
+    }
+
+    @Override
+    public void actualizarItemMenu(ItemMenu item, double tamanio, boolean alcholica, double peso, double calorias, boolean aptoVegano) throws DAOException {
+        //
+    }
+
+    @Override
+    public Plato obtenerDatosPlato(int item) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Bebida obtenerDatosBebida(int item) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

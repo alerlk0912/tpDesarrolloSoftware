@@ -1,7 +1,10 @@
 package Tp.DS.ItemMenu;
 
+import Tp.DS.Bebida;
 import Tp.DS.Categoria.Categoria;
+import Tp.DS.Coordenada.Coordenada;
 import Tp.DS.Exceptions.DAOException;
+import Tp.DS.Plato;
 import Tp.DS.Vendedor.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +13,10 @@ public class ItemMenuController {
     private DAOItemMenu itemMenuDAO;
     private VendedorController vendedorController = VendedorController.getInstance(VendedorMemory.getInstance());
     private static ItemMenuController instance;
+
+    public DAOItemMenu getItemMenuDAO() {
+        return itemMenuDAO;
+    }
 
     private ItemMenuController(DAOItemMenu itemMenuDAO) {
         this.itemMenuDAO = itemMenuDAO;
@@ -39,11 +46,20 @@ public class ItemMenuController {
         itemMenuDAO.crearItemMenu(nuevoItem);
     }
 
-    public void modificarItemMenu(int id, ItemMenu itemActualizado) throws DAOException {
+    public void modificarItemMenu(int id, ItemMenu itemMenu,
+            double tamanio, boolean alcholica, 
+            double peso, double calorias, boolean aptoVegano) throws DAOException {
         ItemMenu item = itemMenuDAO.buscarItemMenuPorId(id);
         if (item != null) {
-            itemMenuDAO.actualizarItemMenu(itemActualizado);
+            itemMenuDAO.actualizarItemMenu(itemMenu, tamanio, alcholica, peso, calorias, aptoVegano);
         }
+    }
+    
+    public Plato obtenerDatosPlato(int id) {
+        return itemMenuDAO.obtenerDatosPlato(id);
+    }
+    public Bebida obtenerDatosBebida(int id) {
+        return itemMenuDAO.obtenerDatosBebida(id);
     }
 
     public void eliminarItemMenu(int id) throws DAOException {

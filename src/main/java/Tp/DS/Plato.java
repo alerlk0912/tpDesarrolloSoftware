@@ -5,10 +5,10 @@ import Tp.DS.ItemMenu.ItemMenu;
 import Tp.DS.Vendedor.Vendedor;
 
 public class Plato extends ItemMenu {
-    private final double peso; 
-    private final double calorias;
-    private final boolean aptoVegano;
-
+    private double peso; 
+    private double calorias;
+    private boolean aptoVegano;
+    
     public Plato(int id, String nombre, String descripcion, double precio, Categoria categoria, Vendedor vendedor, double peso, double calorias, boolean aptoVegano) {
         super(id, nombre, descripcion, precio, categoria, vendedor);
         this.peso = peso;
@@ -46,6 +46,17 @@ public class Plato extends ItemMenu {
         return calorias;
     }
 
+    public void setPeso(double peso) {
+        this.peso = peso;
+    }
+
+    public void setCalorias(double calorias) {
+        this.calorias = calorias;
+    }
+
+    public void setAptoVegano(boolean aptoVegano) {
+        this.aptoVegano = aptoVegano;
+    }
     
     @Override
     public double peso() {
