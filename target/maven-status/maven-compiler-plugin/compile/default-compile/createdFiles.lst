@@ -32,6 +32,7 @@ Tp\DS\Pedido\Pedido.class
 Tp\DS\Pedido\VentanaDeCreacionEdicionPedido$2.class
 Tp\DS\Pedido\DAOPedido.class
 Tp\DS\Vendedor\MenuVendedor$8.class
+Tp\DS\MetodoPago\PagoJDBC.class
 Tp\DS\BD\DatabaseConnection.class
 Tp\DS\ModeSelection.class
 Tp\DS\Pedido\VentanaCrearItemPedido$4.class

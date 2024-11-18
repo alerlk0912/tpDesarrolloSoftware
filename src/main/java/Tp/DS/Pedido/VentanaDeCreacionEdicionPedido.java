@@ -4,6 +4,7 @@ import Tp.DS.Cliente.*;
 import Tp.DS.ItemMenu.*;
 import Tp.DS.ItemPedido.*;
 import Tp.DS.MetodoPago.*;
+import Tp.DS.MetodoPago.Pago;
 import Tp.DS.Vendedor.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;

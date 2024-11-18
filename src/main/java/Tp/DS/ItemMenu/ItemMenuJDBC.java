@@ -178,40 +178,29 @@ public class ItemMenuJDBC implements DAOItemMenu {
     
     @Override
     public void actualizarItemMenu(ItemMenu item, double tamanio, boolean alcholica, double peso, double calorias, boolean aptoVegano) throws DAOException {
-        String sqlItemMenu = "UPDATE itemmenu SET Nombre = ?, Descripcion = ?, Precio = ?, CategoriaID = ? WHERE ID_ItemMenu = ?";
-        String sqlBebida = "UPDATE bebida SET Tamanio = ?, GraduacionAlcoholica = ? WHERE ItemMenuID = ?";
-        String sqlPlato = "UPDATE plato SET Peso = ?, Calorias = ?, AptoVegano = ? WHERE ItemMenuID = ?";
         String sqlRecuperarIdCategoria = "SELECT * FROM categoria WHERE Tipo_Item = ?";
-        int idItemMenu = 0;
-        // Actualizar en itemmenu
-        try (PreparedStatement stmtItemMenu = connection.prepareStatement(sqlItemMenu);
-            PreparedStatement stmtRecuperarIdCategoria = connection.prepareStatement(sqlRecuperarIdCategoria);) {
-            stmtItemMenu.setString(1, item.getNombre());
-            stmtItemMenu.setString(2, item.getDescripcion());
-            stmtItemMenu.setDouble(3, item.getPrecio());
-            
+        int idCategoria = 0;
+        
+        try (PreparedStatement stmtRecuperarIdCategoria = connection.prepareStatement(sqlRecuperarIdCategoria)) {
             stmtRecuperarIdCategoria.setString(1, item.getCategoria().getTipo_item());
             ResultSet rsRecuperarIdCategoria = stmtRecuperarIdCategoria.executeQuery();
-            int idCategoria;
             if (rsRecuperarIdCategoria.next()) { // Verifica si hay resultados
                 idCategoria = rsRecuperarIdCategoria.getInt("ID_Categoria");
             } else {
                 throw new SQLException("No se encontró una categoría con el tipo proporcionado.");
             }
-            stmtItemMenu.setInt(4, idCategoria);
-            idItemMenu = item.getId();
-            stmtItemMenu.setInt(5, item.getId());
-            stmtItemMenu.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("Error: "+ex.getMessage());
         }
-        
+        System.out.println("tamanio jdbc:" + tamanio);
+        String sqlBebida = "UPDATE bebida SET Tamanio = ?, GraduacionAlcoholica = ? WHERE ItemMenuID = ?";
+        String sqlPlato = "UPDATE plato SET Peso = ?, Calorias = ?, AptoVegano = ? WHERE ItemMenuID = ?";
         // Actualizar en bebida o plato
         if (item instanceof Bebida) {
             try (PreparedStatement stmtBebida = connection.prepareStatement(sqlBebida)) {
                 stmtBebida.setDouble(1, tamanio);
                 stmtBebida.setBoolean(2, alcholica);
-                stmtBebida.setInt(3, idItemMenu);
+                stmtBebida.setInt(3, item.getId());
                 stmtBebida.executeUpdate();
             } catch (SQLException ex) {
                 System.out.println("Error: "+ex.getMessage());
@@ -221,11 +210,24 @@ public class ItemMenuJDBC implements DAOItemMenu {
                 stmtPlato.setDouble(1, peso);
                 stmtPlato.setDouble(2, calorias);
                 stmtPlato.setBoolean(3, aptoVegano);
-                stmtPlato.setInt(4, idItemMenu);
+                stmtPlato.setInt(4, item.getId());
                 stmtPlato.executeUpdate();
             } catch (SQLException ex) {
                 System.out.println("Error: "+ex.getMessage());
             }
+        }
+        
+        String sqlItemMenu = "UPDATE itemmenu SET Nombre = ?, Descripcion = ?, Precio = ?, CategoriaID = ? WHERE ID_ItemMenu = ?";
+        // Actualizar en itemmenu
+        try (PreparedStatement stmtItemMenu = connection.prepareStatement(sqlItemMenu)) {
+            stmtItemMenu.setString(1, item.getNombre());
+            stmtItemMenu.setString(2, item.getDescripcion());
+            stmtItemMenu.setDouble(3, item.getPrecio());
+            stmtItemMenu.setInt(4, idCategoria);
+            stmtItemMenu.setInt(5, item.getId());
+            stmtItemMenu.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Error: "+ex.getMessage());
         }
     }
     

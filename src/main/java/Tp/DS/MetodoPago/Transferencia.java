@@ -3,6 +3,21 @@ package Tp.DS.MetodoPago;
 public class Transferencia implements Pago {
     private String cbu;
     private String cuit;
+    private int id;
+
+    public Transferencia(String cbu, String cuit, int id) {
+        this.cbu = cbu;
+        this.cuit = cuit;
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public Transferencia(String cbu, String cuit) {
         this.cbu = cbu;

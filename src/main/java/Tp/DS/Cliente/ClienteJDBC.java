@@ -106,6 +106,20 @@ public class ClienteJDBC implements DAOCliente {
     
     @Override
     public void eliminarCliente(int id){
+        String sql1 = "SELECT * FROM cliente WHERE ID_Cliente = ?";
+        CoordenadaJDBC coordenadaJDBC = new CoordenadaJDBC();
+        int idCoordenada = 0;
+        try (PreparedStatement stmt = connection.prepareStatement(sql1)) {
+            stmt.setInt(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    idCoordenada = rs.getInt("CoordenadaID");
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error: "+ex.getMessage());
+        }
+        
         String sql = "DELETE FROM cliente WHERE ID_Cliente = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, id);
@@ -113,6 +127,7 @@ public class ClienteJDBC implements DAOCliente {
         } catch (SQLException e) {
             System.err.println("Error al eliminar cliente por ID: " + e.getMessage()); 
         }
+        coordenadaJDBC.eliminarCoordenada(idCoordenada);
     }
 
     @Override

@@ -29,12 +29,13 @@ public class ClienteController {
 
     public void modificarCliente(int id, String cuit, String nombre, String email, String direccion, Coordenada coordenadas) {
         Cliente cliente = clienteDAO.buscarClientePorId(id);
+        Coordenada cr = new Coordenada(cliente.getCoordenadas().getId(), coordenadas.getLat(), coordenadas.getLng());
         if (cliente != null) {
             cliente.setCuit(cuit);
             cliente.setNombre(nombre);
             cliente.setEmail(email);
             cliente.setDireccion(direccion);
-            cliente.setCoordenadas(coordenadas);           
+            cliente.setCoordenadas(cr);           
             clienteDAO.actualizarCliente(cliente);
         }
     }

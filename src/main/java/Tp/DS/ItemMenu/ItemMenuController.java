@@ -51,6 +51,7 @@ public class ItemMenuController {
             double peso, double calorias, boolean aptoVegano) throws DAOException {
         ItemMenu item = itemMenuDAO.buscarItemMenuPorId(id);
         if (item != null) {
+            System.out.println("tamanio controller:" + tamanio);
             itemMenuDAO.actualizarItemMenu(itemMenu, tamanio, alcholica, peso, calorias, aptoVegano);
         }
     }

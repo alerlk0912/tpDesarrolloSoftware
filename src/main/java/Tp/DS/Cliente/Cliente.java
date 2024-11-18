@@ -2,7 +2,7 @@ package Tp.DS.Cliente;
 
 import Tp.DS.Coordenada.Coordenada;
 import Tp.DS.Pedido.EstadoPedido;
-import Tp.DS.MetodoPago.Pago;
+import Tp.DS.MetodoPago.*;
 import Tp.DS.Pedido.Pedido;
 import Tp.DS.Pedido.PedidoObserver;
 
@@ -125,6 +125,4 @@ public class Cliente implements PedidoObserver {
         pedido.setMetodoPago(metodoPago);
         pedido.calcularTotalPedido();
     }
-    
-    
 }

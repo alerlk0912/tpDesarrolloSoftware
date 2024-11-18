@@ -2,7 +2,7 @@ package Tp.DS.Pedido;
 
 import Tp.DS.Cliente.Cliente;
 import Tp.DS.ItemPedido.ItemsPedido;
-import Tp.DS.MetodoPago.Pago;
+import Tp.DS.MetodoPago.*;
 import java.util.List;
 import java.util.stream.Collectors;
 

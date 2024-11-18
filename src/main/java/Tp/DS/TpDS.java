@@ -1,5 +1,6 @@
 package Tp.DS;
 
+import Tp.DS.MetodoPago.*;
 import Tp.DS.BD.DatabaseConnection;
 import Tp.DS.Categoria.*;
 import Tp.DS.Cliente.*;
@@ -8,7 +9,10 @@ import Tp.DS.Exceptions.PedidoInvalidoException;
 import Tp.DS.Exceptions.VendedorNoCoincideException;
 import Tp.DS.ItemMenu.*;
 import Tp.DS.MenuPrincipal.MenuPrincipal;
-import Tp.DS.MetodoPago.*;
+import Tp.DS.MetodoPago.PagoJDBC.*;
+import Tp.DS.Pedido.DAOPedido;
+import Tp.DS.Pedido.PedidoController;
+import Tp.DS.Pedido.PedidoJDBC;
 import Tp.DS.Vendedor.*;
 
 public class TpDS {
@@ -47,6 +51,10 @@ public class TpDS {
         DAOItemMenu itemMenuDAO = new ItemMenuJDBC(categoriaDAO, vendedorDAO);
         ItemMenuController itemMenuController = ItemMenuController.getInstance(itemMenuDAO);
         
+        DAOCliente daoCliente = new ClienteJDBC();
+        DAOMetodoPago daoMetodoPago = new PagoJDBC();
+        DAOPedido daoPedido = new PedidoJDBC(daoCliente, daoMetodoPago);
+        PedidoController pedidoController = PedidoController.getInstance(daoPedido);
     }
 
     private static void testMemory() throws DAOException {

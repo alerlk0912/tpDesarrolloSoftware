@@ -1,6 +1,6 @@
 package Tp.DS.Pedido;
 
-import Tp.DS.MetodoPago.Pago;
+import Tp.DS.MetodoPago.*;
 
 public interface PedidoObserver {
     void actualizarEstado(Pedido pedido, Pago metodoPago);

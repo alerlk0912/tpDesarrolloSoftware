@@ -1,10 +1,10 @@
 package Tp.DS.Pedido;
 
 import Tp.DS.BD.DatabaseConnection;
-import Tp.DS.MetodoPago.DAOMetodoPago;
 import Tp.DS.Cliente.Cliente;
 import Tp.DS.Cliente.DAOCliente;
-import Tp.DS.MetodoPago.Pago;
+import Tp.DS.ItemPedido.ItemsPedido;
+import Tp.DS.MetodoPago.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ public class PedidoJDBC implements DAOPedido {
     private DAOCliente clienteDAO;
     private DAOMetodoPago daoPago;
 
-    public PedidoJDBC(Connection connection, DAOCliente daoCliente, DAOMetodoPago daoPago) {
+    public PedidoJDBC(DAOCliente daoCliente, DAOMetodoPago daoPago) {
         try {
             this.connection = DatabaseConnection.getInstance();
         } catch (SQLException e) {
@@ -25,35 +25,52 @@ public class PedidoJDBC implements DAOPedido {
     }
 
     @Override
-    public List<Pedido> listarPedidos(){
+    public List<Pedido> listarPedidos() {
         List<Pedido> pedidos = new ArrayList<>();
-        String sql = "SELECT * FROM pedidos";
-        try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery(sql)) {
-            while (result.next()) {
-                int clienteId = result.getInt("cliente_id");
-                int metodoPagoId = result.getInt("pago_id");
+        String sql = "SELECT * FROM pedido "
+                + "JOIN itemsPedido ON pedido.ID_Pedido = itemsPedido.PedidoID "
+                + "JOIN pago ON pedido.PagoID = pago.ID_Pago "
+                + "JOIN itemmenu ON itemsPedido.ItemMenuID = itemmenu.ID_ItemMenu";
 
-                Cliente cliente = clienteDAO.buscarClientePorId(clienteId);
+        try (PreparedStatement stmt = connection.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                int id = rs.getInt("ID_Pedido");
+                String estado = rs.getString("Estado");
+                double montoBase = rs.getDouble("MontoBase");
+                double montoTotal = rs.getDouble("MontoTotal");
+                Date fechaPago = rs.getDate("FechaPago");
+                int clienteId = rs.getInt("ClienteID");
+                int pagoId = rs.getInt("PagoID");
                 
-                Pago metodoPago = daoPago.buscarPagoPorId(metodoPagoId);
+                Cliente cliente = clienteDAO.buscarClientePorId(clienteId);
+                Pago metodoPago = daoPago.buscarPagoPorId(pagoId);
 
                 Pedido pedido = new Pedido(cliente, metodoPago);
-                pedido.setId(result.getInt("id"));  
-                pedido.setFechaPago(result.getDate("fecha"));  
-                pedido.setMontoTotal(result.getDouble("total"));
+                pedido.setId(id);
+                pedido.setEstado(EstadoPedido.valueOf(estado));
+                pedido.setMontoBase(montoBase);
+                pedido.setMontoTotal(montoTotal);
+                pedido.setFechaPago(new java.util.Date(fechaPago.getTime()));
+                //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                //      HAY QUE SETEAR LOS ITEMS PEDIDOS, PARA ESO SE DEBE LLAMAR AL ITEM PEDIDO JDBC 
+                //Y HACER UNA BANDA DE COSAS MÁS PARA QUE EL ITEM MENU SE VEA REFLEJADO EN LA TABLA DE PEDIDOS
+                //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 pedidos.add(pedido);
             }
         } catch (SQLException e) {
-            System.err.println("Error al listar pedidos: " + e.getMessage());
+            System.out.println("Error al listar pedidos: " + e.getMessage());
         }
         return pedidos;
     }
 
     @Override
     public void crearPedido(Pedido pedido) {
-        String sql = "INSERT INTO pedidos (cliente_id, fecha, total) VALUES (?, ?, ?)";
-
-        try (PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        String sqlPago = "INSERT INTO pago (Metodo, cbu, cuit, alias) VALUES (?, ?, ?, ?)";
+        String sqlPedido = "INSERT INTO pedido (Estado, MontoBase, MontoTotal, FechaPago, ClienteID, PagoID) VALUES (?, ?, ?, ?, ?, ?)";
+        String sqlItemPedido = "INSERT INTO itemsPedido (cantidad, ItemMenuID, PedidoID) VALUES (?, ?, ?)";
+        
+        try (PreparedStatement pstmt = connection.prepareStatement(sqlPago, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setInt(1, pedido.getCliente().getId());
             pstmt.setDate(2, new java.sql.Date(pedido.getFechaPago().getTime()));
             pstmt.setDouble(3, pedido.getMontoTotal());
@@ -92,14 +109,38 @@ public class PedidoJDBC implements DAOPedido {
     }
 
     @Override
-    public void eliminarPedido(int id){
-        String sql = "DELETE FROM pedidos WHERE id = ?";
-        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setInt(1, id);
-            pstmt.executeUpdate();
+    public void eliminarPedido(int id) {
+        String sqlItemPedido = "DELETE FROM itemspedido WHERE PedidoID = ?";
+        String sqlPedido = "DELETE FROM pedido WHERE ID_Pedido = ?";
+        String sqlObtenerPago = "SELECT PagoID FROM pedido WHERE ID_Pedido = ?";
+        String sqlEliminarPago = "DELETE FROM pago WHERE ID_Pago = ?";
+        try (PreparedStatement stmtObtenerPago = connection.prepareStatement(sqlObtenerPago);
+            PreparedStatement stmtEliminarPago = connection.prepareStatement(sqlEliminarPago);
+            PreparedStatement stmtItemPedido = connection.prepareStatement(sqlItemPedido);
+            PreparedStatement stmtPedido = connection.prepareStatement(sqlPedido);) {
+            // Recuperar ID del pago asociado al pedido
+            stmtObtenerPago.setInt(1, id);
+            int idPago;
+            try (ResultSet rs = stmtObtenerPago.executeQuery()) {
+                idPago = -1;
+                if (rs.next()) {
+                    idPago = rs.getInt("PagoID");
+                }
+            }
+            
+            stmtItemPedido.setInt(1, id);
+            stmtItemPedido.executeUpdate();
+            
+            stmtPedido.setInt(1, id);
+            stmtPedido.executeUpdate();
+            
+            if (idPago != -1) {
+                stmtEliminarPago.setInt(1, idPago);
+                stmtEliminarPago.executeUpdate();
+            }
         } catch (SQLException e) {
-            System.err.println("Error al eliminar pedido por ID: " + e.getMessage());
-        } 
+            System.out.println("Error al eliminar pedido: " + e.getMessage());
+        }
     }
 
     @Override

@@ -46,6 +46,7 @@ public class PantallaIntro {
         JPanel panelPassword = new JPanel(new FlowLayout());
         panelPassword.add(new JLabel("Contraseña:"));
         txtPassword = new JPasswordField(15);
+        txtPassword.setText("AmD6Kk3ASlaLdQsa1");
         panelPassword.add(txtPassword);
         frame.add(panelPassword);
 

@@ -4,7 +4,7 @@ import Tp.DS.Cliente.Cliente;
 import Tp.DS.Exceptions.PedidoInvalidoException;
 import Tp.DS.Exceptions.VendedorNoCoincideException;
 import Tp.DS.ItemPedido.ItemsPedido;
-import Tp.DS.MetodoPago.Pago;
+import Tp.DS.MetodoPago.*;
 import Tp.DS.Vendedor.Vendedor;
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,7 +29,7 @@ public class Pedido implements PedidoObservable {
         this.metodoPago = metodoPago;
         this.itemsPedido = new ArrayList<>();
         this.estado = EstadoPedido.RECIBIDO;
-    }
+    }   
 
     public void agregarItem(ItemsPedido item) throws VendedorNoCoincideException {
         if (itemsPedido.isEmpty()) {

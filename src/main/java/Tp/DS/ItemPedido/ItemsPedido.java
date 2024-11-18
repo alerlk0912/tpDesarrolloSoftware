@@ -9,6 +9,12 @@ public class ItemsPedido {
     private Pedido pedido;
     private int cantidad;
 
+    public ItemsPedido(int id, ItemMenu itemMenu, int cantidad) {
+        this.id = id;
+        this.itemMenu = itemMenu;
+        this.cantidad = cantidad;
+    }
+    
     public ItemsPedido( ItemMenu itemMenu, int cantidad) {
         this.itemMenu = itemMenu;
         this.cantidad = cantidad;

@@ -2,6 +2,20 @@ package Tp.DS.MetodoPago;
 
 public class MercadoPago implements Pago {
     private String alias;
+    private int id;
+
+    public MercadoPago(String alias, int id) {
+        this.alias = alias;
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public MercadoPago(String alias) {
         this.alias = alias;
