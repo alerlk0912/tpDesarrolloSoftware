@@ -3,6 +3,8 @@ package Tp.DS.ItemMenu;
 import Tp.DS.Vendedor.VendedorController;
 import Tp.DS.Vendedor.Vendedor;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.table.*;
 
@@ -299,7 +301,8 @@ public class VentanaAsignarEliminarVendedorDeItemMenu extends javax.swing.JFrame
         if (itemMenuSeleccionado != null) {
             itemMenuSeleccionado.setVendedor(null);
             JOptionPane.showMessageDialog(this, "Vendedor desasignado correctamente.");
-            cargarVendedorAsociadosEnTabla();
+            DefaultTableModel model = (DefaultTableModel) tablaVendedoresAsociadas.getModel();
+            model.setRowCount(0);
             this.revalidate();
             this.repaint();
         } else {
@@ -383,21 +386,22 @@ public class VentanaAsignarEliminarVendedorDeItemMenu extends javax.swing.JFrame
 	
     private void cargarVendedorAsociadosEnTabla(){
         DefaultTableModel model = (DefaultTableModel) tablaVendedoresAsociadas.getModel();
-        if(itemMenuSeleccionado != null){
+        /*if(itemMenuSeleccionado != null){
             Vendedor vendedorItem = itemMenuSeleccionado.getVendedor();
             if(vendedorItem != null){
             model.addRow(new Object[]{
                     vendedorItem.getId(),
                     vendedorItem.getNombre(),
                     vendedorItem.getDireccion(),
-                    vendedorItem.getCoordenadas().getLat() + ", " + vendedorItem.getCoordenadas().getLng()
+                    //vendedorItem.getCoordenadas().getLat() + ", " + vendedorItem.getCoordenadas().getLng();
                 });
             } else {
                 JOptionPane.showMessageDialog(this, "No hay ningún Vendedor asignado al ItemMenu.");
             }
         }
         tablaVendedoresAsociadas.revalidate();
-        tablaVendedoresAsociadas.repaint();
+        tablaVendedoresAsociadas.repaint();*/
+        JOptionPane.showMessageDialog(this, "Etapa en proceso de refacción");
     }
 //    private void actualizarTablaVendedoresAsociados(ItemMenu itemMenu) {
 //        DefaultTableModel model = (DefaultTableModel) tablaVendedoresAsociadas.getModel();

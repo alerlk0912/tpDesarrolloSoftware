@@ -484,7 +484,6 @@ public class VentanaDeCreacionEdicionItemsMenu extends javax.swing.JFrame {
                     itemActual.setDescripcion(campoDescripcion.getText());
                     itemActual.setPrecio(precio);
                     itemActual.setCategoria(categoriaItem);
-                    System.out.println("tamanio ventana:" + tamanio);
                     itemMenuController.modificarItemMenu(filaSeleccionada, itemActual, 
                             tamanio, comboBoxAlcohol.getSelectedItem().equals("SI"),
                             peso, calorias, comboBoxAptoVegano.getSelectedItem().equals("SI"));

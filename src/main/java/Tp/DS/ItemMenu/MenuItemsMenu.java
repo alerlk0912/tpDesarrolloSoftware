@@ -234,11 +234,6 @@ public class MenuItemsMenu extends javax.swing.JFrame {
         botonItemsMenu.setForeground(new java.awt.Color(255, 255, 255));
         botonItemsMenu.setText("ITEMS MENÚ");
         botonItemsMenu.setEnabled(false);
-        botonItemsMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonItemsMenuActionPerformed(evt);
-            }
-        });
 
         botonPedidos.setBackground(new java.awt.Color(123, 36, 28));
         botonPedidos.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
@@ -361,10 +356,6 @@ public class MenuItemsMenu extends javax.swing.JFrame {
         menuPedidos.setLocationRelativeTo(null);
         setVisible(false);
     }//GEN-LAST:event_botonPedidosActionPerformed
-
-    private void botonItemsMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonItemsMenuActionPerformed
-        //
-    }//GEN-LAST:event_botonItemsMenuActionPerformed
 
     private void botonVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonVolverActionPerformed
         menuPrincipal.setVisible(true);

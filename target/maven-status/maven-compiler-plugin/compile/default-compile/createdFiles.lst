@@ -126,7 +126,6 @@ Tp\DS\Cliente\ClienteJDBC.class
 Tp\DS\ItemMenu\ItemMenuJDBC.class
 Tp\DS\Cliente\MenuCliente$9.class
 Tp\DS\Pedido\VentanaDeCreacionEdicionPedido.class
-Tp\DS\ItemMenu\MenuItemsMenu$12.class
 Tp\DS\ItemMenu\MenuItemsMenu$7.class
 Tp\DS\MenuPrincipal\MenuPrincipal$5.class
 Tp\DS\Vendedor\VendedorController.class

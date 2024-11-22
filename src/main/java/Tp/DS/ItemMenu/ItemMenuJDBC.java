@@ -5,6 +5,7 @@ import Tp.DS.Plato;
 import Tp.DS.Bebida;
 import Tp.DS.Categoria.Categoria;
 import Tp.DS.Categoria.DAOCategoria;
+import Tp.DS.Coordenada.Coordenada;
 import Tp.DS.Exceptions.DAOException;
 import Tp.DS.Vendedor.DAOVendedor;
 import Tp.DS.Vendedor.Vendedor;
@@ -30,15 +31,12 @@ public class ItemMenuJDBC implements DAOItemMenu {
     @Override
     public List<ItemMenu> listarItemsMenu() throws DAOException {
         List<ItemMenu> items = new ArrayList<>();
-        String sql = "SELECT itemmenu.ID_ItemMenu, itemmenu.Nombre, itemmenu.Descripcion, itemmenu.Precio, "
-                + "categoria.ID_Categoria, categoria.Descripcion, categoria.Tipo_Item, "
-                + "vendedor.ID_Vendedor, vendedor.Nombre, vendedor.Direccion, "
-                + "bebida.Tamanio, bebida.GraduacionAlcoholica "
-                + "FROM itemmenu "
+        String sql = "SELECT * FROM itemmenu "
                 + "JOIN categoria ON itemmenu.CategoriaID = categoria.ID_Categoria "
                 + "JOIN itemmenu_vendedor ON itemmenu.ID_ItemMenu = itemmenu_vendedor.ID_ItemMenu "
                 + "JOIN vendedor ON itemmenu_vendedor.ID_Vendedor = vendedor.ID_Vendedor "
-                + "JOIN bebida ON itemmenu.ID_ItemMenu = bebida.ItemMenuID";
+                + "JOIN bebida ON itemmenu.ID_ItemMenu = bebida.ItemMenuID "
+                + "JOIN coordenada ON vendedor.CoordenadaID = coordenada.ID_Coordenada";
 
         try (Statement stmt = connection.createStatement();
                 ResultSet rs = stmt.executeQuery(sql);) {
@@ -59,7 +57,14 @@ public class ItemMenuJDBC implements DAOItemMenu {
                 int idVendedor = rs.getInt("ID_Vendedor");
                 String nombreVendedor = rs.getString("Nombre");
                 String direccionVendedor = rs.getString("Direccion");
-                Vendedor vendedor = new Vendedor(idVendedor, nombreVendedor, direccionVendedor, null); // Coordenada omitida aquí
+                
+                //Coordenada
+                int coordenadaVendedor = rs.getInt("CoordenadaID");
+                double latCoorVendedor = rs.getDouble("Lat");
+                double lngCoorVendedor = rs.getDouble("Lng");
+                
+                Coordenada coordenada = new Coordenada(coordenadaVendedor,latCoorVendedor, lngCoorVendedor);
+                Vendedor vendedor = new Vendedor(idVendedor, nombreVendedor, direccionVendedor, coordenada);
 
                 // Atributos bebida
                 Double tamanio = rs.getObject("Tamanio") != null ? rs.getDouble("Tamanio") : null;
@@ -73,15 +78,12 @@ public class ItemMenuJDBC implements DAOItemMenu {
             System.out.println("Error: "+ex.getMessage());
         }
         
-        String sql2 = "SELECT itemmenu.ID_ItemMenu, itemmenu.Nombre, itemmenu.Descripcion, itemmenu.Precio, "
-                + "categoria.ID_Categoria, categoria.Descripcion, categoria.Tipo_Item, "
-                + "vendedor.ID_Vendedor, vendedor.Nombre, vendedor.Direccion, "
-                + "plato.Peso, plato.Calorias, plato.AptoVegano "
-                + "FROM itemmenu "
+        String sql2 = "SELECT * FROM itemmenu "
                 + "JOIN categoria ON itemmenu.CategoriaID = categoria.ID_Categoria "
                 + "JOIN itemmenu_vendedor ON itemmenu.ID_ItemMenu = itemmenu_vendedor.ID_ItemMenu "
                 + "JOIN vendedor ON itemmenu_vendedor.ID_Vendedor = vendedor.ID_Vendedor "
-                + "JOIN plato ON itemmenu.ID_ItemMenu = plato.ItemMenuID";
+                + "JOIN plato ON itemmenu.ID_ItemMenu = plato.ItemMenuID "
+                + "JOIN coordenada ON vendedor.CoordenadaID = coordenada.ID_Coordenada";
 
         try (Statement stmt = connection.createStatement();
                 ResultSet rs = stmt.executeQuery(sql2);) {
@@ -102,7 +104,14 @@ public class ItemMenuJDBC implements DAOItemMenu {
                 int idVendedor = rs.getInt("ID_Vendedor");
                 String nombreVendedor = rs.getString("Nombre");
                 String direccionVendedor = rs.getString("Direccion");
-                Vendedor vendedor = new Vendedor(idVendedor, nombreVendedor, direccionVendedor, null); // Coordenada omitida aquí
+                
+                //Coordenada
+                int coordenadaVendedor = rs.getInt("CoordenadaID");
+                double latCoorVendedor = rs.getDouble("Lat");
+                double lngCoorVendedor = rs.getDouble("Lng");
+                
+                Coordenada coordenada = new Coordenada(coordenadaVendedor,latCoorVendedor, lngCoorVendedor);
+                Vendedor vendedor = new Vendedor(idVendedor, nombreVendedor, direccionVendedor, coordenada);
 
                 // Atributos plato
                 Double peso = rs.getObject("Peso") != null ? rs.getDouble("Peso") : null;
@@ -192,7 +201,6 @@ public class ItemMenuJDBC implements DAOItemMenu {
         } catch (SQLException ex) {
             System.out.println("Error: "+ex.getMessage());
         }
-        System.out.println("tamanio jdbc:" + tamanio);
         String sqlBebida = "UPDATE bebida SET Tamanio = ?, GraduacionAlcoholica = ? WHERE ItemMenuID = ?";
         String sqlPlato = "UPDATE plato SET Peso = ?, Calorias = ?, AptoVegano = ? WHERE ItemMenuID = ?";
         // Actualizar en bebida o plato
