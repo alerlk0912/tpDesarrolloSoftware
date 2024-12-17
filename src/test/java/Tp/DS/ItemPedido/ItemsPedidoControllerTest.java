@@ -1,12 +1,16 @@
 package Tp.DS.ItemPedido;
 
+import isi.deso.tpds.Pedido.PedidoController;
+import isi.deso.tpds.ItemPedido.ItemsPedidoController;
+import isi.deso.tpds.ItemPedido.ItemsPedido;
+import isi.deso.tpds.ItemPedido.DAOItemsPedido;
+import isi.deso.tpds.ItemMenu.ItemMenuController;
+import isi.deso.tpds.ItemMenu.ItemMenu;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import Tp.DS.ItemMenu.*;
-import Tp.DS.Pedido.*;
-import Tp.DS.Exceptions.DAOException;
-import Tp.DS.Plato;
+import isi.deso.tpds.Exceptions.DAOException;
+import isi.deso.tpds.Plato;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,18 +30,19 @@ class ItemsPedidoControllerTest {
         mockitemsPedidoDAO = mock(DAOItemsPedido.class);
         mockItemMenuController = mock(ItemMenuController.class);
         mockPedidoController = mock(PedidoController.class);
+
+        ItemsPedidoController.resetInstance(); // Reinicia el Singleton
         controller = ItemsPedidoController.getInstance(mockitemsPedidoDAO, mockPedidoController, mockItemMenuController);
-        
+
         mockItemMenu = mock(ItemMenu.class);
         when(mockItemMenu.getId()).thenReturn(1);
         when(mockItemMenu.getNombre()).thenReturn("Mock ItemMenu");
         when(mockItemMenu.getPrecio()).thenReturn(100.0);
-        
     }
 
     @Test
-    void testCrearNuevoItemPedido() throws DAOException {
-        ItemMenu mockItemMenu = new Plato(1, "Pizza", "Pizza Margherita", 10.0, null, null, 1.0, 300.0, true);
+    void testCrearNuevoItemPedido_Exito() throws DAOException {
+        ItemMenu mockItemMenu = new Plato(1, "Pizza", "Pizza Margherita", 10.0, null, 1.0, 300.0, true, null);
         when(mockItemMenuController.buscarItemMenu(1)).thenReturn(mockItemMenu);
 
         controller.crearNuevoItemPedido(1, 3);
@@ -58,14 +63,22 @@ class ItemsPedidoControllerTest {
     }
 
     @Test
-    void testCrearNuevoItemPedido_Exito() throws DAOException {
-        mockItemMenu.setId(1);
+    void testModificarItemPedido_Exito() throws DAOException {
+        ItemsPedido existingItemPedido = new ItemsPedido(mockItemMenu, 5);
+        existingItemPedido.setId(1);
 
-        when(mockItemMenuController.buscarItemMenu(1)).thenReturn(mockItemMenu);
+        ItemMenu newItemMenu = mock(ItemMenu.class);
+        when(newItemMenu.getId()).thenReturn(2);
 
-        controller.crearNuevoItemPedido(1, 3);
+        when(mockitemsPedidoDAO.buscarItemPedidoPorId(1)).thenReturn(existingItemPedido);
+        when(mockItemMenuController.buscarItemMenu(2)).thenReturn(newItemMenu);
 
-        verify(mockitemsPedidoDAO, times(1)).crearItemPedido(any(ItemsPedido.class));
+        controller.modificarItemPedido(1, 2, 10);
+
+        assertEquals(2, existingItemPedido.getItemMenu().getId());
+        assertEquals(10, existingItemPedido.getCantidad());
+
+        verify(mockitemsPedidoDAO, times(1)).actualizarItemPedido(existingItemPedido);
     }
 
     @Test
@@ -78,23 +91,6 @@ class ItemsPedidoControllerTest {
 
         assertEquals("Pedido o ItemMenu no encontrado", exception.getMessage());
         verify(mockitemsPedidoDAO, never()).crearItemPedido(any(ItemsPedido.class));
-    }
-
-    @Test
-    void testModificarItemPedido_Exito() throws DAOException {
-        ItemsPedido existingItemPedido = new ItemsPedido(mockItemMenu, 5);
-        existingItemPedido.setId(1);
-        ItemMenu newItemMenu = mockItemMenu;
-        newItemMenu.setId(2);
-
-        when(mockitemsPedidoDAO.buscarItemPedidoPorId(1)).thenReturn(existingItemPedido);
-        when(mockItemMenuController.buscarItemMenu(2)).thenReturn(newItemMenu);
-
-        controller.modificarItemPedido(1, 2, 10);
-
-        assertEquals(2, existingItemPedido.getItemMenu().getId());
-        assertEquals(10, existingItemPedido.getCantidad());
-        verify(mockitemsPedidoDAO, times(1)).actualizarItemPedido(existingItemPedido);
     }
 
     @Test
